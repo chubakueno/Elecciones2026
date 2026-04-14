@@ -159,6 +159,18 @@ def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
 
 
 # ---------------------------------------------------------------------------
+# Colores fijos por candidato (DNI como clave)
+# ---------------------------------------------------------------------------
+COLORES_CANDIDATOS: dict[str, str] = {
+    "10001088": "#FF8000",   # Keiko Fujimori     — naranja
+    "16002918": "#1a7a1a",   # Roberto Sanchez    — verde
+    "07845838": "#00AEEF",   # Rafael Lopez Aliaga — celeste
+    "06506278": "#FFD700",   # Jorge Nieto        — amarillo
+    "09177250": "#76C442",   # Ricardo Belmont    — verde claro
+}
+
+
+# ---------------------------------------------------------------------------
 # Datos para el gráfico Plotly
 # ---------------------------------------------------------------------------
 
@@ -216,7 +228,8 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
         m        = meta[dni]
         last_pct   = series_pct[dni][-1]   or 0
         last_votos = series_votos[dni][-1] or 0
-        traces.append({
+        color = COLORES_CANDIDATOS.get(dni)
+        trace: dict = {
             "type": "scatter",
             "mode": "lines+markers",
             "name": f"{m['nombre']} ({last_pct:.2f}% · {last_votos:,})",
@@ -231,7 +244,11 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
             ),
             "line":   {"width": 2},
             "marker": {"size": 5},
-        })
+        }
+        if color:
+            trace["line"]["color"]   = color
+            trace["marker"]["color"] = color
+        traces.append(trace)
 
     return traces
 
