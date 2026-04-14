@@ -185,42 +185,48 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
     if top_n:
         top_dnis = top_dnis[:top_n]
 
-    # Series temporales
+    # Series temporales: porcentaje y votos absolutos
     xs = [ts_to_label(ts) for ts in timestamps]
-    series: dict[str, list] = {dni: [] for dni in top_dnis}
+    series_pct:   dict[str, list] = {dni: [] for dni in top_dnis}
+    series_votos: dict[str, list] = {dni: [] for dni in top_dnis}
 
     for ts in timestamps:
         path = f"proyeccion_final_{ts}.csv"
-        snap = {}
+        snap_pct   = {}
+        snap_votos = {}
         if os.path.exists(path):
             with open(path, newline="", encoding="utf-8-sig") as f:
                 for row in csv.DictReader(f):
                     dni = row.get("dniCandidato", "").strip()
-                    snap[dni] = float(row.get("porcentaje_proyectado", 0) or 0)
+                    snap_pct[dni]   = float(row.get("porcentaje_proyectado", 0) or 0)
+                    snap_votos[dni] = int(float(row.get("votos_proyectados", 0) or 0))
         for dni in top_dnis:
-            series[dni].append(snap.get(dni, None))
+            series_pct[dni].append(snap_pct.get(dni, None))
+            series_votos[dni].append(snap_votos.get(dni, None))
 
     # Ordenar por porcentaje final descendente
     top_dnis_sorted = sorted(
         top_dnis,
-        key=lambda d: (series[d][-1] or 0),
+        key=lambda d: (series_pct[d][-1] or 0),
         reverse=True,
     )
 
     traces = []
     for dni in top_dnis_sorted:
-        m = meta[dni]
-        last_pct = series[dni][-1] or 0
+        m        = meta[dni]
+        last_pct   = series_pct[dni][-1]   or 0
+        last_votos = series_votos[dni][-1] or 0
         traces.append({
             "type": "scatter",
             "mode": "lines+markers",
-            "name": f"{m['nombre']} ({last_pct:.2f}%)",
+            "name": f"{m['nombre']} ({last_pct:.2f}% · {last_votos:,})",
             "x": xs,
-            "y": series[dni],
+            "y": series_pct[dni],
+            "customdata": series_votos[dni],
             "hovertemplate": (
                 f"<b>{m['nombre']}</b><br>"
                 f"{m['partido']}<br>"
-                "%{y:.3f}%"
+                "%{y:.3f}%  ·  %{customdata:,} votos"
                 "<extra></extra>"
             ),
             "line":   {"width": 2},
@@ -396,22 +402,24 @@ function updateMap(idx) {{
 }}
 
 // ── Plotly ────────────────────────────────────────────────────────────────
-const initLabel = SNAPSHOTS[{init_idx}].label;
-const markerTrace = {{
-  type: 'scatter', mode: 'lines',
-  x: [initLabel, initLabel],
-  y: [0, 60],
-  line: {{ color: '#1a1a2e', width: 1.5, dash: 'dot' }},
-  showlegend: false, hoverinfo: 'skip',
-}};
+function markerShape(label) {{
+  return {{
+    type: 'line', xref: 'x', yref: 'paper',
+    x0: label, x1: label, y0: 0, y1: 1,
+    line: {{ color: '#1a1a2e', width: 1.5, dash: 'dot' }},
+  }};
+}}
 
-Plotly.newPlot('chart', [...TRACES, markerTrace], {{
+const initLabel = SNAPSHOTS[{init_idx}].label;
+
+Plotly.newPlot('chart', TRACES, {{
   xaxis: {{ showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }} }},
-  yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }} }},
+  yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }}, autorange: true }},
   hovermode: 'x unified',
   legend: {{ orientation: 'v', x: 1.02, y: 1, xanchor: 'left', font: {{ size: 11 }} }},
   plot_bgcolor: 'white', paper_bgcolor: 'white',
   margin: {{ l: 45, r: 170, t: 8, b: 60 }},
+  shapes: [markerShape(initLabel)],
   autosize: true,
 }}, {{ responsive: true }});
 
@@ -425,8 +433,7 @@ document.getElementById('slider').addEventListener('input', e => {{
   currentIdx = +e.target.value;
   updateLabel(currentIdx);
   updateMap(currentIdx);
-  const lbl = SNAPSHOTS[currentIdx].label;
-  Plotly.restyle('chart', {{ x: [[lbl, lbl]] }}, [TRACES.length]);
+  Plotly.relayout('chart', {{ shapes: [markerShape(SNAPSHOTS[currentIdx].label)] }});
 }});
 
 // Init
@@ -444,8 +451,8 @@ def main():
     parser = argparse.ArgumentParser(description="Genera dashboard electoral interactivo.")
     parser.add_argument("--output", default=OUTPUT_HTML,
                         help=f"Archivo HTML de salida (default: {OUTPUT_HTML})")
-    parser.add_argument("--top", type=int, default=None,
-                        help="Mostrar solo los N candidatos con mas votos en el grafico")
+    parser.add_argument("--top", type=int, default=5,
+                        help="Mostrar solo los N candidatos con mas votos en el grafico (default: 5)")
     args = parser.parse_args()
 
     timestamps = encontrar_timestamps()
