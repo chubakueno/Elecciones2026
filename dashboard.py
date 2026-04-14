@@ -380,7 +380,8 @@ L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_all/{{z}}/{{x}}/{{y}}{{r}
 const legend = L.control({{ position: 'bottomleft' }});
 legend.onAdd = () => {{
   const div = L.DomUtil.create('div');
-  div.style.cssText = 'background:white;padding:10px 14px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);font-size:12px;line-height:2';
+  const mobile = window.innerWidth <= 768;
+  div.style.cssText = `background:white;padding:${{mobile ? '5px 8px' : '10px 14px'}};border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);font-size:${{mobile ? '10px' : '12px'}};line-height:${{mobile ? '1.7' : '2'}}`;
   div.innerHTML = `<b style="font-size:13px;display:block;margin-bottom:2px">Metodo de imputacion</b>
     ${{[
       ['#a8d5a2','Datos propios'],
