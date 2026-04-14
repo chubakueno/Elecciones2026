@@ -276,23 +276,24 @@ def generate_html(slim_geojson: dict, snapshots: list[dict],
 <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 <style>
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }}
+body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direction: column; }}
 
 #header {{ background: #1a1a2e; color: white; padding: 10px 20px; flex-shrink: 0; }}
 #header h1 {{ font-size: 17px; font-weight: 600; letter-spacing: 0.3px; }}
 
 #controls {{
   background: white;
-  padding: 8px 20px;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  flex-wrap: wrap;
+  gap: 8px 14px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   flex-shrink: 0;
 }}
 #controls label {{ font-size: 12px; color: #666; white-space: nowrap; }}
-#slider {{ flex: 1; accent-color: #1a1a2e; cursor: pointer; }}
-#ts-label {{ font-size: 14px; font-weight: 700; color: #1a1a2e; min-width: 100px; }}
+#slider {{ flex: 1; min-width: 120px; accent-color: #1a1a2e; cursor: pointer; }}
+#ts-label {{ font-size: 14px; font-weight: 700; color: #1a1a2e; white-space: nowrap; }}
 #ts-counter {{ font-size: 11px; color: #999; white-space: nowrap; }}
 
 #main {{
@@ -325,6 +326,19 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 
 #map {{ flex: 1; min-height: 0; }}
 #chart {{ flex: 1; min-height: 0; }}
+
+/* ── Desktop: ocupa toda la pantalla sin scroll ─────────────────────────── */
+@media (min-width: 769px) {{
+  body {{ height: 100vh; overflow: hidden; }}
+  #main {{ height: 0; }}
+}}
+
+/* ── Mobile: columna única, scroll vertical ─────────────────────────────── */
+@media (max-width: 768px) {{
+  #main {{ grid-template-columns: 1fr; }}
+  .panel {{ height: 72vw; min-height: 320px; max-height: 500px; }}
+  .panel:first-child {{ min-height: 320px; max-height: none; }}
+}}
 </style>
 </head>
 <body>
@@ -355,7 +369,8 @@ const SNAPSHOTS = {snapshots_js};
 const TRACES    = {traces_js};
 
 // ── Mapa ──────────────────────────────────────────────────────────────────
-const map = L.map('map', {{ zoomControl: true }}).setView([-9.2, -75.0], 6);
+const isMobile = window.innerWidth <= 768;
+const map = L.map('map', {{ zoomControl: true }}).setView([-9.2, -75.0], isMobile ? 5 : 6);
 L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_all/{{z}}/{{x}}/{{y}}{{r}}.png', {{
   attribution: '&copy; OpenStreetMap &copy; CARTO',
   subdomains: 'abcd', maxZoom: 19,
@@ -433,9 +448,16 @@ Plotly.newPlot('chart', TRACES, {{
   xaxis: {{ showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }} }},
   yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }}, autorange: true }},
   hovermode: 'x unified',
-  legend: {{ orientation: 'v', x: 1.02, y: 1, xanchor: 'left', font: {{ size: 11 }} }},
+  legend: {{
+    orientation: 'v',
+    x: 0.99, xanchor: 'right',
+    y: 0.90, yanchor: 'top',
+    bgcolor: 'rgba(255,255,255,0.85)',
+    bordercolor: '#ddd', borderwidth: 1,
+    font: {{ size: 11 }},
+  }},
   plot_bgcolor: 'white', paper_bgcolor: 'white',
-  margin: {{ l: 45, r: 170, t: 8, b: 60 }},
+  margin: {{ l: 45, r: 20, t: 8, b: 60 }},
   shapes: [markerShape(initLabel)],
   autosize: true,
 }}, {{ responsive: true }});
@@ -455,6 +477,26 @@ document.getElementById('slider').addEventListener('input', e => {{
 
 // Init
 updateLabel({init_idx});
+
+// Redibuja Leaflet si el contenedor cambia de tamaño (orientacion, resize)
+new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('map'));
+
+// En mobile: reparte el espacio restante entre mapa (60%) y grafico (40%)
+function ajustarAlturasMobile() {{
+  if (window.innerWidth > 768) return;
+  const main      = document.getElementById('main');
+  const top       = main.getBoundingClientRect().top;
+  const gap       = 8;   // gap entre paneles
+  const padding   = 8;   // padding de #main
+  const available = window.innerHeight - top - padding * 2 - gap;
+  const mapPanel   = main.querySelector('.panel:first-child');
+  const chartPanel = main.querySelector('.panel:last-child');
+  mapPanel.style.height   = Math.round(available * 0.60) + 'px';
+  chartPanel.style.height = Math.round(available * 0.40) + 'px';
+}}
+
+ajustarAlturasMobile();
+window.addEventListener('resize', ajustarAlturasMobile);
 </script>
 </body>
 </html>"""
