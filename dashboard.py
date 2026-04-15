@@ -97,6 +97,22 @@ def load_actas(path: str) -> dict[str, str]:
     return actas
 
 
+def load_actas_pct_global(path: str) -> float:
+    """Calcula el % global de actas contabilizadas: sum(contabilizadas)/sum(totalActas)*100."""
+    total = cont = 0
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            for row in csv.DictReader(f):
+                try:
+                    total += int(float(row.get("totalActas", 0) or 0))
+                    cont  += int(float(row.get("contabilizadas", 0) or 0))
+                except (ValueError, TypeError):
+                    pass
+    except FileNotFoundError:
+        pass
+    return round(cont / total * 100, 2) if total else 0.0
+
+
 # ---------------------------------------------------------------------------
 # Snapshots disponibles
 # ---------------------------------------------------------------------------
@@ -112,6 +128,12 @@ def encontrar_timestamps() -> list[str]:
 
 def ts_to_label(ts: str) -> str:
     return datetime.strptime(ts, "%Y%m%d_%H%M").strftime("%d-%b %H:%M")
+
+def ts_to_iso(ts: str) -> str:
+    return datetime.strptime(ts, "%Y%m%d_%H%M").strftime("%Y-%m-%dT%H:%M:00")
+
+def ts_to_unix(ts: str) -> int:
+    return int(datetime.strptime(ts, "%Y%m%d_%H%M").timestamp())
 
 
 # ---------------------------------------------------------------------------
@@ -155,7 +177,9 @@ def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
                 "donor": "",
             }
 
-    return {"ts": ts, "label": ts_to_label(ts), "data": data}
+    actas_pct = load_actas_pct_global(f"totales_distritos_{ts}.csv")
+    return {"ts": ts, "label": ts_to_label(ts), "iso": ts_to_iso(ts), "unix": ts_to_unix(ts),
+            "actas_pct": actas_pct, "data": data}
 
 
 # ---------------------------------------------------------------------------
@@ -198,7 +222,7 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
         top_dnis = top_dnis[:top_n]
 
     # Series temporales: porcentaje y votos absolutos
-    xs = [ts_to_label(ts) for ts in timestamps]
+    xs = [ts_to_iso(ts) for ts in timestamps]
     series_pct:   dict[str, list] = {dni: [] for dni in top_dnis}
     series_votos: dict[str, list] = {dni: [] for dni in top_dnis}
 
@@ -264,6 +288,9 @@ def generate_html(slim_geojson: dict, snapshots: list[dict],
     traces_js    = json.dumps(chart_traces,  ensure_ascii=False, separators=(",", ":"))
     n            = len(snapshots)
     init_idx     = n - 1
+    unix_first   = snapshots[0]["unix"]
+    unix_last    = snapshots[-1]["unix"]
+    unix_init    = snapshots[init_idx]["unix"]
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -347,9 +374,11 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 
 <div id="controls">
   <label>Snapshot:</label>
-  <input type="range" id="slider" min="0" max="{n - 1}" value="{init_idx}" step="1">
+  <input type="range" id="slider" min="{unix_first}" max="{unix_last}" value="{unix_init}" step="60">
   <span id="ts-label"></span>
   <span id="ts-counter"></span>
+  <span style="margin-left:8px;font-size:13px;color:#444;display:none;">Actas contabilizadas:</span>
+  <span id="actas-pct" style="font-size:15px;font-weight:700;color:#1a1a2e;display:none;"></span>
 </div>
 
 <div id="main">
@@ -443,10 +472,10 @@ function markerShape(label) {{
   }};
 }}
 
-const initLabel = SNAPSHOTS[{init_idx}].label;
+const initLabel = SNAPSHOTS[{init_idx}].iso;
 
 Plotly.newPlot('chart', TRACES, {{
-  xaxis: {{ showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }} }},
+  xaxis: {{ type: 'date', showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }}, tickformat: '%d-%b %H:%M' }},
   yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }}, autorange: true }},
   hovermode: 'x unified',
   legend: {{
@@ -467,13 +496,16 @@ Plotly.newPlot('chart', TRACES, {{
 function updateLabel(idx) {{
   document.getElementById('ts-label').textContent = SNAPSHOTS[idx].label;
   document.getElementById('ts-counter').textContent = `(${{idx + 1}} / ${{SNAPSHOTS.length}})`;
+  document.getElementById('actas-pct').textContent = SNAPSHOTS[idx].actas_pct.toFixed(2) + '%';
 }}
 
 document.getElementById('slider').addEventListener('input', e => {{
-  currentIdx = +e.target.value;
+  const unix = +e.target.value;
+  currentIdx = SNAPSHOTS.reduce((best, s, i) =>
+    Math.abs(s.unix - unix) < Math.abs(SNAPSHOTS[best].unix - unix) ? i : best, 0);
   updateLabel(currentIdx);
   updateMap(currentIdx);
-  Plotly.relayout('chart', {{ shapes: [markerShape(SNAPSHOTS[currentIdx].label)] }});
+  Plotly.relayout('chart', {{ shapes: [markerShape(SNAPSHOTS[currentIdx].iso)] }});
 }});
 
 // Init
