@@ -1,0 +1,17 @@
+﻿ubigeo,ambito,nombre,provincia,departamento,razon,actas_pct,donor_ubigeo,donor_nombre,scope
+022002,1,Cajamarquilla,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020317+020324,Canis+San Miguel De Corpanqui+La Primavera,"centroide (3.7 km, 7.7 km, 8.3 km)"
+022006,1,Llipa,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020324+020313,Canis+La Primavera+Mangas,"centroide (6.4 km, 9.6 km, 9.9 km)"
+022005,1,Congas,Ocros,Áncash,0% actas contabilizadas,0.0,022009+020310+022001,San Pedro+Huayllacayan+Acas,"centroide (6.2 km, 10.3 km, 18.3 km)"
+022008,1,San Cristóbal De Rajan,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020317+020324,Canis+San Miguel De Corpanqui+La Primavera,"centroide (7.7 km, 11.6 km, 11.8 km)"
+022010,1,Santiago De Chilcas,Ocros,Áncash,0% actas contabilizadas,0.0,022001+022004+022003,Acas+Cochas+Carhuapampa,"centroide (4.7 km, 12.6 km, 15.0 km)"
+022007,1,Ocros,Ocros,Áncash,0% actas contabilizadas,0.0,022001+022009+022004,Acas+San Pedro+Cochas,"centroide (9.6 km, 10.5 km, 15.1 km)"
+070917,1,Cielo Punco,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070909,1,Kimbiri,La Convención,Cusco,0% actas contabilizadas,0.0,050403+050408+050308,Ayna+Santa Rosa+Sivia,"centroide (0.5 km, 9.5 km, 14.2 km)"
+070918,1,Manitea,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070910,1,Pichari,La Convención,Cusco,0% actas contabilizadas,0.0,050308+050403+050309,Sivia+Ayna+Llochegua,"centroide (3.3 km, 12.4 km, 14.8 km)"
+070915,1,Megantoni,La Convención,Cusco,0% actas contabilizadas,0.0,250304+070908+070902,Sepahua+Quellouno+Echarate,"centroide (65.7 km, 110.3 km, 123.3 km)"
+070919,1,Unión Asháninka,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070912,1,Villa Virgen,La Convención,Cusco,0% actas contabilizadas,0.0,050410+050402+050405,Anchihuay+Anco+Chungui,"centroide (17.2 km, 22.0 km, 27.1 km)"
+070913,1,Villa Kintiarina,La Convención,Cusco,0% actas contabilizadas,0.0,050410+050409+050402,Anchihuay+Samugari+Anco,"centroide (8.5 km, 21.7 km, 24.9 km)"
+100505,1,Tibillo,Palpa,Ica,0% actas contabilizadas,0.0,080602+080612+080606,Córdova+San Isidro+Ocoyo,"centroide (6.1 km, 16.9 km, 18.7 km)"
+150411,1,Yaquerana,Requena,Loreto,0% actas contabilizadas,0.0,150407+150410+150301,Saquena+Jenaro Herrera+Nauta,"centroide (86.8 km, 92.2 km, 105.4 km)"
