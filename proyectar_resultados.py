@@ -156,18 +156,31 @@ def find_donors(key: tuple, valid_set: set, centroides: dict, n: int = N_DONORS)
 # Proyección para un timestamp dado
 # ---------------------------------------------------------------------------
 
-def proyectar(timestamp: str | None, n_donors: int):
+def proyectar(timestamp: str | None, n_donors: int, solo_peru: bool = False, solo_extranjero: bool = False):
+    sufijo = "_peru" if solo_peru else "_extranjero" if solo_extranjero else ""
+
     def con_ts(base: str) -> str:
         if timestamp:
-            return base.replace(".csv", f"_{timestamp}.csv")
-        return base
+            return base.replace(".csv", f"{sufijo}_{timestamp}.csv")
+        return base.replace(".csv", f"{sufijo}.csv") if sufijo else base
 
-    input_totales       = con_ts(INPUT_TOTALES)
-    input_participantes = con_ts(INPUT_PARTICIPANTES)
+    input_totales       = con_ts(INPUT_TOTALES).replace(f"{sufijo}_", "_") if sufijo else con_ts(INPUT_TOTALES)
+    input_participantes = con_ts(INPUT_PARTICIPANTES).replace(f"{sufijo}_", "_") if sufijo else con_ts(INPUT_PARTICIPANTES)
     output_csv          = con_ts(OUTPUT_CSV)
 
+    # Para entradas no llevan sufijo _peru (son los mismos CSVs fuente)
+    if timestamp:
+        input_totales       = INPUT_TOTALES.replace(".csv",       f"_{timestamp}.csv")
+        input_participantes = INPUT_PARTICIPANTES.replace(".csv", f"_{timestamp}.csv")
+        output_csv          = OUTPUT_CSV.replace(".csv", f"{sufijo}_{timestamp}.csv")
+    else:
+        input_totales       = INPUT_TOTALES
+        input_participantes = INPUT_PARTICIPANTES
+        output_csv          = OUTPUT_CSV.replace(".csv", f"{sufijo}.csv") if sufijo else OUTPUT_CSV
+
     print(f"\n{'='*60}")
-    print(f"Timestamp: {timestamp or '(sin timestamp)'}")
+    ambito_str = "solo_peru" if solo_peru else "solo_extranjero" if solo_extranjero else "todos"
+    print(f"Timestamp: {timestamp or '(sin timestamp)'}  |  ambito={ambito_str}")
 
     # --- Cargar archivos ---
     print(f"Cargando datos... (n_donors={n_donors})")
@@ -182,6 +195,14 @@ def proyectar(timestamp: str | None, n_donors: int):
     participantes: dict[tuple, list] = defaultdict(list)
     for r in partic_list:
         participantes[(r["ubigeo_distrito"], r["id_ambito_geografico"])].append(r)
+
+    # Filtrar por ambito si se solicita
+    if solo_peru:
+        totales       = {k: v for k, v in totales.items()       if k[1] == "1"}
+        participantes = {k: v for k, v in participantes.items() if k[1] == "1"}
+    elif solo_extranjero:
+        totales       = {k: v for k, v in totales.items()       if k[1] == "2"}
+        participantes = {k: v for k, v in participantes.items() if k[1] == "2"}
 
     all_ubigeos = list(totales.keys())
     print(f"  {len(all_ubigeos)} distritos en totales")
@@ -399,7 +420,7 @@ def proyectar(timestamp: str | None, n_donors: int):
             print(f"  Imputados {ambito_label}: {ok} correctos  |  {fail} sin referencia de imputación")
 
     # Guardar log de imputaciones
-    LOG_CSV = con_ts("imputaciones.csv")
+    LOG_CSV = f"imputaciones{sufijo}_{timestamp}.csv" if timestamp else f"imputaciones{sufijo}.csv"
     log_cols = ["ubigeo", "ambito", "nombre", "provincia", "departamento",
                 "razon", "actas_pct", "donor_ubigeo", "donor_nombre", "scope"]
     with open(LOG_CSV, "w", newline="", encoding="utf-8-sig") as f:
@@ -503,6 +524,10 @@ def main():
     parser = argparse.ArgumentParser(description="Proyecta resultados electorales al 100%.")
     parser.add_argument("--n-donors", type=int, default=N_DONORS,
                         help=f"Vecinos mas cercanos para imputacion nacional (default: {N_DONORS})")
+    parser.add_argument("--solo-peru", action="store_true",
+                        help="Proyectar solo distritos nacionales (excluye extranjero)")
+    parser.add_argument("--solo-extranjero", action="store_true",
+                        help="Proyectar solo distritos extranjeros (excluye nacionales)")
     parser.add_argument("--timestamp", type=str, default=None,
                         help="Timestamp especifico a procesar, e.g. 20260414_0105. "
                              "Si se omite procesa todos los timestamps disponibles.")
@@ -518,8 +543,16 @@ def main():
             print("No se encontraron archivos con timestamp — usando archivos base.")
             timestamps = [None]
 
-    for ts in timestamps:
-        proyectar(ts, args.n_donors)
+    if args.solo_peru or args.solo_extranjero:
+        # Modo específico
+        for ts in timestamps:
+            proyectar(ts, args.n_donors, solo_peru=args.solo_peru, solo_extranjero=args.solo_extranjero)
+    else:
+        # Por defecto: proyectar los tres ámbitos
+        for ts in timestamps:
+            proyectar(ts, args.n_donors)
+            proyectar(ts, args.n_donors, solo_peru=True)
+            proyectar(ts, args.n_donors, solo_extranjero=True)
 
 
 if __name__ == "__main__":

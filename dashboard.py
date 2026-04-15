@@ -117,7 +117,21 @@ def load_actas_pct_global(path: str) -> float:
 # Snapshots disponibles
 # ---------------------------------------------------------------------------
 
-def encontrar_timestamps() -> list[str]:
+def encontrar_timestamps(solo_peru: bool = False, solo_extranjero: bool = False) -> list[str]:
+    if solo_peru:
+        patron = re.compile(r"imputaciones_peru_(\d{8}_\d{4})\.csv")
+        return sorted(
+            m.group(1)
+            for f in glob.glob("imputaciones_peru_*.csv")
+            if (m := patron.match(os.path.basename(f)))
+        )
+    if solo_extranjero:
+        patron = re.compile(r"imputaciones_extranjero_(\d{8}_\d{4})\.csv")
+        return sorted(
+            m.group(1)
+            for f in glob.glob("imputaciones_extranjero_*.csv")
+            if (m := patron.match(os.path.basename(f)))
+        )
     patron = re.compile(r"imputaciones_(\d{8}_\d{4})\.csv")
     return sorted(
         m.group(1)
@@ -198,12 +212,13 @@ COLORES_CANDIDATOS: dict[str, str] = {
 # Datos para el gráfico Plotly
 # ---------------------------------------------------------------------------
 
-def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
+def build_chart_traces(timestamps: list[str], top_n: int | None,
+                       sufijo: str = "") -> list[dict]:
     if not timestamps:
         return []
 
     # Meta del ultimo snapshot
-    last = f"proyeccion_final_{timestamps[-1]}.csv"
+    last = f"proyeccion_final{sufijo}_{timestamps[-1]}.csv"
     if not os.path.exists(last):
         return []
 
@@ -227,7 +242,7 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
     series_votos: dict[str, list] = {dni: [] for dni in top_dnis}
 
     for ts in timestamps:
-        path = f"proyeccion_final_{ts}.csv"
+        path = f"proyeccion_final{sufijo}_{ts}.csv"
         snap_pct   = {}
         snap_votos = {}
         if os.path.exists(path):
@@ -281,16 +296,59 @@ def build_chart_traces(timestamps: list[str], top_n: int | None) -> list[dict]:
 # Generar HTML
 # ---------------------------------------------------------------------------
 
+SCOPE_LABELS = {
+    "todos":      "Todos",
+    "peru":       "Solo Per\u00fa",
+    "extranjero": "Solo Extranjero",
+}
+
+
 def generate_html(slim_geojson: dict, snapshots: list[dict],
-                  chart_traces: list[dict]) -> str:
-    geojson_js   = json.dumps(slim_geojson,  ensure_ascii=False, separators=(",", ":"))
-    snapshots_js = json.dumps(snapshots,     ensure_ascii=False, separators=(",", ":"))
-    traces_js    = json.dumps(chart_traces,  ensure_ascii=False, separators=(",", ":"))
-    n            = len(snapshots)
-    init_idx     = n - 1
-    unix_first   = snapshots[0]["unix"]
-    unix_last    = snapshots[-1]["unix"]
-    unix_init    = snapshots[init_idx]["unix"]
+                  all_traces: dict[str, list[dict]]) -> str:
+    """all_traces: dict con claves "todos", "peru", "extranjero" (cualquier subconjunto)."""
+    geojson_js    = json.dumps(slim_geojson, ensure_ascii=False, separators=(",", ":"))
+    snapshots_js  = json.dumps(snapshots,    ensure_ascii=False, separators=(",", ":"))
+    all_traces_js = json.dumps(all_traces,   ensure_ascii=False, separators=(",", ":"))
+
+    n          = len(snapshots)
+    init_idx   = n - 1
+    unix_first = snapshots[0]["unix"]
+    unix_last  = snapshots[-1]["unix"]
+    unix_init  = snapshots[init_idx]["unix"]
+
+    scopes        = list(all_traces.keys())
+    default_scope = scopes[0]
+    multi_scope   = len(scopes) > 1
+
+    # Tabs HTML (solo si hay más de un scope)
+    if multi_scope:
+        tabs_html = '<div id="scope-tabs">' + "".join(
+            f'<label class="scope-tab{"  scope-active" if s == default_scope else ""}">'
+            f'<input type="radio" name="scope" value="{s}"'
+            f'{" checked" if s == default_scope else ""}> {SCOPE_LABELS.get(s, s)}</label>'
+            for s in scopes
+        ) + "</div>"
+        tabs_css = """
+#scope-tabs { display: flex; gap: 4px; flex-shrink: 0; }
+.scope-tab {
+  font-size: 12px; padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  border: 1px solid #ccc; color: #555; background: #f8f8f8; white-space: nowrap;
+}
+.scope-tab input { display: none; }
+.scope-active { background: #1a1a2e; color: white; border-color: #1a1a2e; }"""
+        tabs_js = f"""
+const scopeTabs = document.querySelectorAll('.scope-tab');
+scopeTabs.forEach(label => {{
+  label.querySelector('input').addEventListener('change', e => {{
+    scopeTabs.forEach(l => l.classList.remove('scope-active'));
+    label.classList.add('scope-active');
+    setScope(e.target.value);
+  }});
+}});"""
+    else:
+        tabs_html = ""
+        tabs_css  = ""
+        tabs_js   = ""
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -318,10 +376,11 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   flex-shrink: 0;
 }}
-#controls label {{ font-size: 12px; color: #666; white-space: nowrap; }}
+#controls > label {{ font-size: 12px; color: #666; white-space: nowrap; }}
 #slider {{ flex: 1; min-width: 120px; accent-color: #1a1a2e; cursor: pointer; }}
 #ts-label {{ font-size: 14px; font-weight: 700; color: #1a1a2e; white-space: nowrap; }}
 #ts-counter {{ font-size: 11px; color: #999; white-space: nowrap; }}
+{tabs_css}
 
 #main {{
   display: grid;
@@ -373,6 +432,7 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 <div id="header"><h1>Dashboard Electoral &mdash; Peru 2026</h1></div>
 
 <div id="controls">
+  {tabs_html}
   <label>Snapshot:</label>
   <input type="range" id="slider" min="{unix_first}" max="{unix_last}" value="{unix_init}" step="60">
   <span id="ts-label"></span>
@@ -393,9 +453,10 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 </div>
 
 <script>
-const GEOJSON   = {geojson_js};
-const SNAPSHOTS = {snapshots_js};
-const TRACES    = {traces_js};
+const GEOJSON     = {geojson_js};
+const SNAPSHOTS   = {snapshots_js};
+const ALL_TRACES  = {all_traces_js};
+let currentScope  = '{default_scope}';
 
 // ── Mapa ──────────────────────────────────────────────────────────────────
 const isMobile = window.innerWidth <= 768;
@@ -472,25 +533,36 @@ function markerShape(label) {{
   }};
 }}
 
-const initLabel = SNAPSHOTS[{init_idx}].iso;
+function chartLayout() {{
+  const legendY = currentScope === 'extranjero' ? 0.75 : 0.90;
+  return {{
+    xaxis: {{ type: 'date', showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }}, tickformat: '%d-%b %H:%M' }},
+    yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }}, autorange: true }},
+    hovermode: 'x unified',
+    legend: {{
+      orientation: 'v',
+      x: 0.99, xanchor: 'right',
+      y: legendY, yanchor: 'top',
+      bgcolor: 'rgba(255,255,255,0.85)',
+      bordercolor: '#ddd', borderwidth: 1,
+      font: {{ size: 11 }},
+    }},
+    plot_bgcolor: 'white', paper_bgcolor: 'white',
+    margin: {{ l: 45, r: 20, t: 8, b: 60 }},
+    shapes: [markerShape(SNAPSHOTS[currentIdx].iso)],
+    autosize: true,
+  }};
+}}
 
-Plotly.newPlot('chart', TRACES, {{
-  xaxis: {{ type: 'date', showgrid: true, gridcolor: '#eee', tickangle: -30, tickfont: {{ size: 11 }}, tickformat: '%d-%b %H:%M' }},
-  yaxis: {{ title: '%', showgrid: true, gridcolor: '#eee', ticksuffix: '%', tickfont: {{ size: 11 }}, autorange: true }},
-  hovermode: 'x unified',
-  legend: {{
-    orientation: 'v',
-    x: 0.99, xanchor: 'right',
-    y: 0.90, yanchor: 'top',
-    bgcolor: 'rgba(255,255,255,0.85)',
-    bordercolor: '#ddd', borderwidth: 1,
-    font: {{ size: 11 }},
-  }},
-  plot_bgcolor: 'white', paper_bgcolor: 'white',
-  margin: {{ l: 45, r: 20, t: 8, b: 60 }},
-  shapes: [markerShape(initLabel)],
-  autosize: true,
-}}, {{ responsive: true }});
+function setScope(scope) {{
+  currentScope = scope;
+  Plotly.react('chart', ALL_TRACES[scope], chartLayout());
+}}
+
+Plotly.newPlot('chart', ALL_TRACES[currentScope], chartLayout(), {{ responsive: true }});
+
+// ── Tabs de ambito ────────────────────────────────────────────────────────
+{tabs_js}
 
 // ── Slider ────────────────────────────────────────────────────────────────
 function updateLabel(idx) {{
@@ -541,12 +613,27 @@ window.addEventListener('resize', ajustarAlturasMobile);
 
 def main():
     parser = argparse.ArgumentParser(description="Genera dashboard electoral interactivo.")
-    parser.add_argument("--output", default=OUTPUT_HTML,
-                        help=f"Archivo HTML de salida (default: {OUTPUT_HTML})")
+    parser.add_argument("--output", default=None,
+                        help="Archivo HTML de salida (default: dashboard.html o dashboard_peru.html)")
     parser.add_argument("--top", type=int, default=5,
                         help="Mostrar solo los N candidatos con mas votos en el grafico (default: 5)")
+    parser.add_argument("--solo-peru", action="store_true",
+                        help="Usar proyecciones solo-peru (proyeccion_final_peru_*.csv)")
+    parser.add_argument("--solo-extranjero", action="store_true",
+                        help="Usar proyecciones solo-extranjero (proyeccion_final_extranjero_*.csv)")
     args = parser.parse_args()
 
+    # Determinar modo y output
+    if args.solo_peru:
+        sufijo = "_peru"
+    elif args.solo_extranjero:
+        sufijo = "_extranjero"
+    else:
+        sufijo = None   # combinado
+
+    output = args.output or (f"dashboard{sufijo}.html" if sufijo else "dashboard.html")
+
+    # Timestamps base: siempre desde imputaciones_*.csv (mapa siempre es completo)
     timestamps = encontrar_timestamps()
     if not timestamps:
         print("No se encontraron snapshots con timestamp (imputaciones_*.csv).")
@@ -581,7 +668,7 @@ def main():
     slim_geojson = {"type": "FeatureCollection", "features": slim_features}
     print(f"  {len(slim_features)} poligonos")
 
-    # Snapshots
+    # Snapshots (el mapa siempre usa imputaciones completas)
     print("Procesando snapshots...")
     snapshots = []
     for ts in timestamps:
@@ -590,17 +677,34 @@ def main():
 
     # Trazas del grafico
     print("Construyendo trazas del grafico...")
-    chart_traces = build_chart_traces(timestamps, args.top)
-    print(f"  {len(chart_traces)} candidatos en el grafico")
+    if sufijo is not None:
+        # Modo único (--solo-peru o --solo-extranjero)
+        all_traces = {"todos": build_chart_traces(timestamps, args.top, sufijo=sufijo)}
+        print(f"  {len(all_traces['todos'])} candidatos ({sufijo})")
+    else:
+        # Modo combinado: los tres ámbitos
+        all_traces = {}
+        for key, suf in [("todos", ""), ("peru", "_peru"), ("extranjero", "_extranjero")]:
+            top_n = 8 if key == "extranjero" else args.top
+            traces = build_chart_traces(timestamps, top_n, sufijo=suf)
+            if traces:
+                all_traces[key] = traces
+                print(f"  {len(traces)} candidatos ({key})")
+            else:
+                print(f"  [warn] Sin datos para ambito '{key}', omitido del dashboard")
+
+    if not all_traces:
+        print("Sin trazas disponibles, abortando.")
+        return
 
     # HTML
-    print(f"Generando {args.output}...")
-    html = generate_html(slim_geojson, snapshots, chart_traces)
-    with open(args.output, "w", encoding="utf-8") as f:
+    print(f"Generando {output}...")
+    html = generate_html(slim_geojson, snapshots, all_traces)
+    with open(output, "w", encoding="utf-8") as f:
         f.write(html)
 
-    size_mb = os.path.getsize(args.output) / 1024 / 1024
-    print(f"Dashboard guardado -> {args.output}  ({size_mb:.1f} MB)")
+    size_mb = os.path.getsize(output) / 1024 / 1024
+    print(f"Dashboard guardado -> {output}  ({size_mb:.1f} MB)")
 
 
 if __name__ == "__main__":
