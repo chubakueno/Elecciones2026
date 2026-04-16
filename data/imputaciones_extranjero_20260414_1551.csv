@@ -1,0 +1,140 @@
+﻿ubigeo,ambito,nombre,provincia,departamento,razon,actas_pct,donor_ubigeo,donor_nombre,scope
+911201,2,Acra,Ghana,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+910302,2,El Cairo,República Árabe De Egipto,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+910603,2,Pretoria,Sudáfrica,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+910401,2,Nairobi,Kenia,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+920202,2,Buenos Aires,Argentina,América,0% actas contabilizadas,0.0,920203,Córdoba,provincia
+910502,2,Rabat,Marruecos,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+920224,2,Catamarca,Argentina,América,0% actas contabilizadas,0.0,920219,San Luis,provincia
+910101,2,Argel,Argelia,África,0% actas contabilizadas,0.0,PERFIL_GLOBAL_EXTRANJERO,,perfil global extranjero
+920204,2,Corrientes,Argentina,América,0% actas contabilizadas,0.0,920205,La Plata,provincia
+920101,2,Aruba,Antillas Holandesas,América,0% actas contabilizadas,0.0,920203,Córdoba,departamento
+920226,2,La Rioja,Argentina,América,0% actas contabilizadas,0.0,920219,San Luis,provincia
+920502,2,Belo Horizonte,Brasil,América,0% actas contabilizadas,0.0,920505,Manaos,provincia
+920504,2,Curitiba,Brasil,América,0% actas contabilizadas,0.0,920505,Manaos,provincia
+920207,2,Rosario De Santa Fe,Argentina,América,0% actas contabilizadas,0.0,920206,Mendoza,provincia
+920208,2,Salta,Argentina,América,0% actas contabilizadas,0.0,920206,Mendoza,provincia
+920210,2,San Juan,Argentina,América,0% actas contabilizadas,0.0,920206,Mendoza,provincia
+920506,2,Porto Alegre,Brasil,América,0% actas contabilizadas,0.0,920505,Manaos,provincia
+920403,2,La Paz,Bolivia,América,0% actas contabilizadas,0.0,920405,Santa Cruz,provincia
+920510,2,Sao Paulo,Brasil,América,0% actas contabilizadas,0.0,920509,Río De Janeiro,provincia
+920601,2,Montreal,Canadá,América,0% actas contabilizadas,0.0,920602,Ottawa,provincia
+920503,2,Brasilia,Brasil,América,0% actas contabilizadas,0.0,920505,Manaos,provincia
+920605,2,Winnipeg,Canadá,América,0% actas contabilizadas,0.0,920603,Toronto,provincia
+921001,2,Antofagasta,Chile,América,0% actas contabilizadas,0.0,921002,Arica,provincia
+920536,2,Fortaleza,Brasil,América,0% actas contabilizadas,0.0,920509,Río De Janeiro,provincia
+920532,2,Goiania,Brasil,América,0% actas contabilizadas,0.0,920509,Río De Janeiro,provincia
+921003,2,Concepción,Chile,América,0% actas contabilizadas,0.0,921002,Arica,provincia
+921026,2,Copiapó,Chile,América,0% actas contabilizadas,0.0,921005,Iquique,provincia
+921007,2,Valparaiso,Chile,América,0% actas contabilizadas,0.0,921005,Iquique,provincia
+920608,2,Alberta,Canadá,América,0% actas contabilizadas,0.0,920603,Toronto,provincia
+920511,2,Salvador,Brasil,América,0% actas contabilizadas,0.0,920509,Río De Janeiro,provincia
+920701,2,Barranquilla,Colombia,América,0% actas contabilizadas,0.0,920702,Bogotá,provincia
+920737,2,Cartagena,Colombia,América,0% actas contabilizadas,0.0,920709,Bucaramanga,provincia
+920604,2,Vancouver,Canadá,América,0% actas contabilizadas,0.0,920603,Toronto,provincia
+920803,2,San José,Costa Rica,América,0% actas contabilizadas,0.0,920709,Bucaramanga,departamento
+921110,2,Azuay,Ecuador,América,0% actas contabilizadas,0.0,921105,Quito,provincia
+921102,2,Loja,Ecuador,América,0% actas contabilizadas,0.0,921101,Guayaquil,provincia
+921006,2,Santiago,Chile,América,0% actas contabilizadas,0.0,921005,Iquique,provincia
+921304,2,Chicago,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921303,Boston,provincia
+920703,2,Cali,Colombia,América,0% actas contabilizadas,0.0,920702,Bogotá,provincia
+921308,2,Denver,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921313,Houston,provincia
+920717,2,Pasto,Colombia,América,0% actas contabilizadas,0.0,920709,Bucaramanga,provincia
+921335,2,Nueva Jersey,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921318,2,Nueva Orleans,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921319,Nueva York,provincia
+921320,2,Orlando,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921319,Nueva York,provincia
+921372,2,Phoenix,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921373,Dallas,provincia
+921374,2,Salt Lake City,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921373,Dallas,provincia
+921323,2,San Antonio,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921324,2,San Diego,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921328,2,Seattle,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921315,2,Los Ángeles,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921313,Houston,provincia
+921331,2,Washington D. C.,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921903,2,Monterrey,México,América,0% actas contabilizadas,0.0,921902,Ciudad De México,provincia
+921325,2,San Francisco,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921322,Oklahoma,provincia
+921501,2,Guatemala,Guatemala,América,0% actas contabilizadas,0.0,921385,Hartford,departamento
+921901,2,Guadalajara,México,América,0% actas contabilizadas,0.0,921902,Ciudad De México,provincia
+923001,2,Cayena,Guayana Francesa,América,0% actas contabilizadas,0.0,922701,Montevideo,departamento
+922001,2,Managua,Nicaragua,América,0% actas contabilizadas,0.0,921902,Ciudad De México,departamento
+922303,2,San Juan,Puerto Rico,América,0% actas contabilizadas,0.0,922201,Asunción,departamento
+922103,2,Colon,Panamá,América,0% actas contabilizadas,0.0,922101,Panamá,provincia
+922102,2,David,Panamá,América,0% actas contabilizadas,0.0,922101,Panamá,provincia
+922108,2,Veraguas,Panamá,América,0% actas contabilizadas,0.0,922101,Panamá,provincia
+931904,2,Riad,Arabia Saudita,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+922403,2,Santiago De Los Caballeros,República Dominicana,América,0% actas contabilizadas,0.0,922601,Puerto España,departamento
+922401,2,Santo Domingo,República Dominicana,América,0% actas contabilizadas,0.0,922601,Puerto España,departamento
+933201,2,Manila,Filipinas,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+931101,2,Jakarta,Indonesia,Asia,0% actas contabilizadas,0.0,930736,Shiga,departamento
+922802,2,Caracas,Venezuela,América,0% actas contabilizadas,0.0,922701,Montevideo,departamento
+933801,2,Doha,Catar,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+933702,2,Abu Dabi,Emiratos Árabes Unidos,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+933701,2,Dubái,Emiratos Árabes Unidos,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930402,2,Nueva Delhi,India,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930603,2,Ramla,Israel,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+932401,2,Teheran,Irán,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930727,2,Mie,Japón,Asia,0% actas contabilizadas,0.0,930726,Shizuoka,provincia
+930602,2,Tel Aviv,Israel,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930703,2,Tokio,Japón,Asia,0% actas contabilizadas,0.0,930704,Okinawa,provincia
+932801,2,Al - Kuwait,Kuwait,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+931302,2,Amman,Jordania,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930101,2,Seúl,Republica De Corea,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930801,2,Beirut,Líbano,Asia,0% actas contabilizadas,0.0,930736,Shiga,departamento
+930201,2,Beijing (Pekin),República Popular China,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930232,2,Guangzhou,República Popular China,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930206,2,Shanghái,República Popular China,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+933001,2,Kuala Lumpur,Malasia,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930226,2,Region Administrativa Especial Hong Kong,República Popular China,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+931503,2,Ankara,Turquía,Asia,0% actas contabilizadas,0.0,931501,Estambul,provincia
+931001,2,Bangkok,Tailandia,Asia,0% actas contabilizadas,0.0,930736,Shiga,departamento
+932501,2,Singapur,Singapur,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930720,2,Saitama,Japón,Asia,0% actas contabilizadas,0.0,930721,Gunma,provincia
+940201,2,Berlín,Alemania,Europa,0% actas contabilizadas,0.0,940205,Frankfurt,provincia
+940203,2,Bremen,Alemania,Europa,0% actas contabilizadas,0.0,940205,Frankfurt,provincia
+940206,2,Hamburgo,Alemania,Europa,0% actas contabilizadas,0.0,940205,Frankfurt,provincia
+943601,2,Minsk,Bielorrusia,Europa,0% actas contabilizadas,0.0,942802,Berna,departamento
+940935,2,Almería,España,Europa,0% actas contabilizadas,0.0,940931,Oviedo,provincia
+932002,2,Hanói,Vietnam,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+940909,2,Las Palmas,España,Europa,0% actas contabilizadas,0.0,940910,Madrid,provincia
+940911,2,Málaga,España,Europa,0% actas contabilizadas,0.0,940910,Madrid,provincia
+940913,2,Mallorca,España,Europa,0% actas contabilizadas,0.0,940910,Madrid,provincia
+940905,2,Salamanca,España,Europa,0% actas contabilizadas,0.0,940903,Bilbao,provincia
+940402,2,Bruselas,Bélgica,Europa,0% actas contabilizadas,0.0,940403,Gante,provincia
+940918,2,Sevilla,España,Europa,0% actas contabilizadas,0.0,940920,Valencia,provincia
+940801,2,Copenhague,Dinamarca,Europa,0% actas contabilizadas,0.0,940902,Barcelona,departamento
+940915,2,Tenerife,España,Europa,0% actas contabilizadas,0.0,940920,Valencia,provincia
+940922,2,Vigo,España,Europa,0% actas contabilizadas,0.0,940920,Valencia,provincia
+940917,2,Zaragoza,España,Europa,0% actas contabilizadas,0.0,940920,Valencia,provincia
+941103,2,Estrasburgo,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941101,2,Burdeos,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941105,2,Lyon,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941106,2,Marsella,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941107,2,Niza,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941110,2,Toulouse,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941701,2,Bolonia,Italia,Europa,0% actas contabilizadas,0.0,941704,Génova,provincia
+941755,2,Bolzano,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+941703,2,Florencia,Italia,Europa,0% actas contabilizadas,0.0,941704,Génova,provincia
+941717,2,Marcas,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+941001,2,Helsinki,Finlandia,Europa,0% actas contabilizadas,0.0,940931,Oviedo,departamento
+941707,2,Nápoles,Italia,Europa,0% actas contabilizadas,0.0,941706,Milán,provincia
+941801,2,Dublín,Irlanda,Europa,0% actas contabilizadas,0.0,941711,Turín,departamento
+941301,2,Atenas,Grecia,Europa,0% actas contabilizadas,0.0,941204,Londres,departamento
+941748,2,Perugia,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+941710,2,Trieste,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+943701,2,Skopie,Macedonia,Europa,0% actas contabilizadas,0.0,942802,Berna,departamento
+942101,2,La Valetta,Malta,Europa,0% actas contabilizadas,0.0,942001,Luxemburgo,departamento
+941709,2,Roma,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+942302,2,Oslo,Noruega,Europa,0% actas contabilizadas,0.0,942401,Varsovia,departamento
+942502,2,Lisboa,Portugal,Europa,0% actas contabilizadas,0.0,942401,Varsovia,departamento
+944202,2,Andorra La Vella,Principado De Andorra,Europa,0% actas contabilizadas,0.0,942802,Berna,departamento
+940601,2,Praga,República Checa,Europa,0% actas contabilizadas,0.0,940404,Lieja,departamento
+942901,2,Moscú,Rusia,Europa,0% actas contabilizadas,0.0,942802,Berna,departamento
+942803,2,Ginebra,Suiza,Europa,0% actas contabilizadas,0.0,942802,Berna,provincia
+942703,2,Malmo,Suecia,Europa,0% actas contabilizadas,0.0,942701,Estocolmo,provincia
+950102,2,Brisbane,Australia,Oceanía,0% actas contabilizadas,0.0,950201,Auckland,departamento
+942601,2,Bucarest,Rumanía,Europa,0% actas contabilizadas,0.0,942701,Estocolmo,departamento
+942604,2,Timisoara,Rumanía,Europa,0% actas contabilizadas,0.0,942701,Estocolmo,departamento
+942910,2,San Petersburgo,Rusia,Europa,0% actas contabilizadas,0.0,942802,Berna,departamento
+950106,2,Perth,Australia,Oceanía,0% actas contabilizadas,0.0,950201,Auckland,departamento
+950103,2,Camberra,Australia,Oceanía,0% actas contabilizadas,0.0,950201,Auckland,departamento
+950105,2,Sídney,Australia,Oceanía,0% actas contabilizadas,0.0,950201,Auckland,departamento
+950104,2,Melbourne,Australia,Oceanía,0% actas contabilizadas,0.0,950201,Auckland,departamento
