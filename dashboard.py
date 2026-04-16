@@ -11,8 +11,10 @@ Uso:
 """
 
 import argparse
+import base64
 import csv
 import glob
+import gzip
 import json
 import os
 import re
@@ -97,6 +99,39 @@ def load_actas(path: str) -> dict[str, str]:
     return actas
 
 
+def load_votos_por_distrito(path: str) -> dict[str, dict[str, int]]:
+    """ubigeo → {dni → votos} para ambito nacional."""
+    from collections import defaultdict
+    votos: dict = defaultdict(lambda: defaultdict(int))
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            for row in csv.DictReader(f):
+                if row.get("error"):
+                    continue
+                if row.get("id_ambito_geografico", "1") != "1":
+                    continue
+                ub  = row.get("ubigeo_distrito", "").zfill(6)
+                dni = row.get("dniCandidato", "").strip()
+                try:
+                    votos[ub][dni] += int(float(row.get("totalVotosValidos", 0) or 0))
+                except (ValueError, TypeError):
+                    pass
+    except FileNotFoundError:
+        pass
+    return dict(votos)
+
+
+def ganador_distrito(votos: dict[str, int]) -> tuple[str, str, float]:
+    if not votos:
+        return "", "Sin datos", 0.0
+    total = sum(votos.values())
+    if total == 0:
+        return "", "Sin datos", 0.0
+    dni_win = max(votos, key=lambda d: votos[d])
+    pct = votos[dni_win] / total * 100
+    return dni_win, NOMBRES_CORTOS.get(dni_win, dni_win[:8]), pct
+
+
 def load_actas_pct_global(path: str) -> float:
     """Calcula el % global de actas contabilizadas: sum(contabilizadas)/sum(totalActas)*100."""
     total = cont = 0
@@ -156,39 +191,58 @@ def ts_to_unix(ts: str) -> int:
 
 def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
                    geojson_iddists: set) -> dict:
-    """Devuelve {iddist: {color, scope, razon, actas, donor}} para un timestamp."""
+    """Devuelve {iddist: {c,p,s,r,a,d,g,t,i}} para un timestamp.
+    c=color, p=pol, s=scope, r=razon, a=actas, d=donor, g=ganador(dni), t=pct, i=imp"""
     imputaciones = load_imputaciones(f"data/imputaciones_{ts}.csv")
     actas_dict   = load_actas(f"data/totales_distritos_{ts}.csv")
+    votos_dist   = load_votos_por_distrito(f"data/participantes_distritos_{ts}.csv")
 
     data = {}
     for iddist in geojson_iddists:
         reniec = inei_to_reniec.get(iddist, iddist)
 
         if reniec in imputaciones:
-            imp = imputaciones[reniec]
-            cat = scope_a_categoria(imp.get("scope", ""))
+            imp      = imputaciones[reniec]
+            cat      = scope_a_categoria(imp.get("scope", ""))
+            donor_ub = imp.get("donor_ubigeo", "").split("+")[0].strip().zfill(6)
+            votos    = votos_dist.get(donor_ub, {})
+            dni_win, _nom_win, pct_win = ganador_distrito(votos)
             data[iddist] = {
-                "color": COLORES.get(cat, COLORES["sin referencia"]),
-                "scope": imp.get("scope", ""),
-                "razon": imp.get("razon", ""),
-                "actas": imp.get("actas_pct", ""),
-                "donor": imp.get("donor_nombre", ""),
+                "c": COLORES.get(cat, COLORES["sin referencia"]),
+                "p": COLORES_CANDIDATOS.get(dni_win, COLOR_OTROS_POL),
+                "s": imp.get("scope", ""),
+                "r": imp.get("razon", ""),
+                "a": imp.get("actas_pct", ""),
+                "d": imp.get("donor_nombre", ""),
+                "g": dni_win,
+                "t": f"{pct_win:.1f}" if pct_win else "",
+                "i": True,
             }
         elif reniec in todos_ubigeos:
+            votos = votos_dist.get(reniec, {})
+            dni_win, _nom_win, pct_win = ganador_distrito(votos)
             data[iddist] = {
-                "color": COLORES["datos propios"],
-                "scope": "datos propios",
-                "razon": "",
-                "actas": actas_dict.get(reniec, ""),
-                "donor": "",
+                "c": COLORES["datos propios"],
+                "p": COLORES_CANDIDATOS.get(dni_win, COLOR_OTROS_POL),
+                "s": "datos propios",
+                "r": "",
+                "a": actas_dict.get(reniec, ""),
+                "d": "",
+                "g": dni_win,
+                "t": f"{pct_win:.1f}" if pct_win else "",
+                "i": False,
             }
         else:
             data[iddist] = {
-                "color": COLORES["sin referencia"],
-                "scope": "sin poligono",
-                "razon": "",
-                "actas": "",
-                "donor": "",
+                "c": COLORES["sin referencia"],
+                "p": COLOR_OTROS_POL,
+                "s": "sin poligono",
+                "r": "",
+                "a": "",
+                "d": "",
+                "g": "",
+                "t": "",
+                "i": False,
             }
 
     actas_pct = load_actas_pct_global(f"data/totales_distritos_{ts}.csv")
@@ -199,13 +253,74 @@ def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
 # ---------------------------------------------------------------------------
 # Colores fijos por candidato (DNI como clave)
 # ---------------------------------------------------------------------------
-COLORES_CANDIDATOS: dict[str, str] = {
+COLORES_CANDIDATOS: dict[str, str] = {}
+NOMBRES_CORTOS:    dict[str, str] = {}
+COLOR_OTROS_POL = "#9ca3af"
+
+_PALETTE = [
+    "#f97316", "#dc2626", "#1d4ed8", "#0d9488", "#ca8a04",
+    "#7c3aed", "#0ea5e9", "#db2777", "#65a30d", "#92400e",
+    "#84cc16", "#06b6d4", "#f59e0b", "#10b981", "#6366f1",
+]
+
+# Overrides manuales: DNI → color hex. Tienen prioridad sobre _PALETTE.
+# Los DNIs correctos se imprimen al correr el script.
+_COLOR_OVERRIDES: dict[str, str] = {
     "10001088": "#FF8000",   # Keiko Fujimori     — naranja
     "16002918": "#1a7a1a",   # Roberto Sanchez    — verde
     "07845838": "#00AEEF",   # Rafael Lopez Aliaga — celeste
     "06506278": "#FFD700",   # Jorge Nieto        — amarillo
-    "09177250": "#76C442",   # Ricardo Belmont    — verde claro
+    "09177250": "#76C442",   # Ricardo Belmont
 }
+
+# Overrides manuales: DNI → nombre a mostrar en mapa y leyenda.
+_NAME_OVERRIDES: dict[str, str] = {
+    "10001088": "KEIKO FUJIMORI",
+    "16002918": "ROBERTO SANCHEZ",
+    "07845838": "RAFAEL LOPEZ ALIAGA",
+    "07552706": "JORGE NIETO",
+    "09177250": "RICARDO BELMONT",
+}
+
+def build_candidatos_meta(path: str, top_n: int = 12) -> None:
+    """Puebla COLORES_CANDIDATOS y NOMBRES_CORTOS desde el CSV de participantes."""
+    from collections import defaultdict
+    totales: dict[str, int] = defaultdict(int)
+    nombres: dict[str, str] = {}
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            for row in csv.DictReader(f):
+                if row.get("error"):
+                    continue
+                dni = row.get("dniCandidato", "").strip()
+                nom = row.get("nombreCandidato", "").strip()
+                if not dni:
+                    continue
+                nombres[dni] = nom
+                try:
+                    totales[dni] += int(float(row.get("totalVotosValidos", 0) or 0))
+                except (ValueError, TypeError):
+                    pass
+    except FileNotFoundError:
+        return
+
+    todos = sorted(totales, key=lambda d: -totales[d])
+    top   = todos[:top_n]
+    COLORES_CANDIDATOS.clear()
+    NOMBRES_CORTOS.clear()
+    palette_idx = 0
+    for dni in todos:
+        if dni in _COLOR_OVERRIDES:
+            COLORES_CANDIDATOS[dni] = _COLOR_OVERRIDES[dni]
+        else:
+            COLORES_CANDIDATOS[dni] = _PALETTE[palette_idx % len(_PALETTE)]
+            palette_idx += 1
+        if dni in _NAME_OVERRIDES:
+            NOMBRES_CORTOS[dni] = _NAME_OVERRIDES[dni]
+        else:
+            NOMBRES_CORTOS[dni] = nombres.get(dni, dni)
+    print(f"  {len(top)} candidatos con color propio:"
+          + "".join(f"\n    {NOMBRES_CORTOS[d]} ({totales[d]:,})  {COLORES_CANDIDATOS[d]}" for d in top))
 
 
 # ---------------------------------------------------------------------------
@@ -298,17 +413,26 @@ def build_chart_traces(timestamps: list[str], top_n: int | None,
 
 SCOPE_LABELS = {
     "todos":      "Todos",
-    "peru":       "Solo Per\u00fa",
-    "extranjero": "Solo Extranjero",
+    "peru":       "Per\u00fa",
+    "extranjero": "PEX",
 }
 
 
 def generate_html(slim_geojson: dict, snapshots: list[dict],
-                  all_traces: dict[str, list[dict]]) -> str:
+                  all_traces: dict[str, list[dict]],
+                  pol_order: list[str] | None = None) -> str:
     """all_traces: dict con claves "todos", "peru", "extranjero" (cualquier subconjunto)."""
-    geojson_js    = json.dumps(slim_geojson, ensure_ascii=False, separators=(",", ":"))
-    snapshots_js  = json.dumps(snapshots,    ensure_ascii=False, separators=(",", ":"))
-    all_traces_js = json.dumps(all_traces,   ensure_ascii=False, separators=(",", ":"))
+    def gz_b64(obj) -> str:
+        raw = json.dumps(obj, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        return base64.b64encode(gzip.compress(raw, compresslevel=9)).decode("ascii")
+
+    geojson_gz    = gz_b64(slim_geojson)
+    snapshots_gz  = gz_b64(snapshots)
+    all_traces_gz = gz_b64(all_traces)
+
+    # Orden para la leyenda política: proyección > votos brutos
+    ordered_dnis = pol_order if pol_order else list(COLORES_CANDIDATOS.keys())
+    pol_order_js = json.dumps(ordered_dnis, ensure_ascii=False)
 
     n          = len(snapshots)
     init_idx   = n - 1
@@ -382,6 +506,15 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 #ts-counter {{ font-size: 11px; color: #999; white-space: nowrap; }}
 {tabs_css}
 
+#tab-group {{ display: flex; gap: 4px; flex-wrap: nowrap; align-items: center; flex-shrink: 0; }}
+#view-tabs {{ display: flex; gap: 4px; flex-shrink: 0; }}
+.view-tab {{
+  font-size: 12px; padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  border: 1px solid #ccc; color: #555; background: #f8f8f8; white-space: nowrap;
+}}
+.view-tab input {{ display: none; }}
+.view-active {{ background: #1a1a2e; color: white; border-color: #1a1a2e; }}
+
 #main {{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -432,8 +565,13 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 <div id="header"><h1>Dashboard Electoral &mdash; Peru 2026</h1></div>
 
 <div id="controls">
-  {tabs_html}
-  <label>Snapshot:</label>
+  <div id="tab-group">
+    {tabs_html}
+    <div id="view-tabs">
+      <label class="view-tab"><input type="radio" name="viewmode" value="imp"> Imputaciones</label>
+      <label class="view-tab view-active"><input type="radio" name="viewmode" value="pol" checked> Ganador</label>
+    </div>
+  </div>
   <input type="range" id="slider" min="{unix_first}" max="{unix_last}" value="{unix_init}" step="60">
   <span id="ts-label"></span>
   <span id="ts-counter"></span>
@@ -443,7 +581,7 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 
 <div id="main">
   <div class="panel">
-    <div class="panel-title">Metodo de imputacion por distrito</div>
+    <div class="panel-title" id="map-panel-title">Ganador por distrito</div>
     <div id="map"></div>
   </div>
   <div class="panel">
@@ -453,10 +591,30 @@ body {{ font-family: sans-serif; background: #f0f0f0; display: flex; flex-direct
 </div>
 
 <script>
-const GEOJSON     = {geojson_js};
-const SNAPSHOTS   = {snapshots_js};
-const ALL_TRACES  = {all_traces_js};
+async function _gz(b64) {{
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const ds = new DecompressionStream('gzip');
+  const writer = ds.writable.getWriter();
+  writer.write(bytes); writer.close();
+  const chunks = []; const reader = ds.readable.getReader();
+  while (true) {{ const {{done, value}} = await reader.read(); if (done) break; chunks.push(value); }}
+  const out = new Uint8Array(chunks.reduce((n,c) => n+c.length, 0));
+  let off = 0; for (const c of chunks) {{ out.set(c, off); off += c.length; }}
+  return JSON.parse(new TextDecoder().decode(out));
+}}
+(async () => {{
+const GEOJSON    = await _gz('{geojson_gz}');
+const SNAPSHOTS  = await _gz('{snapshots_gz}');
+const ALL_TRACES = await _gz('{all_traces_gz}');
 let currentScope  = '{default_scope}';
+let viewMode      = 'pol';
+
+const POL_COLORS = {json.dumps(COLORES_CANDIDATOS, ensure_ascii=False)};
+const POL_NAMES  = {json.dumps(NOMBRES_CORTOS, ensure_ascii=False)};
+const POL_OTROS  = '{COLOR_OTROS_POL}';
+const POL_ORDER  = {pol_order_js};
 
 // ── Mapa ──────────────────────────────────────────────────────────────────
 const isMobile = window.innerWidth <= 768;
@@ -466,45 +624,100 @@ L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_all/{{z}}/{{x}}/{{y}}{{r}
   subdomains: 'abcd', maxZoom: 19,
 }}).addTo(map);
 
-// Leyenda fija
+// Leyenda dinamica
+const IMP_LEGEND = [
+  ['#a8d5a2','Datos propios'],
+  ['#f4a261','Imputado — centroide'],
+  ['#e63946','Imputado — prov/depto'],
+  ['#9b5de5','Imputado — extranjero'],
+  ['#aaaaaa','Sin referencia / sin poligono'],
+];
+const POL_LEGEND = POL_ORDER.slice(0, 5).map(dni => [POL_COLORS[dni], POL_NAMES[dni] || dni])
+;
+
+function legendHTML(entries, title) {{
+  return `<b style="font-size:13px;display:block;margin-bottom:2px">${{title}}</b>`
+    + entries.map(([c,l]) =>
+        `<span style="display:inline-block;width:12px;height:12px;background:${{c}};border-radius:3px;margin-right:6px;vertical-align:middle"></span>${{l}}<br>`
+      ).join('');
+}}
+
 const legend = L.control({{ position: 'bottomleft' }});
 legend.onAdd = () => {{
   const div = L.DomUtil.create('div');
   const mobile = window.innerWidth <= 768;
+  div.id = 'map-legend';
   div.style.cssText = `background:white;padding:${{mobile ? '5px 8px' : '10px 14px'}};border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);font-size:${{mobile ? '10px' : '12px'}};line-height:${{mobile ? '1.7' : '2'}}`;
-  div.innerHTML = `<b style="font-size:13px;display:block;margin-bottom:2px">Metodo de imputacion</b>
-    ${{[
-      ['#a8d5a2','Datos propios'],
-      ['#f4a261','Imputado — centroide'],
-      ['#e63946','Imputado — prov/depto'],
-      ['#9b5de5','Imputado — extranjero'],
-      ['#aaaaaa','Sin referencia / sin poligono'],
-    ].map(([c,l]) => `<span style="display:inline-block;width:12px;height:12px;background:${{c}};border-radius:3px;margin-right:6px;vertical-align:middle"></span>${{l}}<br>`).join('')}}`;
+  div.innerHTML = legendHTML(POL_LEGEND, 'Ganador por distrito');
   return div;
 }};
 legend.addTo(map);
 
+function updateLegend() {{
+  const div = document.getElementById('map-legend');
+  if (!div) return;
+  if (viewMode === 'pol') {{
+    div.innerHTML = legendHTML(POL_LEGEND, 'Ganador por distrito');
+  }} else {{
+    div.innerHTML = legendHTML(IMP_LEGEND, 'Metodo de imputacion');
+  }}
+}}
+
+// ── Patron SVG para distritos imputados ──────────────────────────────────
+// Se inyecta en el SVG de Leaflet la primera vez que se agrega una capa.
+let hatchInjected = false;
+function ensureHatchDefs() {{
+  if (hatchInjected) return;
+  const svgEl = document.querySelector('#map svg');
+  if (!svgEl) return;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  defs.innerHTML = `
+    <pattern id="imp-hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="transparent"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(0,0,0,0.30)" stroke-width="8"/>
+    </pattern>`;
+  svgEl.insertBefore(defs, svgEl.firstChild);
+  hatchInjected = true;
+}}
+map.on('layeradd', ensureHatchDefs);
+
 // Capa GeoJSON
 let currentIdx = {init_idx};
 const layerByDist = {{}};
-let geoLayer;
+const hatchByDist = {{}};
+let geoLayer, hatchLayer;
 
 function distData(idx, iddist) {{
-  return (SNAPSHOTS[idx].data[iddist] || {{ color: '#aaaaaa', scope: '—', razon: '', actas: '', donor: '' }});
+  return (SNAPSHOTS[idx].data[iddist] || {{ c: '#aaaaaa', p: '#aaaaaa', s: '—', r: '', a: '', d: '', g: '', t: '', i: false }});
 }}
 
 function makeStyle(idx, iddist) {{
-  return {{ fillColor: distData(idx, iddist).color, color: '#555', weight: 0.4, fillOpacity: 0.75 }};
+  const d = distData(idx, iddist);
+  return {{ fillColor: viewMode === 'pol' ? d.p : d.c, color: '#555', weight: 0.4, fillOpacity: 0.75 }};
+}}
+
+function makeHatchStyle(idx, iddist) {{
+  const d = distData(idx, iddist);
+  const visible = viewMode === 'pol' && d.i;
+  return {{ fillColor: 'url(#imp-hatch)', fillOpacity: visible ? 1 : 0, color: 'none', weight: 0 }};
 }}
 
 function makeTooltip(idx, feat) {{
   const d = distData(idx, feat.properties.id);
   const p = feat.properties;
-  return `<b>${{p.dist}}</b><br><span style="color:#777">${{p.prov}} — ${{p.dep}}</span><br>
-    <b>Metodo:</b> ${{d.scope || '—'}}<br>
-    <b>Actas:</b> ${{d.actas !== '' ? d.actas + '%' : '—'}}`
-    + (d.donor ? `<br><b>Donor:</b> ${{d.donor}}` : '')
-    + (d.razon ? `<br><b>Razon:</b> ${{d.razon}}` : '');
+  const header = `<b>${{p.dist}}</b><br><span style="color:#777">${{p.prov}} — ${{p.dep}}</span><br>`;
+  if (viewMode === 'pol') {{
+    return header
+      + `<b>Ganador:</b> ${{(d.g ? (POL_NAMES[d.g] || d.g) : '—')}}<br>`
+      + (d.t ? `<b>% del total:</b> ${{d.t}}%<br>` : '')
+      + `<b>Actas:</b> ${{d.a !== '' ? d.a + '%' : '—'}}`
+      + (d.i ? `<br><i style="color:#888">via donor: ${{d.d}}</i>` : '');
+  }}
+  return header
+    + `<b>Metodo:</b> ${{d.s || '—'}}<br>`
+    + `<b>Actas:</b> ${{d.a !== '' ? d.a + '%' : '—'}}`
+    + (d.d ? `<br><b>Donor:</b> ${{d.d}}` : '')
+    + (d.r ? `<br><b>Razon:</b> ${{d.r}}` : '');
 }}
 
 geoLayer = L.geoJSON(GEOJSON, {{
@@ -517,10 +730,36 @@ geoLayer = L.geoJSON(GEOJSON, {{
   }},
 }}).addTo(map);
 
-function updateMap(idx) {{
+// Capa overlay de hatch (encima de geoLayer)
+hatchLayer = L.geoJSON(GEOJSON, {{
+  style: feat => makeHatchStyle(currentIdx, feat.properties.id),
+  onEachFeature(feat, layer) {{
+    hatchByDist[feat.properties.id] = layer;
+    // Redirigir eventos al layerByDist correspondiente para que el tooltip funcione
+    layer.on('mouseover', () => {{
+      const base = layerByDist[feat.properties.id];
+      if (base) base.fire('mouseover');
+    }});
+    layer.on('mouseout', () => {{
+      const base = layerByDist[feat.properties.id];
+      if (base) base.fire('mouseout');
+    }});
+  }},
+}}).addTo(map);
+
+function updateMap(idx, prevIdx = null) {{
+  const forceAll = prevIdx === null;
   for (const [iddist, layer] of Object.entries(layerByDist)) {{
-    layer.setStyle(makeStyle(idx, iddist));
+    const d    = distData(idx, iddist);
+    const dOld = forceAll ? null : distData(prevIdx, iddist);
+    const styleChanged = forceAll || (viewMode === 'pol' ? d.p !== dOld.p : d.c !== dOld.c);
+    if (styleChanged) layer.setStyle(makeStyle(idx, iddist));
     layer.setTooltipContent(makeTooltip(idx, layer.feature));
+  }}
+  for (const [iddist, layer] of Object.entries(hatchByDist)) {{
+    const d    = distData(idx, iddist);
+    const dOld = forceAll ? null : distData(prevIdx, iddist);
+    if (forceAll || d.i !== dOld.i) layer.setStyle(makeHatchStyle(idx, iddist));
   }}
 }}
 
@@ -573,11 +812,25 @@ function updateLabel(idx) {{
 
 document.getElementById('slider').addEventListener('input', e => {{
   const unix = +e.target.value;
+  const prevIdx = currentIdx;
   currentIdx = SNAPSHOTS.reduce((best, s, i) =>
     Math.abs(s.unix - unix) < Math.abs(SNAPSHOTS[best].unix - unix) ? i : best, 0);
   updateLabel(currentIdx);
-  updateMap(currentIdx);
+  updateMap(currentIdx, prevIdx);
   Plotly.relayout('chart', {{ shapes: [markerShape(SNAPSHOTS[currentIdx].iso)] }});
+}});
+
+// ── Toggle imputaciones / ganador ────────────────────────────────────────
+document.querySelectorAll('#view-tabs input').forEach(input => {{
+  input.addEventListener('change', e => {{
+    document.querySelectorAll('.view-tab').forEach(l => l.classList.remove('view-active'));
+    e.target.closest('.view-tab').classList.add('view-active');
+    viewMode = e.target.value;
+    document.getElementById('map-panel-title').textContent =
+      viewMode === 'pol' ? 'Ganador por distrito' : 'Metodo de imputacion por distrito';
+    updateLegend();
+    updateMap(currentIdx);
+  }});
 }});
 
 // Init
@@ -602,6 +855,7 @@ function ajustarAlturasMobile() {{
 
 ajustarAlturasMobile();
 window.addEventListener('resize', ajustarAlturasMobile);
+}})();
 </script>
 </body>
 </html>"""
@@ -639,6 +893,21 @@ def main():
         print("No se encontraron snapshots con timestamp (imputaciones_*.csv).")
         return
     print(f"{len(timestamps)} snapshots: {', '.join(timestamps)}")
+
+    # Construir metadatos de candidatos desde el ultimo snapshot
+    print("Construyendo metadatos de candidatos...")
+    build_candidatos_meta(f"data/participantes_distritos_{timestamps[-1]}.csv")
+
+    # Orden de candidatos segun ultima proyeccion
+    proy_order: list[str] = []
+    proy_path = f"data/proyeccion_final_{timestamps[-1]}.csv"
+    if os.path.exists(proy_path):
+        with open(proy_path, newline="", encoding="utf-8-sig") as f:
+            rows_proy = sorted(csv.DictReader(f),
+                               key=lambda r: float(r.get("votos_proyectados", 0) or 0),
+                               reverse=True)
+        proy_order = [r["dniCandidato"].strip() for r in rows_proy
+                      if r.get("dniCandidato", "").strip() in COLORES_CANDIDATOS]
 
     # GeoJSON
     print("Cargando GeoJSON...")
@@ -699,7 +968,7 @@ def main():
 
     # HTML
     print(f"Generando {output}...")
-    html = generate_html(slim_geojson, snapshots, all_traces)
+    html = generate_html(slim_geojson, snapshots, all_traces, pol_order=proy_order)
     with open(output, "w", encoding="utf-8") as f:
         f.write(html)
 
