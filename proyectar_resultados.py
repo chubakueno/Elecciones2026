@@ -33,10 +33,10 @@ import sys
 import math
 from collections import defaultdict
 
-INPUT_TOTALES       = "totales_distritos.csv"
-INPUT_PARTICIPANTES = "participantes_distritos.csv"
+INPUT_TOTALES       = "data/totales_distritos.csv"
+INPUT_PARTICIPANTES = "data/participantes_distritos.csv"
 INPUT_CENTROIDES    = "ubigeo_centroides.csv"
-OUTPUT_CSV          = "proyeccion_final.csv"
+OUTPUT_CSV          = "data/proyeccion_final.csv"
 
 N_DONORS = 2   # valor por defecto; sobreescrito por --n-donors en CLI
 
@@ -420,7 +420,7 @@ def proyectar(timestamp: str | None, n_donors: int, solo_peru: bool = False, sol
             print(f"  Imputados {ambito_label}: {ok} correctos  |  {fail} sin referencia de imputación")
 
     # Guardar log de imputaciones
-    LOG_CSV = f"imputaciones{sufijo}_{timestamp}.csv" if timestamp else f"imputaciones{sufijo}.csv"
+    LOG_CSV = f"data/imputaciones{sufijo}_{timestamp}.csv" if timestamp else f"data/imputaciones{sufijo}.csv"
     log_cols = ["ubigeo", "ambito", "nombre", "provincia", "departamento",
                 "razon", "actas_pct", "donor_ubigeo", "donor_nombre", "scope"]
     with open(LOG_CSV, "w", newline="", encoding="utf-8-sig") as f:

@@ -122,20 +122,20 @@ def encontrar_timestamps(solo_peru: bool = False, solo_extranjero: bool = False)
         patron = re.compile(r"imputaciones_peru_(\d{8}_\d{4})\.csv")
         return sorted(
             m.group(1)
-            for f in glob.glob("imputaciones_peru_*.csv")
+            for f in glob.glob("data/imputaciones_peru_*.csv")
             if (m := patron.match(os.path.basename(f)))
         )
     if solo_extranjero:
         patron = re.compile(r"imputaciones_extranjero_(\d{8}_\d{4})\.csv")
         return sorted(
             m.group(1)
-            for f in glob.glob("imputaciones_extranjero_*.csv")
+            for f in glob.glob("data/imputaciones_extranjero_*.csv")
             if (m := patron.match(os.path.basename(f)))
         )
     patron = re.compile(r"imputaciones_(\d{8}_\d{4})\.csv")
     return sorted(
         m.group(1)
-        for f in glob.glob("imputaciones_*.csv")
+        for f in glob.glob("data/imputaciones_*.csv")
         if (m := patron.match(os.path.basename(f)))
     )
 
@@ -157,8 +157,8 @@ def ts_to_unix(ts: str) -> int:
 def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
                    geojson_iddists: set) -> dict:
     """Devuelve {iddist: {color, scope, razon, actas, donor}} para un timestamp."""
-    imputaciones = load_imputaciones(f"imputaciones_{ts}.csv")
-    actas_dict   = load_actas(f"totales_distritos_{ts}.csv")
+    imputaciones = load_imputaciones(f"data/imputaciones_{ts}.csv")
+    actas_dict   = load_actas(f"data/totales_distritos_{ts}.csv")
 
     data = {}
     for iddist in geojson_iddists:
@@ -191,7 +191,7 @@ def build_snapshot(ts: str, inei_to_reniec: dict, todos_ubigeos: set,
                 "donor": "",
             }
 
-    actas_pct = load_actas_pct_global(f"totales_distritos_{ts}.csv")
+    actas_pct = load_actas_pct_global(f"data/totales_distritos_{ts}.csv")
     return {"ts": ts, "label": ts_to_label(ts), "iso": ts_to_iso(ts), "unix": ts_to_unix(ts),
             "actas_pct": actas_pct, "data": data}
 
@@ -218,7 +218,7 @@ def build_chart_traces(timestamps: list[str], top_n: int | None,
         return []
 
     # Meta del ultimo snapshot
-    last = f"proyeccion_final{sufijo}_{timestamps[-1]}.csv"
+    last = f"data/proyeccion_final{sufijo}_{timestamps[-1]}.csv"
     if not os.path.exists(last):
         return []
 
@@ -242,7 +242,7 @@ def build_chart_traces(timestamps: list[str], top_n: int | None,
     series_votos: dict[str, list] = {dni: [] for dni in top_dnis}
 
     for ts in timestamps:
-        path = f"proyeccion_final{sufijo}_{ts}.csv"
+        path = f"data/proyeccion_final{sufijo}_{ts}.csv"
         snap_pct   = {}
         snap_votos = {}
         if os.path.exists(path):

@@ -17,7 +17,10 @@ Uso:
 
 import argparse
 import csv
+import glob
 import json
+import os
+import re
 import folium
 from folium.features import GeoJsonTooltip
 
@@ -26,9 +29,9 @@ from folium.features import GeoJsonTooltip
 # ---------------------------------------------------------------------------
 GEOJSON_FILE    = "peru_distrital.geojson"
 CENTROIDES_FILE = "ubigeo_centroides.csv"
-IMPUT_FILE      = "imputaciones.csv"
+IMPUT_FILE      = "data/imputaciones.csv"
 UBIGEOS_FILE    = "ubigeos_completo.csv"
-OUTPUT_HTML     = "mapa_imputaciones.html"
+OUTPUT_HTML     = "data/mapa_imputaciones.html"
 
 # ---------------------------------------------------------------------------
 # Colores por categoría de imputación
@@ -124,22 +127,30 @@ def load_actas(path: str) -> dict[str, str]:
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
-    parser = argparse.ArgumentParser(description="Genera mapa de imputaciones.")
-    parser.add_argument("--timestamp", type=str, default=None,
-                        help="Timestamp de los archivos a usar, e.g. 20260414_0105.")
-    args = parser.parse_args()
+def encontrar_timestamps() -> list[str]:
+    """Devuelve todos los timestamps donde existan imputaciones.csv e imputaciones_TS.csv."""
+    patron = re.compile(r"imputaciones_(\d{8}_\d{4})\.csv")
+    return sorted(
+        m.group(1)
+        for f in glob.glob("imputaciones_*.csv")
+        if (m := patron.match(os.path.basename(f)))
+    )
 
+
+def generar_mapa(timestamp: str | None):
     def con_ts(base: str) -> str:
-        if args.timestamp:
-            return base.replace(".csv", f"_{args.timestamp}.csv").replace(".html", f"_{args.timestamp}.html")
+        if timestamp:
+            return base.replace(".csv", f"_{timestamp}.csv").replace(".html", f"_{timestamp}.html")
         return base
 
     imput_file   = con_ts(IMPUT_FILE)
-    totales_file = con_ts("totales_distritos.csv")
+    totales_file = con_ts("data/totales_distritos.csv")
     output_html  = con_ts(OUTPUT_HTML)
 
-    print(f"Cargando datos... (timestamp={args.timestamp or 'latest'})")
+    print(f"\n{'='*60}")
+    print(f"Timestamp: {timestamp or '(sin timestamp)'}")
+
+    print(f"Cargando datos...")
     inei_to_reniec = load_inei_to_reniec(CENTROIDES_FILE)
     imputaciones   = load_imputaciones(imput_file)
     todos_ubigeos  = load_todos_ubigeos(UBIGEOS_FILE)
@@ -264,7 +275,28 @@ def main():
     folium.LayerControl().add_to(mapa)
 
     mapa.save(output_html)
-    print(f"\nMapa guardado -> {output_html}")
+    print(f"Mapa guardado -> {output_html}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Genera mapa de imputaciones.")
+    parser.add_argument("--timestamp", type=str, default=None,
+                        help="Timestamp especifico a procesar, e.g. 20260414_0105. "
+                             "Si se omite procesa todos los timestamps disponibles.")
+    args = parser.parse_args()
+
+    if args.timestamp:
+        timestamps = [args.timestamp]
+    else:
+        timestamps = encontrar_timestamps()
+        if timestamps:
+            print(f"{len(timestamps)} timestamp(s) encontrados: {', '.join(timestamps)}")
+        else:
+            print("No se encontraron archivos con timestamp — usando archivos base.")
+            timestamps = [None]
+
+    for ts in timestamps:
+        generar_mapa(ts)
 
 
 if __name__ == "__main__":

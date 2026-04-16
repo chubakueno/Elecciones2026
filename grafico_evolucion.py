@@ -22,7 +22,7 @@ from datetime import datetime
 import plotly.graph_objects as go
 
 
-PATRON_ARCHIVO = "proyeccion_final_*.csv"
+PATRON_ARCHIVO = "data/proyeccion_final_*.csv"
 OUTPUT_HTML    = "evolucion_proyeccion.html"
 
 
