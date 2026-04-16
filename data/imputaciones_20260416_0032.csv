@@ -1,0 +1,55 @@
+﻿ubigeo,ambito,nombre,provincia,departamento,razon,actas_pct,donor_ubigeo,donor_nombre,scope
+022002,1,Cajamarquilla,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020317+020324,Canis+San Miguel De Corpanqui+La Primavera,"centroide (3.7 km, 7.7 km, 8.3 km)"
+022005,1,Congas,Ocros,Áncash,0% actas contabilizadas,0.0,022009+020310+022001,San Pedro+Huayllacayan+Acas,"centroide (6.2 km, 10.3 km, 18.3 km)"
+022006,1,Llipa,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020324+020313,Canis+La Primavera+Mangas,"centroide (6.4 km, 9.6 km, 9.9 km)"
+022007,1,Ocros,Ocros,Áncash,0% actas contabilizadas,0.0,022001+022009+022004,Acas+San Pedro+Cochas,"centroide (9.6 km, 10.5 km, 15.1 km)"
+022008,1,San Cristóbal De Rajan,Ocros,Áncash,0% actas contabilizadas,0.0,020322+020317+020324,Canis+San Miguel De Corpanqui+La Primavera,"centroide (7.7 km, 11.6 km, 11.8 km)"
+022010,1,Santiago De Chilcas,Ocros,Áncash,0% actas contabilizadas,0.0,022001+022004+022003,Acas+Cochas+Carhuapampa,"centroide (4.7 km, 12.6 km, 15.0 km)"
+070917,1,Cielo Punco,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070909,1,Kimbiri,La Convención,Cusco,0% actas contabilizadas,0.0,050403+050408+050308,Ayna+Santa Rosa+Sivia,"centroide (0.5 km, 9.5 km, 14.2 km)"
+070918,1,Manitea,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070915,1,Megantoni,La Convención,Cusco,0% actas contabilizadas,0.0,250304+070908+070902,Sepahua+Quellouno+Echarate,"centroide (65.7 km, 110.3 km, 123.3 km)"
+070910,1,Pichari,La Convención,Cusco,0% actas contabilizadas,0.0,050308+050403+050309,Sivia+Ayna+Llochegua,"centroide (3.3 km, 12.4 km, 14.8 km)"
+070919,1,Unión Asháninka,La Convención,Cusco,0% actas contabilizadas,0.0,070916,Kumpirushiato,provincia
+070913,1,Villa Kintiarina,La Convención,Cusco,0% actas contabilizadas,0.0,050410+050409+050402,Anchihuay+Samugari+Anco,"centroide (8.5 km, 21.7 km, 24.9 km)"
+070912,1,Villa Virgen,La Convención,Cusco,0% actas contabilizadas,0.0,050410+050402+050405,Anchihuay+Anco+Chungui,"centroide (17.2 km, 22.0 km, 27.1 km)"
+100505,1,Tibillo,Palpa,Ica,0% actas contabilizadas,0.0,080602+080612+080606,Córdova+San Isidro+Ocoyo,"centroide (6.1 km, 16.9 km, 18.7 km)"
+150411,1,Yaquerana,Requena,Loreto,0% actas contabilizadas,0.0,150407+150410+150301,Saquena+Jenaro Herrera+Nauta,"centroide (86.8 km, 92.2 km, 105.4 km)"
+911201,2,Acra,Ghana,África,0% actas contabilizadas,0.0,910603,Pretoria,departamento
+920224,2,Catamarca,Argentina,América,0% actas contabilizadas,0.0,920226,La Rioja,provincia
+920204,2,Corrientes,Argentina,América,0% actas contabilizadas,0.0,920205,La Plata,provincia
+920208,2,Salta,Argentina,América,0% actas contabilizadas,0.0,920207,Rosario De Santa Fe,provincia
+921026,2,Copiapó,Chile,América,0% actas contabilizadas,0.0,921007,Valparaiso,provincia
+921102,2,Loja,Ecuador,América,0% actas contabilizadas,0.0,921101,Guayaquil,provincia
+921324,2,San Diego,Estados Unidos De Ámerica,América,0% actas contabilizadas,0.0,921323,San Antonio,provincia
+922802,2,Caracas,Venezuela,América,0% actas contabilizadas,0.0,922701,Montevideo,departamento
+931904,2,Riad,Arabia Saudita,Asia,0% actas contabilizadas,0.0,932002,Hanói,departamento
+933801,2,Doha,Catar,Asia,0% actas contabilizadas,0.0,933201,Manila,departamento
+933702,2,Abu Dabi,Emiratos Árabes Unidos,Asia,0% actas contabilizadas,0.0,933201,Manila,departamento
+933701,2,Dubái,Emiratos Árabes Unidos,Asia,0% actas contabilizadas,0.0,933201,Manila,departamento
+932401,2,Teheran,Irán,Asia,0% actas contabilizadas,0.0,932501,Singapur,departamento
+930603,2,Ramla,Israel,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+930602,2,Tel Aviv,Israel,Asia,0% actas contabilizadas,0.0,930704,Okinawa,departamento
+922403,2,Santiago De Los Caballeros,República Dominicana,América,0% actas contabilizadas,0.0,922401,Santo Domingo,provincia
+930720,2,Saitama,Japón,Asia,0% actas contabilizadas,0.0,930721,Gunma,provincia
+932801,2,Al - Kuwait,Kuwait,Asia,0% actas contabilizadas,0.0,933001,Kuala Lumpur,departamento
+930703,2,Tokio,Japón,Asia,0% actas contabilizadas,0.0,930704,Okinawa,provincia
+931302,2,Amman,Jordania,Asia,0% actas contabilizadas,0.0,931501,Estambul,departamento
+930801,2,Beirut,Líbano,Asia,0% actas contabilizadas,0.0,930736,Shiga,departamento
+940909,2,Las Palmas,España,Europa,0% actas contabilizadas,0.0,940910,Madrid,provincia
+940905,2,Salamanca,España,Europa,0% actas contabilizadas,0.0,940903,Bilbao,provincia
+940917,2,Zaragoza,España,Europa,0% actas contabilizadas,0.0,940918,Sevilla,provincia
+941101,2,Burdeos,Francia,Europa,0% actas contabilizadas,0.0,941105,Lyon,provincia
+941103,2,Estrasburgo,Francia,Europa,0% actas contabilizadas,0.0,941105,Lyon,provincia
+940915,2,Tenerife,España,Europa,0% actas contabilizadas,0.0,940918,Sevilla,provincia
+940913,2,Mallorca,España,Europa,0% actas contabilizadas,0.0,940911,Málaga,provincia
+940922,2,Vigo,España,Europa,0% actas contabilizadas,0.0,940920,Valencia,provincia
+941106,2,Marsella,Francia,Europa,0% actas contabilizadas,0.0,941105,Lyon,provincia
+941110,2,Toulouse,Francia,Europa,0% actas contabilizadas,0.0,941108,París,provincia
+941301,2,Atenas,Grecia,Europa,0% actas contabilizadas,0.0,941204,Londres,departamento
+941717,2,Marcas,Italia,Europa,0% actas contabilizadas,0.0,941711,Turín,provincia
+943701,2,Skopie,Macedonia,Europa,0% actas contabilizadas,0.0,943601,Minsk,departamento
+944202,2,Andorra La Vella,Principado De Andorra,Europa,0% actas contabilizadas,0.0,943601,Minsk,departamento
+941707,2,Nápoles,Italia,Europa,0% actas contabilizadas,0.0,941706,Milán,provincia
+941748,2,Perugia,Italia,Europa,0% actas contabilizadas,0.0,941755,Bolzano,provincia
+942910,2,San Petersburgo,Rusia,Europa,0% actas contabilizadas,0.0,942901,Moscú,provincia
