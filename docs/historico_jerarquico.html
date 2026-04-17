@@ -29,15 +29,20 @@ tr.warn td.diff { color: #e8c96a; }
 tr.bad  td.diff { color: #e87a6a; }
 tr:hover td { background: #1a1d2e; }
 td.empty { text-align: center; color: #555; padding: 12px; }
+tr.section-header td { color: #7ec8e3; font-weight: 600; background: #151820;
+                        border-top: 1px solid #2a2d3e; }
+.total { color: #888; font-size: 0.82rem; margin-bottom: 8px; }
+.total.diff { color: #e8c96a; font-weight: 600; }
 
 .selector-bar { position: sticky; top: 0; z-index: 100;
                  background: #0f1117; border-bottom: 1px solid #1e2130;
                  margin: 0 -24px 28px; padding: 10px 24px;
-                 display: flex; align-items: center; gap: 12px; }
-.selector-bar label { color: #aaa; font-size: 0.9rem; }
-select { background: #1e2130; color: #e0e0e0; border: 1px solid #333;
-          padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-select:focus { outline: none; border-color: #7ec8e3; }
+                 display: flex; align-items: center; gap: 16px; }
+.selector-bar label { color: #aaa; font-size: 0.85rem; white-space: nowrap; }
+#ts-label { color: #7ec8e3; font-size: 0.9rem; font-variant-numeric: tabular-nums;
+             min-width: 140px; }
+input[type=range] { flex: 1; accent-color: #7ec8e3; cursor: pointer; }
+input[type=range]:focus { outline: none; }
   </style>
 </head>
 <body>
@@ -46,829 +51,106 @@ select:focus { outline: none; border-color: #7ec8e3; }
      2 snapshots</p>
 
   <div class="selector-bar">
-    <label for="ts-select">Snapshot:</label>
-    <select id="ts-select">
-    <option value="20260417_1356">20260417 1356 </option>
-    <option value="20260417_1530" selected>20260417 1530 </option>
-    </select>
+    <label>Snapshot:</label>
+    <input type="range" id="ts-slider" min="0" max="1" value="1" step="1">
+    <span id="ts-label">2026-04-17 15:30</span>
   </div>
 
-  <div id="ts-20260417_1356" class="ts-block" style="display:none">
-<section>
-  <h2>Provincias PERU: suma de distritos vs API provincia</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     196 filas &nbsp;·&nbsp; Sum(diff) = <strong>-31,776</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>040100</td><td class="name">Arequipa, Arequipa</td><td class="num">698,458</td><td class="num">698,836</td><td class="num diff">-378</td><td class="num">-0.05%</td></tr>
-<tr class="bad"><td>100300</td><td class="name">Nasca, Ica</td><td class="num">34,654</td><td class="num">34,840</td><td class="num diff">-186</td><td class="num">-0.53%</td></tr>
-<tr class="bad"><td>130300</td><td class="name">Lambayeque, Lambayeque</td><td class="num">150,821</td><td class="num">151,001</td><td class="num diff">-180</td><td class="num">-0.12%</td></tr>
-<tr class="bad"><td>140100</td><td class="name">Lima, Lima</td><td class="num">5,272,647</td><td class="num">5,301,777</td><td class="num diff">-29,130</td><td class="num">-0.55%</td></tr>
-<tr class="bad"><td>150200</td><td class="name">Alto Amazonas, Loreto</td><td class="num">40,796</td><td class="num">40,962</td><td class="num diff">-166</td><td class="num">-0.41%</td></tr>
-<tr class="bad"><td>150700</td><td class="name">Datem Del Marañón, Loreto</td><td class="num">12,786</td><td class="num">14,191</td><td class="num diff">-1,405</td><td class="num">-9.90%</td></tr>
-<tr class="bad"><td>250100</td><td class="name">Coronel Portillo, Ucayali</td><td class="num">157,701</td><td class="num">158,032</td><td class="num diff">-331</td><td class="num">-0.21%</td></tr>
-<tr class="ok"><td>010100</td><td class="name">Chachapoyas, Amazonas</td><td class="num">23,274</td><td class="num">23,274</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010200</td><td class="name">Bagua, Amazonas</td><td class="num">30,703</td><td class="num">30,703</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010300</td><td class="name">Bongará, Amazonas</td><td class="num">11,441</td><td class="num">11,441</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010400</td><td class="name">Luya, Amazonas</td><td class="num">17,731</td><td class="num">17,731</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010500</td><td class="name">Rodríguez De Mendoza, Amazonas</td><td class="num">11,214</td><td class="num">11,214</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010600</td><td class="name">Condorcanqui, Amazonas</td><td class="num">13,979</td><td class="num">13,979</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010700</td><td class="name">Utcubamba, Amazonas</td><td class="num">45,119</td><td class="num">45,119</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020100</td><td class="name">Huaraz, Áncash</td><td class="num">76,546</td><td class="num">76,546</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020200</td><td class="name">Aija, Áncash</td><td class="num">3,414</td><td class="num">3,414</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020300</td><td class="name">Bolognesi, Áncash</td><td class="num">10,210</td><td class="num">10,210</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020400</td><td class="name">Carhuaz, Áncash</td><td class="num">22,378</td><td class="num">22,378</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020500</td><td class="name">Casma, Áncash</td><td class="num">16,638</td><td class="num">16,638</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020600</td><td class="name">Corongo, Áncash</td><td class="num">2,835</td><td class="num">2,835</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020700</td><td class="name">Huaylas, Áncash</td><td class="num">23,103</td><td class="num">23,103</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020800</td><td class="name">Huari, Áncash</td><td class="num">33,121</td><td class="num">33,121</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020900</td><td class="name">Mariscal Luzuriaga, Áncash</td><td class="num">7,407</td><td class="num">7,407</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021000</td><td class="name">Pallasca, Áncash</td><td class="num">7,162</td><td class="num">7,162</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021100</td><td class="name">Pomabamba, Áncash</td><td class="num">7,736</td><td class="num">7,736</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021200</td><td class="name">Recuay, Áncash</td><td class="num">9,769</td><td class="num">9,769</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021300</td><td class="name">Santa, Áncash</td><td class="num">217,299</td><td class="num">217,299</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021400</td><td class="name">Sihuas, Áncash</td><td class="num">8,773</td><td class="num">8,773</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021500</td><td class="name">Yungay, Áncash</td><td class="num">22,936</td><td class="num">22,936</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021600</td><td class="name">Antonio Raimondi, Áncash</td><td class="num">3,601</td><td class="num">3,601</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021700</td><td class="name">Carlos Fermín Fitzcarrald, Áncash</td><td class="num">5,342</td><td class="num">5,342</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021800</td><td class="name">Asunción, Áncash</td><td class="num">2,242</td><td class="num">2,242</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021900</td><td class="name">Huarmey, Áncash</td><td class="num">13,775</td><td class="num">13,775</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>022000</td><td class="name">Ocros, Áncash</td><td class="num">1,233</td><td class="num">1,233</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030100</td><td class="name">Abancay, Apurímac</td><td class="num">54,390</td><td class="num">54,390</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030200</td><td class="name">Aymaraes, Apurímac</td><td class="num">13,081</td><td class="num">13,081</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030300</td><td class="name">Andahuaylas, Apurímac</td><td class="num">70,699</td><td class="num">70,699</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030400</td><td class="name">Antabamba, Apurímac</td><td class="num">5,115</td><td class="num">5,115</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030500</td><td class="name">Cotabambas, Apurímac</td><td class="num">20,266</td><td class="num">20,266</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030600</td><td class="name">Grau, Apurímac</td><td class="num">9,145</td><td class="num">9,145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030700</td><td class="name">Chincheros, Apurímac</td><td class="num">21,176</td><td class="num">21,176</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040200</td><td class="name">Caylloma, Arequipa</td><td class="num">53,208</td><td class="num">53,208</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040300</td><td class="name">Camaná, Arequipa</td><td class="num">32,625</td><td class="num">32,625</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040400</td><td class="name">Caravelí, Arequipa</td><td class="num">18,900</td><td class="num">18,900</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040500</td><td class="name">Castilla, Arequipa</td><td class="num">15,174</td><td class="num">15,174</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040600</td><td class="name">Condesuyos, Arequipa</td><td class="num">6,572</td><td class="num">6,572</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040700</td><td class="name">Islay, Arequipa</td><td class="num">32,335</td><td class="num">32,335</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040800</td><td class="name">La Unión, Arequipa</td><td class="num">4,657</td><td class="num">4,657</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050100</td><td class="name">Huamanga, Ayacucho</td><td class="num">138,471</td><td class="num">138,471</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050200</td><td class="name">Cangallo, Ayacucho</td><td class="num">13,786</td><td class="num">13,786</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050300</td><td class="name">Huanta, Ayacucho</td><td class="num">37,985</td><td class="num">37,985</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050400</td><td class="name">La Mar, Ayacucho</td><td class="num">26,650</td><td class="num">26,650</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050500</td><td class="name">Lucanas, Ayacucho</td><td class="num">17,972</td><td class="num">17,972</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050600</td><td class="name">Parinacochas, Ayacucho</td><td class="num">8,358</td><td class="num">8,358</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050700</td><td class="name">Víctor Fajardo, Ayacucho</td><td class="num">8,371</td><td class="num">8,371</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050800</td><td class="name">Huanca Sancos, Ayacucho</td><td class="num">3,886</td><td class="num">3,886</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050900</td><td class="name">Vilcas Huamán, Ayacucho</td><td class="num">7,703</td><td class="num">7,703</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>051000</td><td class="name">Páucar Del Sara Sara, Ayacucho</td><td class="num">3,769</td><td class="num">3,769</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>051100</td><td class="name">Sucre, Ayacucho</td><td class="num">3,458</td><td class="num">3,458</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060100</td><td class="name">Cajamarca, Cajamarca</td><td class="num">177,195</td><td class="num">177,195</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060200</td><td class="name">Cajabamba, Cajamarca</td><td class="num">26,694</td><td class="num">26,694</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060300</td><td class="name">Celendín, Cajamarca</td><td class="num">29,573</td><td class="num">29,573</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060400</td><td class="name">Contumaza, Cajamarca</td><td class="num">11,188</td><td class="num">11,188</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060500</td><td class="name">Cutervo, Cajamarca</td><td class="num">48,678</td><td class="num">48,678</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060600</td><td class="name">Chota, Cajamarca</td><td class="num">66,024</td><td class="num">66,024</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060700</td><td class="name">Hualgayoc, Cajamarca</td><td class="num">38,096</td><td class="num">38,096</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060800</td><td class="name">Jaén, Cajamarca</td><td class="num">90,266</td><td class="num">90,266</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060900</td><td class="name">Santa Cruz, Cajamarca</td><td class="num">14,444</td><td class="num">14,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061000</td><td class="name">San Miguel, Cajamarca</td><td class="num">20,906</td><td class="num">20,906</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061100</td><td class="name">San Ignacio, Cajamarca</td><td class="num">55,752</td><td class="num">55,752</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061200</td><td class="name">San Marcos, Cajamarca</td><td class="num">19,400</td><td class="num">19,400</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061300</td><td class="name">San Pablo, Cajamarca</td><td class="num">11,154</td><td class="num">11,154</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070100</td><td class="name">Cusco, Cusco</td><td class="num">251,407</td><td class="num">251,407</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070200</td><td class="name">Acomayo, Cusco</td><td class="num">11,462</td><td class="num">11,462</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070300</td><td class="name">Anta, Cusco</td><td class="num">30,670</td><td class="num">30,670</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070400</td><td class="name">Calca, Cusco</td><td class="num">33,958</td><td class="num">33,958</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070500</td><td class="name">Canas, Cusco</td><td class="num">17,791</td><td class="num">17,791</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070600</td><td class="name">Canchis, Cusco</td><td class="num">52,819</td><td class="num">52,819</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070700</td><td class="name">Chumbivilcas, Cusco</td><td class="num">33,382</td><td class="num">33,382</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070800</td><td class="name">Espinar, Cusco</td><td class="num">37,424</td><td class="num">37,424</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070900</td><td class="name">La Convención, Cusco</td><td class="num">53,843</td><td class="num">53,843</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071000</td><td class="name">Paruro, Cusco</td><td class="num">13,349</td><td class="num">13,349</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071100</td><td class="name">Paucartambo, Cusco</td><td class="num">21,626</td><td class="num">21,626</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071200</td><td class="name">Quispicanchi, Cusco</td><td class="num">45,408</td><td class="num">45,408</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071300</td><td class="name">Urubamba, Cusco</td><td class="num">37,866</td><td class="num">37,866</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080100</td><td class="name">Huancavelica, Huancavelica</td><td class="num">56,833</td><td class="num">56,833</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080200</td><td class="name">Acobamba, Huancavelica</td><td class="num">17,198</td><td class="num">17,198</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080300</td><td class="name">Angaraes, Huancavelica</td><td class="num">20,478</td><td class="num">20,478</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080400</td><td class="name">Castrovirreyna, Huancavelica</td><td class="num">7,726</td><td class="num">7,726</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080500</td><td class="name">Tayacaja, Huancavelica</td><td class="num">40,324</td><td class="num">40,324</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080600</td><td class="name">Huaytara, Huancavelica</td><td class="num">8,987</td><td class="num">8,987</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080700</td><td class="name">Churcampa, Huancavelica</td><td class="num">12,916</td><td class="num">12,916</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090100</td><td class="name">Huánuco, Huánuco</td><td class="num">139,326</td><td class="num">139,326</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090200</td><td class="name">Ambo, Huánuco</td><td class="num">23,290</td><td class="num">23,290</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090300</td><td class="name">Dos De Mayo, Huánuco</td><td class="num">12,809</td><td class="num">12,809</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090400</td><td class="name">Huamalies, Huánuco</td><td class="num">19,354</td><td class="num">19,354</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090500</td><td class="name">Marañón, Huánuco</td><td class="num">9,201</td><td class="num">9,201</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090600</td><td class="name">Leoncio Prado, Huánuco</td><td class="num">55,785</td><td class="num">55,785</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090700</td><td class="name">Pachitea, Huánuco</td><td class="num">19,708</td><td class="num">19,708</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090800</td><td class="name">Puerto Inca, Huánuco</td><td class="num">12,178</td><td class="num">12,178</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090900</td><td class="name">Huacaybamba, Huánuco</td><td class="num">3,850</td><td class="num">3,850</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>091000</td><td class="name">Lauricocha, Huánuco</td><td class="num">6,783</td><td class="num">6,783</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>091100</td><td class="name">Yarowilca, Huánuco</td><td class="num">10,529</td><td class="num">10,529</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100100</td><td class="name">Ica, Ica</td><td class="num">208,316</td><td class="num">208,316</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100200</td><td class="name">Chincha, Ica</td><td class="num">115,280</td><td class="num">115,280</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100400</td><td class="name">Pisco, Ica</td><td class="num">72,946</td><td class="num">72,946</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100500</td><td class="name">Palpa, Ica</td><td class="num">6,690</td><td class="num">6,690</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110100</td><td class="name">Huancayo, Junín</td><td class="num">299,555</td><td class="num">299,555</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110200</td><td class="name">Concepción, Junín</td><td class="num">26,562</td><td class="num">26,562</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110300</td><td class="name">Jauja, Junín</td><td class="num">43,515</td><td class="num">43,515</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110400</td><td class="name">Junín, Junín</td><td class="num">9,860</td><td class="num">9,860</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110500</td><td class="name">Tarma, Junín</td><td class="num">43,147</td><td class="num">43,147</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110600</td><td class="name">Yauli, Junín</td><td class="num">17,541</td><td class="num">17,541</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110700</td><td class="name">Satipo, Junín</td><td class="num">67,155</td><td class="num">67,155</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110800</td><td class="name">Chanchamayo, Junín</td><td class="num">68,494</td><td class="num">68,494</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110900</td><td class="name">Chupaca, Junín</td><td class="num">32,136</td><td class="num">32,136</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120100</td><td class="name">Trujillo, La Libertad</td><td class="num">529,707</td><td class="num">529,707</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120200</td><td class="name">Bolívar, La Libertad</td><td class="num">3,705</td><td class="num">3,705</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120300</td><td class="name">Sánchez Carrión, La Libertad</td><td class="num">54,042</td><td class="num">54,042</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120400</td><td class="name">Otuzco, La Libertad</td><td class="num">31,831</td><td class="num">31,831</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120500</td><td class="name">Pacasmayo, La Libertad</td><td class="num">46,600</td><td class="num">46,600</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120600</td><td class="name">Pataz, La Libertad</td><td class="num">20,625</td><td class="num">20,625</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120700</td><td class="name">Santiago De Chuco, La Libertad</td><td class="num">18,911</td><td class="num">18,911</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120800</td><td class="name">Ascope, La Libertad</td><td class="num">57,288</td><td class="num">57,288</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120900</td><td class="name">Chepén, La Libertad</td><td class="num">39,585</td><td class="num">39,585</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121000</td><td class="name">Julcán, La Libertad</td><td class="num">10,494</td><td class="num">10,494</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121100</td><td class="name">Gran Chimú, La Libertad</td><td class="num">10,431</td><td class="num">10,431</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121200</td><td class="name">Virú, La Libertad</td><td class="num">42,725</td><td class="num">42,725</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130100</td><td class="name">Chiclayo, Lambayeque</td><td class="num">441,872</td><td class="num">441,872</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130200</td><td class="name">Ferreñafe, Lambayeque</td><td class="num">44,946</td><td class="num">44,946</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140200</td><td class="name">Cajatambo, Lima</td><td class="num">2,518</td><td class="num">2,518</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140300</td><td class="name">Canta, Lima</td><td class="num">6,817</td><td class="num">6,817</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140400</td><td class="name">Cañete, Lima</td><td class="num">123,079</td><td class="num">123,079</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140500</td><td class="name">Huaura, Lima</td><td class="num">118,965</td><td class="num">118,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140600</td><td class="name">Huarochirí, Lima</td><td class="num">54,887</td><td class="num">54,887</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140700</td><td class="name">Yauyos, Lima</td><td class="num">12,531</td><td class="num">12,531</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140800</td><td class="name">Huaral, Lima</td><td class="num">101,570</td><td class="num">101,570</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140900</td><td class="name">Barranca, Lima</td><td class="num">72,953</td><td class="num">72,953</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>141000</td><td class="name">Oyón, Lima</td><td class="num">6,680</td><td class="num">6,680</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150100</td><td class="name">Maynas, Loreto</td><td class="num">168,430</td><td class="num">168,430</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150300</td><td class="name">Loreto, Loreto</td><td class="num">17,807</td><td class="num">17,807</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150400</td><td class="name">Requena, Loreto</td><td class="num">17,980</td><td class="num">17,980</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150500</td><td class="name">Ucayali, Loreto</td><td class="num">15,011</td><td class="num">15,011</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150600</td><td class="name">Mariscal Ramón Castilla, Loreto</td><td class="num">11,960</td><td class="num">11,960</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150900</td><td class="name">Putumayo, Loreto</td><td class="num">1,817</td><td class="num">1,817</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160100</td><td class="name">Tambopata, Madre De Dios</td><td class="num">59,695</td><td class="num">59,695</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160200</td><td class="name">Manú, Madre De Dios</td><td class="num">7,890</td><td class="num">7,890</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160300</td><td class="name">Tahuamanú, Madre De Dios</td><td class="num">4,788</td><td class="num">4,788</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170100</td><td class="name">Mariscal Nieto, Moquegua</td><td class="num">56,104</td><td class="num">56,104</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170200</td><td class="name">General Sánchez Cerro, Moquegua</td><td class="num">8,073</td><td class="num">8,073</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170300</td><td class="name">Ilo, Moquegua</td><td class="num">44,379</td><td class="num">44,379</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180100</td><td class="name">Pasco, Pasco</td><td class="num">56,783</td><td class="num">56,783</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180200</td><td class="name">Daniel Alcides Carrión, Pasco</td><td class="num">13,941</td><td class="num">13,941</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180300</td><td class="name">Oxapampa, Pasco</td><td class="num">37,369</td><td class="num">37,369</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190100</td><td class="name">Piura, Piura</td><td class="num">363,379</td><td class="num">363,379</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190200</td><td class="name">Ayabaca, Piura</td><td class="num">33,965</td><td class="num">33,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190300</td><td class="name">Huancabamba, Piura</td><td class="num">40,098</td><td class="num">40,098</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190400</td><td class="name">Morropón, Piura</td><td class="num">71,041</td><td class="num">71,041</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190500</td><td class="name">Paita, Piura</td><td class="num">59,127</td><td class="num">59,127</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190600</td><td class="name">Sullana, Piura</td><td class="num">146,303</td><td class="num">146,303</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190700</td><td class="name">Talara, Piura</td><td class="num">59,796</td><td class="num">59,796</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190800</td><td class="name">Sechura, Piura</td><td class="num">36,829</td><td class="num">36,829</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200100</td><td class="name">Puno, Puno</td><td class="num">126,099</td><td class="num">126,099</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200200</td><td class="name">Azángaro, Puno</td><td class="num">67,954</td><td class="num">67,954</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200300</td><td class="name">Carabaya, Puno</td><td class="num">29,145</td><td class="num">29,145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200400</td><td class="name">Chucuito, Puno</td><td class="num">37,149</td><td class="num">37,149</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200500</td><td class="name">Huancané, Puno</td><td class="num">35,521</td><td class="num">35,521</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200600</td><td class="name">Lampa, Puno</td><td class="num">26,843</td><td class="num">26,843</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200700</td><td class="name">Melgar, Puno</td><td class="num">36,945</td><td class="num">36,945</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200800</td><td class="name">Sandia, Puno</td><td class="num">25,628</td><td class="num">25,628</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200900</td><td class="name">San Román, Puno</td><td class="num">169,034</td><td class="num">169,034</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201000</td><td class="name">Yunguyo, Puno</td><td class="num">15,349</td><td class="num">15,349</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201100</td><td class="name">San Antonio De Putina, Puno</td><td class="num">16,823</td><td class="num">16,823</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201200</td><td class="name">El Collao, Puno</td><td class="num">33,389</td><td class="num">33,389</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201300</td><td class="name">Moho, Puno</td><td class="num">11,931</td><td class="num">11,931</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210100</td><td class="name">Moyobamba, San Martín</td><td class="num">56,918</td><td class="num">56,918</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210200</td><td class="name">Huallaga, San Martín</td><td class="num">10,777</td><td class="num">10,777</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210300</td><td class="name">Lamas, San Martín</td><td class="num">34,091</td><td class="num">34,091</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210400</td><td class="name">Mariscal Cáceres, San Martín</td><td class="num">24,313</td><td class="num">24,313</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210500</td><td class="name">Rioja, San Martín</td><td class="num">60,675</td><td class="num">60,675</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210600</td><td class="name">San Martín, San Martín</td><td class="num">93,236</td><td class="num">93,236</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210700</td><td class="name">Bellavista, San Martín</td><td class="num">21,342</td><td class="num">21,342</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210800</td><td class="name">Tocache, San Martín</td><td class="num">31,232</td><td class="num">31,232</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210900</td><td class="name">Picota, San Martín</td><td class="num">18,166</td><td class="num">18,166</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>211000</td><td class="name">El Dorado, San Martín</td><td class="num">14,803</td><td class="num">14,803</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220100</td><td class="name">Tacna, Tacna</td><td class="num">194,069</td><td class="num">194,069</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220200</td><td class="name">Tarata, Tacna</td><td class="num">4,679</td><td class="num">4,679</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220300</td><td class="name">Jorge Basadre, Tacna</td><td class="num">7,616</td><td class="num">7,616</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220400</td><td class="name">Candarave, Tacna</td><td class="num">3,579</td><td class="num">3,579</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230100</td><td class="name">Tumbes, Tumbes</td><td class="num">70,403</td><td class="num">70,403</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230200</td><td class="name">Contralmirante Villar, Tumbes</td><td class="num">9,309</td><td class="num">9,309</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230300</td><td class="name">Zarumilla, Tumbes</td><td class="num">20,928</td><td class="num">20,928</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>240100</td><td class="name">Callao, Callao</td><td class="num">552,444</td><td class="num">552,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250200</td><td class="name">Padre Abad, Ucayali</td><td class="num">28,784</td><td class="num">28,784</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250300</td><td class="name">Atalaya, Ucayali</td><td class="num">11,689</td><td class="num">11,689</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250400</td><td class="name">Purús, Ucayali</td><td class="num">838</td><td class="num">838</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Paises EXTERIOR: suma de ciudades vs API pais</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     77 filas &nbsp;·&nbsp; Sum(diff) = <strong>-15,950</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>920200</td><td class="name">Argentina, América</td><td class="num">8,434</td><td class="num">20,003</td><td class="num diff">-11,569</td><td class="num">-57.84%</td></tr>
-<tr class="bad"><td>921000</td><td class="name">Chile, América</td><td class="num">22,776</td><td class="num">22,911</td><td class="num diff">-135</td><td class="num">-0.59%</td></tr>
-<tr class="bad"><td>921300</td><td class="name">Estados Unidos De Ámerica, América</td><td class="num">40,492</td><td class="num">44,187</td><td class="num diff">-3,695</td><td class="num">-8.36%</td></tr>
-<tr class="bad"><td>941700</td><td class="name">Italia, Europa</td><td class="num">34,707</td><td class="num">35,258</td><td class="num diff">-551</td><td class="num">-1.56%</td></tr>
-<tr class="ok"><td>910100</td><td class="name">Argelia, África</td><td class="num">9</td><td class="num">9</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910300</td><td class="name">República Árabe De Egipto, África</td><td class="num">15</td><td class="num">15</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910400</td><td class="name">Kenia, África</td><td class="num">3</td><td class="num">3</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910500</td><td class="name">Marruecos, África</td><td class="num">9</td><td class="num">9</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910600</td><td class="name">Sudáfrica, África</td><td class="num">27</td><td class="num">27</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>911200</td><td class="name">Ghana, África</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>920100</td><td class="name">Antillas Holandesas, América</td><td class="num">136</td><td class="num">136</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920400</td><td class="name">Bolivia, América</td><td class="num">2,920</td><td class="num">2,920</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920500</td><td class="name">Brasil, América</td><td class="num">3,592</td><td class="num">3,592</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920600</td><td class="name">Canadá, América</td><td class="num">6,160</td><td class="num">6,160</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920700</td><td class="name">Colombia, América</td><td class="num">1,328</td><td class="num">1,328</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920800</td><td class="name">Costa Rica, América</td><td class="num">873</td><td class="num">873</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920900</td><td class="name">Cuba, América</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921100</td><td class="name">Ecuador, América</td><td class="num">1,667</td><td class="num">1,667</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921200</td><td class="name">El Salvador, América</td><td class="num">57</td><td class="num">57</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921500</td><td class="name">Guatemala, América</td><td class="num">197</td><td class="num">197</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921700</td><td class="name">Honduras, América</td><td class="num">59</td><td class="num">59</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921900</td><td class="name">México, América</td><td class="num">1,130</td><td class="num">1,130</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922000</td><td class="name">Nicaragua, América</td><td class="num">56</td><td class="num">56</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922100</td><td class="name">Panamá, América</td><td class="num">1,017</td><td class="num">1,017</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922200</td><td class="name">Paraguay, América</td><td class="num">277</td><td class="num">277</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922300</td><td class="name">Puerto Rico, América</td><td class="num">238</td><td class="num">238</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922400</td><td class="name">República Dominicana, América</td><td class="num">315</td><td class="num">315</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922600</td><td class="name">Trinidad Y Tobago, América</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922700</td><td class="name">Uruguay, América</td><td class="num">436</td><td class="num">436</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922800</td><td class="name">Venezuela, América</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>923000</td><td class="name">Guayana Francesa, América</td><td class="num">123</td><td class="num">123</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930100</td><td class="name">Republica De Corea, Asia</td><td class="num">111</td><td class="num">111</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930200</td><td class="name">República Popular China, Asia</td><td class="num">141</td><td class="num">141</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930400</td><td class="name">India, Asia</td><td class="num">10</td><td class="num">10</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930600</td><td class="name">Israel, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>930700</td><td class="name">Japón, Asia</td><td class="num">3,779</td><td class="num">3,779</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930800</td><td class="name">Líbano, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>931000</td><td class="name">Tailandia, Asia</td><td class="num">33</td><td class="num">33</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931100</td><td class="name">Indonesia, Asia</td><td class="num">10</td><td class="num">10</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931300</td><td class="name">Jordania, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>931500</td><td class="name">Turquía, Asia</td><td class="num">35</td><td class="num">35</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931900</td><td class="name">Arabia Saudita, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>932000</td><td class="name">Vietnam, Asia</td><td class="num">5</td><td class="num">5</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>932400</td><td class="name">Irán, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>932500</td><td class="name">Singapur, Asia</td><td class="num">34</td><td class="num">34</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>932800</td><td class="name">Kuwait, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>933000</td><td class="name">Malasia, Asia</td><td class="num">7</td><td class="num">7</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>933200</td><td class="name">Filipinas, Asia</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>933700</td><td class="name">Emiratos Árabes Unidos, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>933800</td><td class="name">Catar, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>940200</td><td class="name">Alemania, Europa</td><td class="num">3,160</td><td class="num">3,160</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940300</td><td class="name">Austria, Europa</td><td class="num">341</td><td class="num">341</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940400</td><td class="name">Bélgica, Europa</td><td class="num">1,200</td><td class="num">1,200</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940600</td><td class="name">República Checa, Europa</td><td class="num">107</td><td class="num">107</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940800</td><td class="name">Dinamarca, Europa</td><td class="num">177</td><td class="num">177</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940900</td><td class="name">España, Europa</td><td class="num">33,608</td><td class="num">33,608</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941000</td><td class="name">Finlandia, Europa</td><td class="num">104</td><td class="num">104</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941100</td><td class="name">Francia, Europa</td><td class="num">1,959</td><td class="num">1,959</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941200</td><td class="name">Gran Bretaña, Europa</td><td class="num">1,059</td><td class="num">1,059</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941300</td><td class="name">Grecia, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>941400</td><td class="name">Holanda, Europa</td><td class="num">892</td><td class="num">892</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941500</td><td class="name">Hungría, Europa</td><td class="num">101</td><td class="num">101</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941800</td><td class="name">Irlanda, Europa</td><td class="num">85</td><td class="num">85</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942000</td><td class="name">Gran Ducado De Luxemburgo, Europa</td><td class="num">145</td><td class="num">145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942100</td><td class="name">Malta, Europa</td><td class="num">17</td><td class="num">17</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942300</td><td class="name">Noruega, Europa</td><td class="num">143</td><td class="num">143</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942400</td><td class="name">Polonia, Europa</td><td class="num">97</td><td class="num">97</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942500</td><td class="name">Portugal, Europa</td><td class="num">221</td><td class="num">221</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942600</td><td class="name">Rumanía, Europa</td><td class="num">45</td><td class="num">45</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942700</td><td class="name">Suecia, Europa</td><td class="num">861</td><td class="num">861</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942800</td><td class="name">Suiza, Europa</td><td class="num">1,880</td><td class="num">1,880</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942900</td><td class="name">Rusia, Europa</td><td class="num">120</td><td class="num">120</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>943600</td><td class="name">Bielorrusia, Europa</td><td class="num">17</td><td class="num">17</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>943700</td><td class="name">Macedonia, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>944200</td><td class="name">Principado De Andorra, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>950100</td><td class="name">Australia, Oceanía</td><td class="num">1,336</td><td class="num">1,336</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>950200</td><td class="name">Nueva Zelanda, Oceanía</td><td class="num">229</td><td class="num">229</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Departamentos PERU: suma de provincias API vs API departamento</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     25 filas &nbsp;·&nbsp; Sum(diff) = <strong>-31,626</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>020000</td><td class="name">Áncash</td><td class="num">495,520</td><td class="num">503,511</td><td class="num diff">-7,991</td><td class="num">-1.59%</td></tr>
-<tr class="bad"><td>030000</td><td class="name">Apurímac</td><td class="num">193,872</td><td class="num">194,027</td><td class="num diff">-155</td><td class="num">-0.08%</td></tr>
-<tr class="bad"><td>070000</td><td class="name">Cusco</td><td class="num">641,005</td><td class="num">661,729</td><td class="num diff">-20,724</td><td class="num">-3.13%</td></tr>
-<tr class="bad"><td>090000</td><td class="name">Huánuco</td><td class="num">312,813</td><td class="num">312,980</td><td class="num diff">-167</td><td class="num">-0.05%</td></tr>
-<tr class="bad"><td>150000</td><td class="name">Loreto</td><td class="num">288,158</td><td class="num">290,587</td><td class="num diff">-2,429</td><td class="num">-0.84%</td></tr>
-<tr class="bad"><td>180000</td><td class="name">Pasco</td><td class="num">108,093</td><td class="num">108,253</td><td class="num diff">-160</td><td class="num">-0.15%</td></tr>
-<tr class="ok"><td>010000</td><td class="name">Amazonas</td><td class="num">153,461</td><td class="num">153,461</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040000</td><td class="name">Arequipa</td><td class="num">862,307</td><td class="num">862,307</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050000</td><td class="name">Ayacucho</td><td class="num">270,409</td><td class="num">270,409</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060000</td><td class="name">Cajamarca</td><td class="num">609,370</td><td class="num">609,370</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080000</td><td class="name">Huancavelica</td><td class="num">164,462</td><td class="num">164,462</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100000</td><td class="name">Ica</td><td class="num">438,072</td><td class="num">438,072</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110000</td><td class="name">Junín</td><td class="num">607,965</td><td class="num">607,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120000</td><td class="name">La Libertad</td><td class="num">865,944</td><td class="num">865,944</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130000</td><td class="name">Lambayeque</td><td class="num">637,819</td><td class="num">637,819</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140000</td><td class="name">Lima</td><td class="num">5,801,777</td><td class="num">5,801,777</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160000</td><td class="name">Madre De Dios</td><td class="num">72,373</td><td class="num">72,373</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170000</td><td class="name">Moquegua</td><td class="num">108,556</td><td class="num">108,556</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190000</td><td class="name">Piura</td><td class="num">810,538</td><td class="num">810,538</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200000</td><td class="name">Puno</td><td class="num">631,810</td><td class="num">631,810</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210000</td><td class="name">San Martín</td><td class="num">365,553</td><td class="num">365,553</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220000</td><td class="name">Tacna</td><td class="num">209,943</td><td class="num">209,943</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230000</td><td class="name">Tumbes</td><td class="num">100,640</td><td class="num">100,640</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>240000</td><td class="name">Callao</td><td class="num">552,444</td><td class="num">552,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250000</td><td class="name">Ucayali</td><td class="num">199,343</td><td class="num">199,343</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Continentes EXTERIOR: suma de paises API vs API continente</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     5 filas &nbsp;·&nbsp; Sum(diff) = <strong>-16,992</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>920000</td><td class="name">América</td><td class="num">107,704</td><td class="num">108,695</td><td class="num diff">-991</td><td class="num">-0.91%</td></tr>
-<tr class="bad"><td>940000</td><td class="name">Europa</td><td class="num">81,597</td><td class="num">97,598</td><td class="num diff">-16,001</td><td class="num">-16.39%</td></tr>
-<tr class="ok"><td>910000</td><td class="name">África</td><td class="num">63</td><td class="num">63</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930000</td><td class="name">Asia</td><td class="num">4,176</td><td class="num">4,176</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>950000</td><td class="name">Oceanía</td><td class="num">1,565</td><td class="num">1,565</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Cadena jerárquica completa</h2>
-  <table>
-    <thead><tr><th>Fuente</th><th class="num">Valor</th><th class="num">Diff vs anterior</th></tr></thead>
-    <tbody>
-<tr class=""><td class="name">— Peru (ambito 1) —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Suma distritos</td><td class="num">15,470,471</td><td class="num diff"></td></tr>
-<tr class="bad"><td class="name">Suma API provincias</td><td class="num">15,502,247</td><td class="num diff">+31,776</td></tr>
-<tr class="bad"><td class="name">Suma API departamentos</td><td class="num">15,533,873</td><td class="num diff">+31,626</td></tr>
-<tr class="bad"><td class="name">API nacional</td><td class="num">15,534,496</td><td class="num diff">+623</td></tr>
-<tr class=""><td class="name">— Exterior (ambito 2) —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Suma ciudades</td><td class="num">179,155</td><td class="num diff"></td></tr>
-<tr class="bad"><td class="name">Suma API paises</td><td class="num">195,105</td><td class="num diff">+15,950</td></tr>
-<tr class="bad"><td class="name">Suma API continentes</td><td class="num">212,097</td><td class="num diff">+16,992</td></tr>
-<tr class="bad"><td class="name">API exterior</td><td class="num">213,928</td><td class="num diff">+1,831</td></tr>
-<tr class=""><td class="name">— Gran total —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Nacional + exterior</td><td class="num">15,748,424</td><td class="num diff"></td></tr>
-<tr class="ok"><td class="name">API total (eleccion)</td><td class="num">15,748,424</td><td class="num diff">+0</td></tr>
-    </tbody>
-  </table>
-</section>
-</div>
-<div id="ts-20260417_1530" class="ts-block" style="display:block">
-<section>
-  <h2>Provincias PERU: suma de distritos vs API provincia</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     196 filas &nbsp;·&nbsp; Sum(diff) = <strong>-31,142</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>040100</td><td class="name">Arequipa, Arequipa</td><td class="num">698,458</td><td class="num">698,836</td><td class="num diff">-378</td><td class="num">-0.05%</td></tr>
-<tr class="bad"><td>100300</td><td class="name">Nasca, Ica</td><td class="num">34,654</td><td class="num">34,840</td><td class="num diff">-186</td><td class="num">-0.53%</td></tr>
-<tr class="bad"><td>130300</td><td class="name">Lambayeque, Lambayeque</td><td class="num">150,821</td><td class="num">151,001</td><td class="num diff">-180</td><td class="num">-0.12%</td></tr>
-<tr class="bad"><td>140100</td><td class="name">Lima, Lima</td><td class="num">5,274,127</td><td class="num">5,302,623</td><td class="num diff">-28,496</td><td class="num">-0.54%</td></tr>
-<tr class="bad"><td>150200</td><td class="name">Alto Amazonas, Loreto</td><td class="num">40,796</td><td class="num">40,962</td><td class="num diff">-166</td><td class="num">-0.41%</td></tr>
-<tr class="bad"><td>150700</td><td class="name">Datem Del Marañón, Loreto</td><td class="num">12,786</td><td class="num">14,191</td><td class="num diff">-1,405</td><td class="num">-9.90%</td></tr>
-<tr class="bad"><td>250100</td><td class="name">Coronel Portillo, Ucayali</td><td class="num">157,701</td><td class="num">158,032</td><td class="num diff">-331</td><td class="num">-0.21%</td></tr>
-<tr class="ok"><td>010100</td><td class="name">Chachapoyas, Amazonas</td><td class="num">23,274</td><td class="num">23,274</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010200</td><td class="name">Bagua, Amazonas</td><td class="num">30,703</td><td class="num">30,703</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010300</td><td class="name">Bongará, Amazonas</td><td class="num">11,441</td><td class="num">11,441</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010400</td><td class="name">Luya, Amazonas</td><td class="num">17,731</td><td class="num">17,731</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010500</td><td class="name">Rodríguez De Mendoza, Amazonas</td><td class="num">11,214</td><td class="num">11,214</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010600</td><td class="name">Condorcanqui, Amazonas</td><td class="num">13,979</td><td class="num">13,979</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>010700</td><td class="name">Utcubamba, Amazonas</td><td class="num">45,119</td><td class="num">45,119</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020100</td><td class="name">Huaraz, Áncash</td><td class="num">76,546</td><td class="num">76,546</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020200</td><td class="name">Aija, Áncash</td><td class="num">3,414</td><td class="num">3,414</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020300</td><td class="name">Bolognesi, Áncash</td><td class="num">10,210</td><td class="num">10,210</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020400</td><td class="name">Carhuaz, Áncash</td><td class="num">22,378</td><td class="num">22,378</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020500</td><td class="name">Casma, Áncash</td><td class="num">16,638</td><td class="num">16,638</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020600</td><td class="name">Corongo, Áncash</td><td class="num">2,835</td><td class="num">2,835</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020700</td><td class="name">Huaylas, Áncash</td><td class="num">23,103</td><td class="num">23,103</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020800</td><td class="name">Huari, Áncash</td><td class="num">33,121</td><td class="num">33,121</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>020900</td><td class="name">Mariscal Luzuriaga, Áncash</td><td class="num">7,407</td><td class="num">7,407</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021000</td><td class="name">Pallasca, Áncash</td><td class="num">7,162</td><td class="num">7,162</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021100</td><td class="name">Pomabamba, Áncash</td><td class="num">7,736</td><td class="num">7,736</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021200</td><td class="name">Recuay, Áncash</td><td class="num">9,769</td><td class="num">9,769</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021300</td><td class="name">Santa, Áncash</td><td class="num">217,299</td><td class="num">217,299</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021400</td><td class="name">Sihuas, Áncash</td><td class="num">8,773</td><td class="num">8,773</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021500</td><td class="name">Yungay, Áncash</td><td class="num">22,936</td><td class="num">22,936</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021600</td><td class="name">Antonio Raimondi, Áncash</td><td class="num">3,601</td><td class="num">3,601</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021700</td><td class="name">Carlos Fermín Fitzcarrald, Áncash</td><td class="num">5,342</td><td class="num">5,342</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021800</td><td class="name">Asunción, Áncash</td><td class="num">2,242</td><td class="num">2,242</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>021900</td><td class="name">Huarmey, Áncash</td><td class="num">13,775</td><td class="num">13,775</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>022000</td><td class="name">Ocros, Áncash</td><td class="num">1,233</td><td class="num">1,233</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030100</td><td class="name">Abancay, Apurímac</td><td class="num">54,390</td><td class="num">54,390</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030200</td><td class="name">Aymaraes, Apurímac</td><td class="num">13,081</td><td class="num">13,081</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030300</td><td class="name">Andahuaylas, Apurímac</td><td class="num">70,699</td><td class="num">70,699</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030400</td><td class="name">Antabamba, Apurímac</td><td class="num">5,115</td><td class="num">5,115</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030500</td><td class="name">Cotabambas, Apurímac</td><td class="num">20,266</td><td class="num">20,266</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030600</td><td class="name">Grau, Apurímac</td><td class="num">9,145</td><td class="num">9,145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>030700</td><td class="name">Chincheros, Apurímac</td><td class="num">21,176</td><td class="num">21,176</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040200</td><td class="name">Caylloma, Arequipa</td><td class="num">53,208</td><td class="num">53,208</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040300</td><td class="name">Camaná, Arequipa</td><td class="num">32,625</td><td class="num">32,625</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040400</td><td class="name">Caravelí, Arequipa</td><td class="num">18,900</td><td class="num">18,900</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040500</td><td class="name">Castilla, Arequipa</td><td class="num">15,174</td><td class="num">15,174</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040600</td><td class="name">Condesuyos, Arequipa</td><td class="num">6,572</td><td class="num">6,572</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040700</td><td class="name">Islay, Arequipa</td><td class="num">32,335</td><td class="num">32,335</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040800</td><td class="name">La Unión, Arequipa</td><td class="num">4,657</td><td class="num">4,657</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050100</td><td class="name">Huamanga, Ayacucho</td><td class="num">138,471</td><td class="num">138,471</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050200</td><td class="name">Cangallo, Ayacucho</td><td class="num">13,786</td><td class="num">13,786</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050300</td><td class="name">Huanta, Ayacucho</td><td class="num">37,985</td><td class="num">37,985</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050400</td><td class="name">La Mar, Ayacucho</td><td class="num">26,650</td><td class="num">26,650</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050500</td><td class="name">Lucanas, Ayacucho</td><td class="num">17,972</td><td class="num">17,972</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050600</td><td class="name">Parinacochas, Ayacucho</td><td class="num">8,358</td><td class="num">8,358</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050700</td><td class="name">Víctor Fajardo, Ayacucho</td><td class="num">8,371</td><td class="num">8,371</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050800</td><td class="name">Huanca Sancos, Ayacucho</td><td class="num">3,886</td><td class="num">3,886</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050900</td><td class="name">Vilcas Huamán, Ayacucho</td><td class="num">7,703</td><td class="num">7,703</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>051000</td><td class="name">Páucar Del Sara Sara, Ayacucho</td><td class="num">3,769</td><td class="num">3,769</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>051100</td><td class="name">Sucre, Ayacucho</td><td class="num">3,458</td><td class="num">3,458</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060100</td><td class="name">Cajamarca, Cajamarca</td><td class="num">177,195</td><td class="num">177,195</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060200</td><td class="name">Cajabamba, Cajamarca</td><td class="num">26,694</td><td class="num">26,694</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060300</td><td class="name">Celendín, Cajamarca</td><td class="num">29,573</td><td class="num">29,573</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060400</td><td class="name">Contumaza, Cajamarca</td><td class="num">11,188</td><td class="num">11,188</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060500</td><td class="name">Cutervo, Cajamarca</td><td class="num">48,678</td><td class="num">48,678</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060600</td><td class="name">Chota, Cajamarca</td><td class="num">66,024</td><td class="num">66,024</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060700</td><td class="name">Hualgayoc, Cajamarca</td><td class="num">38,096</td><td class="num">38,096</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060800</td><td class="name">Jaén, Cajamarca</td><td class="num">90,266</td><td class="num">90,266</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060900</td><td class="name">Santa Cruz, Cajamarca</td><td class="num">14,444</td><td class="num">14,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061000</td><td class="name">San Miguel, Cajamarca</td><td class="num">20,906</td><td class="num">20,906</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061100</td><td class="name">San Ignacio, Cajamarca</td><td class="num">55,752</td><td class="num">55,752</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061200</td><td class="name">San Marcos, Cajamarca</td><td class="num">19,400</td><td class="num">19,400</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>061300</td><td class="name">San Pablo, Cajamarca</td><td class="num">11,154</td><td class="num">11,154</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070100</td><td class="name">Cusco, Cusco</td><td class="num">251,407</td><td class="num">251,407</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070200</td><td class="name">Acomayo, Cusco</td><td class="num">11,462</td><td class="num">11,462</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070300</td><td class="name">Anta, Cusco</td><td class="num">30,670</td><td class="num">30,670</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070400</td><td class="name">Calca, Cusco</td><td class="num">33,958</td><td class="num">33,958</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070500</td><td class="name">Canas, Cusco</td><td class="num">17,791</td><td class="num">17,791</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070600</td><td class="name">Canchis, Cusco</td><td class="num">52,819</td><td class="num">52,819</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070700</td><td class="name">Chumbivilcas, Cusco</td><td class="num">33,382</td><td class="num">33,382</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070800</td><td class="name">Espinar, Cusco</td><td class="num">37,424</td><td class="num">37,424</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>070900</td><td class="name">La Convención, Cusco</td><td class="num">53,843</td><td class="num">53,843</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071000</td><td class="name">Paruro, Cusco</td><td class="num">13,349</td><td class="num">13,349</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071100</td><td class="name">Paucartambo, Cusco</td><td class="num">21,626</td><td class="num">21,626</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071200</td><td class="name">Quispicanchi, Cusco</td><td class="num">45,408</td><td class="num">45,408</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>071300</td><td class="name">Urubamba, Cusco</td><td class="num">37,866</td><td class="num">37,866</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080100</td><td class="name">Huancavelica, Huancavelica</td><td class="num">56,833</td><td class="num">56,833</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080200</td><td class="name">Acobamba, Huancavelica</td><td class="num">17,198</td><td class="num">17,198</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080300</td><td class="name">Angaraes, Huancavelica</td><td class="num">20,478</td><td class="num">20,478</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080400</td><td class="name">Castrovirreyna, Huancavelica</td><td class="num">7,726</td><td class="num">7,726</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080500</td><td class="name">Tayacaja, Huancavelica</td><td class="num">40,324</td><td class="num">40,324</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080600</td><td class="name">Huaytara, Huancavelica</td><td class="num">8,987</td><td class="num">8,987</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080700</td><td class="name">Churcampa, Huancavelica</td><td class="num">12,916</td><td class="num">12,916</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090100</td><td class="name">Huánuco, Huánuco</td><td class="num">139,326</td><td class="num">139,326</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090200</td><td class="name">Ambo, Huánuco</td><td class="num">23,290</td><td class="num">23,290</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090300</td><td class="name">Dos De Mayo, Huánuco</td><td class="num">12,809</td><td class="num">12,809</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090400</td><td class="name">Huamalies, Huánuco</td><td class="num">19,354</td><td class="num">19,354</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090500</td><td class="name">Marañón, Huánuco</td><td class="num">9,201</td><td class="num">9,201</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090600</td><td class="name">Leoncio Prado, Huánuco</td><td class="num">55,785</td><td class="num">55,785</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090700</td><td class="name">Pachitea, Huánuco</td><td class="num">19,708</td><td class="num">19,708</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090800</td><td class="name">Puerto Inca, Huánuco</td><td class="num">12,178</td><td class="num">12,178</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>090900</td><td class="name">Huacaybamba, Huánuco</td><td class="num">3,850</td><td class="num">3,850</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>091000</td><td class="name">Lauricocha, Huánuco</td><td class="num">6,783</td><td class="num">6,783</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>091100</td><td class="name">Yarowilca, Huánuco</td><td class="num">10,529</td><td class="num">10,529</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100100</td><td class="name">Ica, Ica</td><td class="num">208,316</td><td class="num">208,316</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100200</td><td class="name">Chincha, Ica</td><td class="num">115,280</td><td class="num">115,280</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100400</td><td class="name">Pisco, Ica</td><td class="num">72,946</td><td class="num">72,946</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100500</td><td class="name">Palpa, Ica</td><td class="num">6,690</td><td class="num">6,690</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110100</td><td class="name">Huancayo, Junín</td><td class="num">299,555</td><td class="num">299,555</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110200</td><td class="name">Concepción, Junín</td><td class="num">26,562</td><td class="num">26,562</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110300</td><td class="name">Jauja, Junín</td><td class="num">43,515</td><td class="num">43,515</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110400</td><td class="name">Junín, Junín</td><td class="num">9,860</td><td class="num">9,860</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110500</td><td class="name">Tarma, Junín</td><td class="num">43,147</td><td class="num">43,147</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110600</td><td class="name">Yauli, Junín</td><td class="num">17,541</td><td class="num">17,541</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110700</td><td class="name">Satipo, Junín</td><td class="num">67,155</td><td class="num">67,155</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110800</td><td class="name">Chanchamayo, Junín</td><td class="num">68,494</td><td class="num">68,494</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110900</td><td class="name">Chupaca, Junín</td><td class="num">32,136</td><td class="num">32,136</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120100</td><td class="name">Trujillo, La Libertad</td><td class="num">529,707</td><td class="num">529,707</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120200</td><td class="name">Bolívar, La Libertad</td><td class="num">3,705</td><td class="num">3,705</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120300</td><td class="name">Sánchez Carrión, La Libertad</td><td class="num">54,042</td><td class="num">54,042</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120400</td><td class="name">Otuzco, La Libertad</td><td class="num">31,831</td><td class="num">31,831</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120500</td><td class="name">Pacasmayo, La Libertad</td><td class="num">46,600</td><td class="num">46,600</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120600</td><td class="name">Pataz, La Libertad</td><td class="num">20,625</td><td class="num">20,625</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120700</td><td class="name">Santiago De Chuco, La Libertad</td><td class="num">18,911</td><td class="num">18,911</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120800</td><td class="name">Ascope, La Libertad</td><td class="num">57,288</td><td class="num">57,288</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120900</td><td class="name">Chepén, La Libertad</td><td class="num">39,585</td><td class="num">39,585</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121000</td><td class="name">Julcán, La Libertad</td><td class="num">10,494</td><td class="num">10,494</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121100</td><td class="name">Gran Chimú, La Libertad</td><td class="num">10,431</td><td class="num">10,431</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>121200</td><td class="name">Virú, La Libertad</td><td class="num">42,725</td><td class="num">42,725</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130100</td><td class="name">Chiclayo, Lambayeque</td><td class="num">441,872</td><td class="num">441,872</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130200</td><td class="name">Ferreñafe, Lambayeque</td><td class="num">44,946</td><td class="num">44,946</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140200</td><td class="name">Cajatambo, Lima</td><td class="num">2,518</td><td class="num">2,518</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140300</td><td class="name">Canta, Lima</td><td class="num">6,817</td><td class="num">6,817</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140400</td><td class="name">Cañete, Lima</td><td class="num">123,079</td><td class="num">123,079</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140500</td><td class="name">Huaura, Lima</td><td class="num">118,965</td><td class="num">118,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140600</td><td class="name">Huarochirí, Lima</td><td class="num">54,887</td><td class="num">54,887</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140700</td><td class="name">Yauyos, Lima</td><td class="num">12,531</td><td class="num">12,531</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140800</td><td class="name">Huaral, Lima</td><td class="num">101,570</td><td class="num">101,570</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140900</td><td class="name">Barranca, Lima</td><td class="num">72,953</td><td class="num">72,953</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>141000</td><td class="name">Oyón, Lima</td><td class="num">6,680</td><td class="num">6,680</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150100</td><td class="name">Maynas, Loreto</td><td class="num">168,430</td><td class="num">168,430</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150300</td><td class="name">Loreto, Loreto</td><td class="num">17,807</td><td class="num">17,807</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150400</td><td class="name">Requena, Loreto</td><td class="num">17,980</td><td class="num">17,980</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150500</td><td class="name">Ucayali, Loreto</td><td class="num">15,011</td><td class="num">15,011</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150600</td><td class="name">Mariscal Ramón Castilla, Loreto</td><td class="num">11,960</td><td class="num">11,960</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>150900</td><td class="name">Putumayo, Loreto</td><td class="num">1,817</td><td class="num">1,817</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160100</td><td class="name">Tambopata, Madre De Dios</td><td class="num">59,695</td><td class="num">59,695</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160200</td><td class="name">Manú, Madre De Dios</td><td class="num">7,890</td><td class="num">7,890</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160300</td><td class="name">Tahuamanú, Madre De Dios</td><td class="num">4,788</td><td class="num">4,788</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170100</td><td class="name">Mariscal Nieto, Moquegua</td><td class="num">56,104</td><td class="num">56,104</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170200</td><td class="name">General Sánchez Cerro, Moquegua</td><td class="num">8,073</td><td class="num">8,073</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170300</td><td class="name">Ilo, Moquegua</td><td class="num">44,379</td><td class="num">44,379</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180100</td><td class="name">Pasco, Pasco</td><td class="num">56,783</td><td class="num">56,783</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180200</td><td class="name">Daniel Alcides Carrión, Pasco</td><td class="num">13,941</td><td class="num">13,941</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>180300</td><td class="name">Oxapampa, Pasco</td><td class="num">37,369</td><td class="num">37,369</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190100</td><td class="name">Piura, Piura</td><td class="num">363,379</td><td class="num">363,379</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190200</td><td class="name">Ayabaca, Piura</td><td class="num">33,965</td><td class="num">33,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190300</td><td class="name">Huancabamba, Piura</td><td class="num">40,098</td><td class="num">40,098</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190400</td><td class="name">Morropón, Piura</td><td class="num">71,041</td><td class="num">71,041</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190500</td><td class="name">Paita, Piura</td><td class="num">59,127</td><td class="num">59,127</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190600</td><td class="name">Sullana, Piura</td><td class="num">146,303</td><td class="num">146,303</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190700</td><td class="name">Talara, Piura</td><td class="num">59,796</td><td class="num">59,796</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190800</td><td class="name">Sechura, Piura</td><td class="num">36,829</td><td class="num">36,829</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200100</td><td class="name">Puno, Puno</td><td class="num">126,099</td><td class="num">126,099</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200200</td><td class="name">Azángaro, Puno</td><td class="num">67,954</td><td class="num">67,954</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200300</td><td class="name">Carabaya, Puno</td><td class="num">29,145</td><td class="num">29,145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200400</td><td class="name">Chucuito, Puno</td><td class="num">37,149</td><td class="num">37,149</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200500</td><td class="name">Huancané, Puno</td><td class="num">35,521</td><td class="num">35,521</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200600</td><td class="name">Lampa, Puno</td><td class="num">26,843</td><td class="num">26,843</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200700</td><td class="name">Melgar, Puno</td><td class="num">36,945</td><td class="num">36,945</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200800</td><td class="name">Sandia, Puno</td><td class="num">25,628</td><td class="num">25,628</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200900</td><td class="name">San Román, Puno</td><td class="num">169,034</td><td class="num">169,034</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201000</td><td class="name">Yunguyo, Puno</td><td class="num">15,349</td><td class="num">15,349</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201100</td><td class="name">San Antonio De Putina, Puno</td><td class="num">16,823</td><td class="num">16,823</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201200</td><td class="name">El Collao, Puno</td><td class="num">33,389</td><td class="num">33,389</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>201300</td><td class="name">Moho, Puno</td><td class="num">11,931</td><td class="num">11,931</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210100</td><td class="name">Moyobamba, San Martín</td><td class="num">56,918</td><td class="num">56,918</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210200</td><td class="name">Huallaga, San Martín</td><td class="num">10,777</td><td class="num">10,777</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210300</td><td class="name">Lamas, San Martín</td><td class="num">34,091</td><td class="num">34,091</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210400</td><td class="name">Mariscal Cáceres, San Martín</td><td class="num">24,313</td><td class="num">24,313</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210500</td><td class="name">Rioja, San Martín</td><td class="num">60,675</td><td class="num">60,675</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210600</td><td class="name">San Martín, San Martín</td><td class="num">93,236</td><td class="num">93,236</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210700</td><td class="name">Bellavista, San Martín</td><td class="num">21,342</td><td class="num">21,342</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210800</td><td class="name">Tocache, San Martín</td><td class="num">31,232</td><td class="num">31,232</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210900</td><td class="name">Picota, San Martín</td><td class="num">18,166</td><td class="num">18,166</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>211000</td><td class="name">El Dorado, San Martín</td><td class="num">14,803</td><td class="num">14,803</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220100</td><td class="name">Tacna, Tacna</td><td class="num">194,069</td><td class="num">194,069</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220200</td><td class="name">Tarata, Tacna</td><td class="num">4,679</td><td class="num">4,679</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220300</td><td class="name">Jorge Basadre, Tacna</td><td class="num">7,616</td><td class="num">7,616</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220400</td><td class="name">Candarave, Tacna</td><td class="num">3,579</td><td class="num">3,579</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230100</td><td class="name">Tumbes, Tumbes</td><td class="num">70,403</td><td class="num">70,403</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230200</td><td class="name">Contralmirante Villar, Tumbes</td><td class="num">9,309</td><td class="num">9,309</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230300</td><td class="name">Zarumilla, Tumbes</td><td class="num">20,928</td><td class="num">20,928</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>240100</td><td class="name">Callao, Callao</td><td class="num">552,444</td><td class="num">552,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250200</td><td class="name">Padre Abad, Ucayali</td><td class="num">28,784</td><td class="num">28,784</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250300</td><td class="name">Atalaya, Ucayali</td><td class="num">11,689</td><td class="num">11,689</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250400</td><td class="name">Purús, Ucayali</td><td class="num">838</td><td class="num">838</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Paises EXTERIOR: suma de ciudades vs API pais</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     77 filas &nbsp;·&nbsp; Sum(diff) = <strong>-15,950</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>920200</td><td class="name">Argentina, América</td><td class="num">8,434</td><td class="num">20,003</td><td class="num diff">-11,569</td><td class="num">-57.84%</td></tr>
-<tr class="bad"><td>921000</td><td class="name">Chile, América</td><td class="num">22,776</td><td class="num">22,911</td><td class="num diff">-135</td><td class="num">-0.59%</td></tr>
-<tr class="bad"><td>921300</td><td class="name">Estados Unidos De Ámerica, América</td><td class="num">40,492</td><td class="num">44,187</td><td class="num diff">-3,695</td><td class="num">-8.36%</td></tr>
-<tr class="bad"><td>941700</td><td class="name">Italia, Europa</td><td class="num">34,707</td><td class="num">35,258</td><td class="num diff">-551</td><td class="num">-1.56%</td></tr>
-<tr class="ok"><td>910100</td><td class="name">Argelia, África</td><td class="num">9</td><td class="num">9</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910300</td><td class="name">República Árabe De Egipto, África</td><td class="num">15</td><td class="num">15</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910400</td><td class="name">Kenia, África</td><td class="num">3</td><td class="num">3</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910500</td><td class="name">Marruecos, África</td><td class="num">9</td><td class="num">9</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>910600</td><td class="name">Sudáfrica, África</td><td class="num">27</td><td class="num">27</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>911200</td><td class="name">Ghana, África</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>920100</td><td class="name">Antillas Holandesas, América</td><td class="num">136</td><td class="num">136</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920400</td><td class="name">Bolivia, América</td><td class="num">2,920</td><td class="num">2,920</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920500</td><td class="name">Brasil, América</td><td class="num">3,592</td><td class="num">3,592</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920600</td><td class="name">Canadá, América</td><td class="num">6,160</td><td class="num">6,160</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920700</td><td class="name">Colombia, América</td><td class="num">1,328</td><td class="num">1,328</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920800</td><td class="name">Costa Rica, América</td><td class="num">873</td><td class="num">873</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>920900</td><td class="name">Cuba, América</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921100</td><td class="name">Ecuador, América</td><td class="num">1,667</td><td class="num">1,667</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921200</td><td class="name">El Salvador, América</td><td class="num">57</td><td class="num">57</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921500</td><td class="name">Guatemala, América</td><td class="num">197</td><td class="num">197</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921700</td><td class="name">Honduras, América</td><td class="num">59</td><td class="num">59</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>921900</td><td class="name">México, América</td><td class="num">1,130</td><td class="num">1,130</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922000</td><td class="name">Nicaragua, América</td><td class="num">56</td><td class="num">56</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922100</td><td class="name">Panamá, América</td><td class="num">1,017</td><td class="num">1,017</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922200</td><td class="name">Paraguay, América</td><td class="num">277</td><td class="num">277</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922300</td><td class="name">Puerto Rico, América</td><td class="num">238</td><td class="num">238</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922400</td><td class="name">República Dominicana, América</td><td class="num">315</td><td class="num">315</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922600</td><td class="name">Trinidad Y Tobago, América</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922700</td><td class="name">Uruguay, América</td><td class="num">436</td><td class="num">436</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>922800</td><td class="name">Venezuela, América</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>923000</td><td class="name">Guayana Francesa, América</td><td class="num">123</td><td class="num">123</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930100</td><td class="name">Republica De Corea, Asia</td><td class="num">111</td><td class="num">111</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930200</td><td class="name">República Popular China, Asia</td><td class="num">141</td><td class="num">141</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930400</td><td class="name">India, Asia</td><td class="num">10</td><td class="num">10</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930600</td><td class="name">Israel, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>930700</td><td class="name">Japón, Asia</td><td class="num">3,779</td><td class="num">3,779</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930800</td><td class="name">Líbano, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>931000</td><td class="name">Tailandia, Asia</td><td class="num">33</td><td class="num">33</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931100</td><td class="name">Indonesia, Asia</td><td class="num">10</td><td class="num">10</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931300</td><td class="name">Jordania, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>931500</td><td class="name">Turquía, Asia</td><td class="num">35</td><td class="num">35</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>931900</td><td class="name">Arabia Saudita, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>932000</td><td class="name">Vietnam, Asia</td><td class="num">5</td><td class="num">5</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>932400</td><td class="name">Irán, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>932500</td><td class="name">Singapur, Asia</td><td class="num">34</td><td class="num">34</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>932800</td><td class="name">Kuwait, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>933000</td><td class="name">Malasia, Asia</td><td class="num">7</td><td class="num">7</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>933200</td><td class="name">Filipinas, Asia</td><td class="num">11</td><td class="num">11</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>933700</td><td class="name">Emiratos Árabes Unidos, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>933800</td><td class="name">Catar, Asia</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>940200</td><td class="name">Alemania, Europa</td><td class="num">3,160</td><td class="num">3,160</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940300</td><td class="name">Austria, Europa</td><td class="num">341</td><td class="num">341</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940400</td><td class="name">Bélgica, Europa</td><td class="num">1,200</td><td class="num">1,200</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940600</td><td class="name">República Checa, Europa</td><td class="num">107</td><td class="num">107</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940800</td><td class="name">Dinamarca, Europa</td><td class="num">177</td><td class="num">177</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>940900</td><td class="name">España, Europa</td><td class="num">33,608</td><td class="num">33,608</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941000</td><td class="name">Finlandia, Europa</td><td class="num">104</td><td class="num">104</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941100</td><td class="name">Francia, Europa</td><td class="num">1,959</td><td class="num">1,959</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941200</td><td class="name">Gran Bretaña, Europa</td><td class="num">1,059</td><td class="num">1,059</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941300</td><td class="name">Grecia, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>941400</td><td class="name">Holanda, Europa</td><td class="num">892</td><td class="num">892</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941500</td><td class="name">Hungría, Europa</td><td class="num">101</td><td class="num">101</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>941800</td><td class="name">Irlanda, Europa</td><td class="num">85</td><td class="num">85</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942000</td><td class="name">Gran Ducado De Luxemburgo, Europa</td><td class="num">145</td><td class="num">145</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942100</td><td class="name">Malta, Europa</td><td class="num">17</td><td class="num">17</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942300</td><td class="name">Noruega, Europa</td><td class="num">143</td><td class="num">143</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942400</td><td class="name">Polonia, Europa</td><td class="num">97</td><td class="num">97</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942500</td><td class="name">Portugal, Europa</td><td class="num">221</td><td class="num">221</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942600</td><td class="name">Rumanía, Europa</td><td class="num">45</td><td class="num">45</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942700</td><td class="name">Suecia, Europa</td><td class="num">861</td><td class="num">861</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942800</td><td class="name">Suiza, Europa</td><td class="num">1,880</td><td class="num">1,880</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>942900</td><td class="name">Rusia, Europa</td><td class="num">120</td><td class="num">120</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>943600</td><td class="name">Bielorrusia, Europa</td><td class="num">17</td><td class="num">17</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>943700</td><td class="name">Macedonia, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>944200</td><td class="name">Principado De Andorra, Europa</td><td class="num">0</td><td class="num">0</td><td class="num diff">+0</td><td class="num">N/A</td></tr>
-<tr class="ok"><td>950100</td><td class="name">Australia, Oceanía</td><td class="num">1,336</td><td class="num">1,336</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>950200</td><td class="name">Nueva Zelanda, Oceanía</td><td class="num">229</td><td class="num">229</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Departamentos PERU: suma de provincias API vs API departamento</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     25 filas &nbsp;·&nbsp; Sum(diff) = <strong>-31,626</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>020000</td><td class="name">Áncash</td><td class="num">495,520</td><td class="num">503,511</td><td class="num diff">-7,991</td><td class="num">-1.59%</td></tr>
-<tr class="bad"><td>030000</td><td class="name">Apurímac</td><td class="num">193,872</td><td class="num">194,027</td><td class="num diff">-155</td><td class="num">-0.08%</td></tr>
-<tr class="bad"><td>070000</td><td class="name">Cusco</td><td class="num">641,005</td><td class="num">661,729</td><td class="num diff">-20,724</td><td class="num">-3.13%</td></tr>
-<tr class="bad"><td>090000</td><td class="name">Huánuco</td><td class="num">312,813</td><td class="num">312,980</td><td class="num diff">-167</td><td class="num">-0.05%</td></tr>
-<tr class="bad"><td>150000</td><td class="name">Loreto</td><td class="num">288,158</td><td class="num">290,587</td><td class="num diff">-2,429</td><td class="num">-0.84%</td></tr>
-<tr class="bad"><td>180000</td><td class="name">Pasco</td><td class="num">108,093</td><td class="num">108,253</td><td class="num diff">-160</td><td class="num">-0.15%</td></tr>
-<tr class="ok"><td>010000</td><td class="name">Amazonas</td><td class="num">153,461</td><td class="num">153,461</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>040000</td><td class="name">Arequipa</td><td class="num">862,307</td><td class="num">862,307</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>050000</td><td class="name">Ayacucho</td><td class="num">270,409</td><td class="num">270,409</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>060000</td><td class="name">Cajamarca</td><td class="num">609,370</td><td class="num">609,370</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>080000</td><td class="name">Huancavelica</td><td class="num">164,462</td><td class="num">164,462</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>100000</td><td class="name">Ica</td><td class="num">438,072</td><td class="num">438,072</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>110000</td><td class="name">Junín</td><td class="num">607,965</td><td class="num">607,965</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>120000</td><td class="name">La Libertad</td><td class="num">865,944</td><td class="num">865,944</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>130000</td><td class="name">Lambayeque</td><td class="num">637,819</td><td class="num">637,819</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>140000</td><td class="name">Lima</td><td class="num">5,802,623</td><td class="num">5,802,623</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>160000</td><td class="name">Madre De Dios</td><td class="num">72,373</td><td class="num">72,373</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>170000</td><td class="name">Moquegua</td><td class="num">108,556</td><td class="num">108,556</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>190000</td><td class="name">Piura</td><td class="num">810,538</td><td class="num">810,538</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>200000</td><td class="name">Puno</td><td class="num">631,810</td><td class="num">631,810</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>210000</td><td class="name">San Martín</td><td class="num">365,553</td><td class="num">365,553</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>220000</td><td class="name">Tacna</td><td class="num">209,943</td><td class="num">209,943</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>230000</td><td class="name">Tumbes</td><td class="num">100,640</td><td class="num">100,640</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>240000</td><td class="name">Callao</td><td class="num">552,444</td><td class="num">552,444</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>250000</td><td class="name">Ucayali</td><td class="num">199,343</td><td class="num">199,343</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Continentes EXTERIOR: suma de paises API vs API continente</h2>
-  <p class="meta">Campo: <code>totalVotosValidos</code> &nbsp;·&nbsp;
-     5 filas &nbsp;·&nbsp; Sum(diff) = <strong>-16,992</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Ubigeo</th><th>Nombre</th>
-        <th class="num">Suma distritos</th><th class="num">API</th>
-        <th class="num">Diff</th><th class="num">% Diff</th>
-      </tr>
-    </thead>
-    <tbody>
-<tr class="bad"><td>920000</td><td class="name">América</td><td class="num">107,704</td><td class="num">108,695</td><td class="num diff">-991</td><td class="num">-0.91%</td></tr>
-<tr class="bad"><td>940000</td><td class="name">Europa</td><td class="num">81,597</td><td class="num">97,598</td><td class="num diff">-16,001</td><td class="num">-16.39%</td></tr>
-<tr class="ok"><td>910000</td><td class="name">África</td><td class="num">63</td><td class="num">63</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>930000</td><td class="name">Asia</td><td class="num">4,176</td><td class="num">4,176</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-<tr class="ok"><td>950000</td><td class="name">Oceanía</td><td class="num">1,565</td><td class="num">1,565</td><td class="num diff">+0</td><td class="num">+0.00%</td></tr>
-    </tbody>
-  </table>
-</section>
-
-
-<section>
-  <h2>Cadena jerárquica completa</h2>
-  <table>
-    <thead><tr><th>Fuente</th><th class="num">Valor</th><th class="num">Diff vs anterior</th></tr></thead>
-    <tbody>
-<tr class=""><td class="name">— Peru (ambito 1) —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Suma distritos</td><td class="num">15,471,951</td><td class="num diff"></td></tr>
-<tr class="bad"><td class="name">Suma API provincias</td><td class="num">15,503,093</td><td class="num diff">+31,142</td></tr>
-<tr class="bad"><td class="name">Suma API departamentos</td><td class="num">15,534,719</td><td class="num diff">+31,626</td></tr>
-<tr class="bad"><td class="name">API nacional</td><td class="num">15,535,342</td><td class="num diff">+623</td></tr>
-<tr class=""><td class="name">— Exterior (ambito 2) —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Suma ciudades</td><td class="num">179,155</td><td class="num diff"></td></tr>
-<tr class="bad"><td class="name">Suma API paises</td><td class="num">195,105</td><td class="num diff">+15,950</td></tr>
-<tr class="bad"><td class="name">Suma API continentes</td><td class="num">212,097</td><td class="num diff">+16,992</td></tr>
-<tr class="bad"><td class="name">API exterior</td><td class="num">213,928</td><td class="num diff">+1,831</td></tr>
-<tr class=""><td class="name">— Gran total —</td><td class="num">0</td><td class="num diff"></td></tr>
-<tr class=""><td class="name">Nacional + exterior</td><td class="num">15,749,270</td><td class="num diff"></td></tr>
-<tr class="ok"><td class="name">API total (eleccion)</td><td class="num">15,749,270</td><td class="num diff">+0</td></tr>
-    </tbody>
-  </table>
-</section>
-</div>
+  <div id="content"></div>
 
   <script>
-function setTs(ts) {
-  document.querySelectorAll('.ts-block').forEach(d => d.style.display = 'none');
-  var el = document.getElementById('ts-' + ts);
-  if (el) el.style.display = 'block';
-  var sel = document.getElementById('ts-select');
-  sel.value = ts;
+async function _gz(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const ds = new DecompressionStream('gzip');
+  const writer = ds.writable.getWriter();
+  writer.write(bytes); writer.close();
+  const chunks = []; const reader = ds.readable.getReader();
+  while (true) { const {done, value} = await reader.read(); if (done) break; chunks.push(value); }
+  const out = new Uint8Array(chunks.reduce((n,c) => n+c.length, 0));
+  let off = 0; for (const c of chunks) { out.set(c, off); off += c.length; }
+  return JSON.parse(new TextDecoder().decode(out));
 }
-document.getElementById('ts-select').addEventListener('change', function() {
-  setTs(this.value);
+(async () => {
+const DATA = await _gz('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');
+var TS = Object.keys(DATA);
+var idx = 1;
+
+function fmtTs(ts) {
+  return ts.slice(0,4)+'-'+ts.slice(4,6)+'-'+ts.slice(6,8)+' '+ts.slice(9,11)+':'+ts.slice(11);
+}
+
+function fmtNum(n) {
+  if (n === null || n === undefined) return '';
+  return n.toLocaleString('es-PE');
+}
+
+function rowCls(diff) {
+  if (diff === 0) return 'ok';
+  if (Math.abs(diff) < 100) return 'warn';
+  return 'bad';
+}
+function chainCls(diff) {
+  if (diff === null) return '';
+  if (diff === 0) return 'ok';
+  return Math.abs(diff) > 10 ? 'bad' : 'warn';
+}
+
+function renderSections(sections) {
+  var html = '';
+  sections.forEach(function(sec) {
+    if (sec.type === 'table') {
+      var diff_class = sec.total_diff !== 0 ? ' diff' : '';
+      html += '<h2>' + sec.title + '</h2>';
+      html += '<p class="total' + diff_class + '">Diferencia total: ' + fmtNum(sec.total_diff) + '</p>';
+      html += '<table style="table-layout:fixed;width:100%"><colgroup>'
+            + '<col style="width:7em"><col style="width:auto"><col style="width:10em"><col style="width:10em"><col style="width:8em">'
+            + '</colgroup><thead><tr><th>Ubigeo</th><th>Nombre</th><th>Suma distritos</th><th>API</th><th>Diff</th></tr></thead><tbody>';
+      sec.rows.forEach(function(r) {
+        var d = r[4];
+        html += '<tr class="' + rowCls(d) + '"><td>' + r[0] + '</td><td>' + r[1] + '</td><td class="num">' + fmtNum(r[2]) + '</td><td class="num">' + fmtNum(r[3]) + '</td><td class="num">' + fmtNum(d) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    } else if (sec.type === 'chain') {
+      html += '<h2>' + sec.title + '</h2>';
+      html += '<table style="table-layout:fixed;width:100%"><colgroup>'
+            + '<col style="width:auto"><col style="width:10em"><col style="width:8em">'
+            + '</colgroup><thead><tr><th>Nivel</th><th>Valor</th><th>Diferencia</th></tr></thead><tbody>';
+      sec.rows.forEach(function(r) {
+        var label = r[0], val = r[1], diff = r[2];
+        var is_header = label.startsWith('—');
+        var cls = is_header ? 'section-header' : chainCls(diff);
+        var val_str  = is_header ? '' : fmtNum(val);
+        var diff_str = diff !== null ? fmtNum(diff) : '';
+        html += '<tr class="' + cls + '"><td>' + label + '</td><td class="num">' + val_str + '</td><td class="num">' + diff_str + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    }
+  });
+  return html;
+}
+
+function setIdx(i) {
+  if (i < 0 || i >= TS.length) return;
+  idx = i;
+  var ts = TS[i];
+  document.getElementById('content').innerHTML = renderSections(DATA[ts]);
+  document.getElementById('ts-slider').value = i;
+  document.getElementById('ts-label').textContent = fmtTs(ts);
+}
+
+document.getElementById('ts-slider').addEventListener('input', function() {
+  setIdx(parseInt(this.value));
 });
 document.addEventListener('keydown', function(e) {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  var sel = document.getElementById('ts-select');
-  var opts = Array.from(sel.options);
-  var idx  = opts.findIndex(o => o.value === sel.value);
-  if (e.key === 'ArrowLeft'  && idx > 0)              setTs(opts[idx - 1].value);
-  if (e.key === 'ArrowRight' && idx < opts.length - 1) setTs(opts[idx + 1].value);
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft')  setIdx(idx - 1);
+  if (e.key === 'ArrowRight') setIdx(idx + 1);
 });
+
+setIdx(1);
+})();
 </script>
 </body>
 </html>
