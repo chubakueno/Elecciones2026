@@ -30,7 +30,10 @@ tr.bad  td.diff { color: #e87a6a; }
 tr:hover td { background: #1a1d2e; }
 td.empty { text-align: center; color: #555; padding: 12px; }
 
-.selector-bar { margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+.selector-bar { position: sticky; top: 0; z-index: 100;
+                 background: #0f1117; border-bottom: 1px solid #1e2130;
+                 margin: 0 -24px 28px; padding: 10px 24px;
+                 display: flex; align-items: center; gap: 12px; }
 .selector-bar label { color: #aaa; font-size: 0.9rem; }
 select { background: #1e2130; color: #e0e0e0; border: 1px solid #333;
           padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
@@ -852,9 +855,19 @@ function setTs(ts) {
   document.querySelectorAll('.ts-block').forEach(d => d.style.display = 'none');
   var el = document.getElementById('ts-' + ts);
   if (el) el.style.display = 'block';
+  var sel = document.getElementById('ts-select');
+  sel.value = ts;
 }
 document.getElementById('ts-select').addEventListener('change', function() {
   setTs(this.value);
+});
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  var sel = document.getElementById('ts-select');
+  var opts = Array.from(sel.options);
+  var idx  = opts.findIndex(o => o.value === sel.value);
+  if (e.key === 'ArrowLeft'  && idx > 0)              setTs(opts[idx - 1].value);
+  if (e.key === 'ArrowRight' && idx < opts.length - 1) setTs(opts[idx + 1].value);
 });
 </script>
 </body>
