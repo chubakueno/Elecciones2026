@@ -62,6 +62,65 @@ def inte(val) -> int:
         return 0
 
 
+def linreg(xs: list, ys: list) -> tuple:
+    """
+    Regresión lineal OLS: y = a*x + b.
+    Retorna (a, b) o (None, None) si indeterminado.
+    """
+    n = len(xs)
+    if n < 2:
+        return None, None
+    mx = sum(xs) / n
+    my = sum(ys) / n
+    num = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    den = sum((x - mx) ** 2 for x in xs)
+    if den == 0:
+        return None, None
+    a = num / den
+    b = my - a * mx
+    return a, b
+
+
+def build_hist_series(timestamps: list) -> dict:
+    """
+    Para cada (ubigeo_distrito, id_ambito_geografico, dniCandidato) carga
+    la serie histórica de (contabilizadas, totalVotosValidos) a través de
+    los snapshots indicados.
+
+    Se usa para proyectar distritos parciales mediante regresión lineal:
+        votos = a * contabilizadas + b  →  predict en totalActas
+    """
+    series: dict = defaultdict(list)
+    for ts in timestamps:
+        cont_map: dict = {}
+        try:
+            with open(f"data/totales_distritos_{ts}.csv", newline="", encoding="utf-8-sig") as f:
+                for row in csv.DictReader(f):
+                    ub   = row["ubigeo_distrito"]
+                    amb  = row.get("id_ambito_geografico", "")
+                    cont = inte(row.get("contabilizadas", 0))
+                    cont_map[(ub, amb)] = cont
+        except FileNotFoundError:
+            continue
+
+        try:
+            with open(f"data/participantes_distritos_{ts}.csv", newline="", encoding="utf-8-sig") as f:
+                for row in csv.DictReader(f):
+                    if row.get("error"):
+                        continue
+                    ub    = row["ubigeo_distrito"]
+                    amb   = row.get("id_ambito_geografico", "")
+                    dni   = row.get("dniCandidato", "").strip()
+                    votos = inte(row.get("totalVotosValidos", 0))
+                    cont  = cont_map.get((ub, amb), 0)
+                    if cont > 0:
+                        series[(ub, amb, dni)].append((cont, votos))
+        except FileNotFoundError:
+            continue
+
+    return dict(series)
+
+
 # ---------------------------------------------------------------------------
 # Lógica de imputación
 # ---------------------------------------------------------------------------
@@ -156,7 +215,10 @@ def find_donors(key: tuple, valid_set: set, centroides: dict, n: int = N_DONORS)
 # Proyección para un timestamp dado
 # ---------------------------------------------------------------------------
 
-def proyectar(timestamp: str | None, n_donors: int, solo_peru: bool = False, solo_extranjero: bool = False):
+def proyectar(timestamp: str | None, n_donors: int,
+              solo_peru: bool = False, solo_extranjero: bool = False,
+              hist_series: dict | None = None,
+              actas_jee: float = 0.0):
     sufijo = "_peru" if solo_peru else "_extranjero" if solo_extranjero else ""
 
     def con_ts(base: str) -> str:
@@ -208,6 +270,26 @@ def proyectar(timestamp: str | None, n_donors: int, solo_peru: bool = False, sol
     print(f"  {len(all_ubigeos)} distritos en totales")
     print(f"  {len(participantes)} distritos en participantes")
 
+    # --- Ajuste por actas JEE ---
+    # Las actas anuladas salen del universo: totalActas -= anuladas, contabilizadas -= anuladas
+    if actas_jee > 0:
+        frac = actas_jee / 100.0
+        total_anuladas = 0
+        adjusted = {}
+        for k, r in totales.items():
+            jee         = inte(r.get("enviadasJee", 0))
+            anuladas    = round(jee * frac)
+            cont_orig   = inte(r.get("contabilizadas", 0))
+            total_orig  = inte(r.get("totalActas", 0))
+            total_adj   = total_orig - anuladas
+            pct_adj     = round(cont_orig / total_adj * 100, 4) if total_adj > 0 else 0
+            adjusted[k] = {**r,
+                           "totalActas":          str(total_adj),
+                           "actasContabilizadas": str(pct_adj)}
+            total_anuladas += anuladas
+        totales = adjusted
+        print(f"  [JEE] {actas_jee:.2f}% de enviadasJee anuladas ({total_anuladas:,} actas retiradas del universo)")
+
     # --- Detectar qué distritos necesitan imputación ---
     def imputation_reason(key: tuple) -> str | None:
         """Devuelve la razón de imputación, o None si el distrito tiene datos."""
@@ -244,24 +326,59 @@ def proyectar(timestamp: str | None, n_donors: int, solo_peru: bool = False, sol
     # district_proj[ubigeo] = {"total": float, "cands": [{...votos_proy...}]}
     district_proj: dict[str, dict] = {}
 
+    n_reg_used = n_reg_fallback = 0
+
     for key in valid_set:
-        actas_pct = flt(totales[key]["actasContabilizadas"])
-        cands     = participantes[key]
+        actas_pct   = flt(totales[key]["actasContabilizadas"])
+        total_actas = inte(totales[key].get("totalActas", 0))
+        cont_actual = inte(totales[key].get("contabilizadas", 0))
+        cands       = participantes[key]
 
-        # Estimar total votos válidos usando el candidato de mayor votación
-        top = max(cands, key=lambda c: inte(c["totalVotosValidos"]))
-        top_votes = inte(top["totalVotosValidos"])
-        top_pct   = flt(top["porcentajeVotosValidos"])
-
-        total_validos_actual = top_votes / (top_pct / 100) if top_pct > 0 else 0
-        total_proyectado     = total_validos_actual / (actas_pct / 100)
+        # ¿Usar regresión? Solo para distritos parciales con historia disponible.
+        usar_reg = (
+            hist_series is not None
+            and total_actas > 0
+            and cont_actual > 0
+            and cont_actual < total_actas
+        )
 
         cands_proy = []
+
         for c in cands:
-            votos_proy = inte(c["totalVotosValidos"]) / (actas_pct / 100)
+            votos_actual = inte(c["totalVotosValidos"])
+            votos_proy   = None
+
+            if usar_reg:
+                dni  = c.get("dniCandidato", "").strip()
+                pts  = hist_series.get((key[0], key[1], dni), [])
+                # Deduplicar por x (quedarse con el último si hay repetidos)
+                pts_dd = sorted({x: y for x, y in pts}.items())
+
+                if len(pts_dd) >= 2:
+                    xs = [p[0] for p in pts_dd]
+                    ys = [p[1] for p in pts_dd]
+                    a, b = linreg(xs, ys)
+                    if a is not None and a >= 0:
+                        pred = a * total_actas + b
+                        # No puede haber menos votos que los ya contabilizados
+                        votos_proy = max(pred, votos_actual)
+
+            if votos_proy is None:
+                # Fallback: ratio simple
+                votos_proy = votos_actual / (actas_pct / 100) if actas_pct > 0 else votos_actual
+                if usar_reg:
+                    n_reg_fallback += 1
+            elif usar_reg:
+                n_reg_used += 1
+
             cands_proy.append({**c, "votos_proyectados": votos_proy})
 
+        total_proyectado = sum(c["votos_proyectados"] for c in cands_proy)
         district_proj[key] = {"total": total_proyectado, "cands": cands_proy}
+
+    if hist_series is not None:
+        print(f"  Regresion lineal: {n_reg_used} candidaturas proyectadas "
+              f"| {n_reg_fallback} con fallback a ratio")
 
     # --- Perfil global extranjero (fallback para imputación sin donor) ---
     # Suma de votos proyectados de todos los distritos extranjeros válidos,
@@ -510,12 +627,12 @@ def encontrar_timestamps() -> list[str]:
     """Devuelve todos los timestamps disponibles donde existan ambos CSVs."""
     patron = re.compile(r"totales_distritos_(\d{8}_\d{4})\.csv")
     timestamps = []
-    for path in glob.glob("totales_distritos_*.csv"):
-        m = patron.match(path)
+    for path in glob.glob("data/totales_distritos_*.csv"):
+        m = patron.match(os.path.basename(path))
         if not m:
             continue
         ts = m.group(1)
-        if os.path.exists(f"participantes_distritos_{ts}.csv"):
+        if os.path.exists(f"data/participantes_distritos_{ts}.csv"):
             timestamps.append(ts)
     return sorted(timestamps)
 
@@ -531,28 +648,43 @@ def main():
     parser.add_argument("--timestamp", type=str, default=None,
                         help="Timestamp especifico a procesar, e.g. 20260414_0105. "
                              "Si se omite procesa todos los timestamps disponibles.")
+    parser.add_argument("--con-regresion", action="store_true",
+                        help="Activa la regresion lineal para parciales; por defecto usa solo ratio simple.")
+    parser.add_argument("--actas-jee", type=float, default=0.0,
+                        help="Porcentaje de enviadasJee (por distrito) que seran anuladas (ej: 2.5 = 2.5%%).")
     args = parser.parse_args()
+
+    all_timestamps = encontrar_timestamps()
 
     if args.timestamp:
         timestamps = [args.timestamp]
     else:
-        timestamps = encontrar_timestamps()
+        timestamps = all_timestamps
         if timestamps:
             print(f"{len(timestamps)} timestamp(s) encontrados: {', '.join(timestamps)}")
         else:
             print("No se encontraron archivos con timestamp — usando archivos base.")
             timestamps = [None]
 
-    if args.solo_peru or args.solo_extranjero:
-        # Modo específico
-        for ts in timestamps:
-            proyectar(ts, args.n_donors, solo_peru=args.solo_peru, solo_extranjero=args.solo_extranjero)
-    else:
-        # Por defecto: proyectar los tres ámbitos
-        for ts in timestamps:
-            proyectar(ts, args.n_donors)
-            proyectar(ts, args.n_donors, solo_peru=True)
-            proyectar(ts, args.n_donors, solo_extranjero=True)
+    for ts in timestamps:
+        # Series históricas: todos los snapshots hasta el actual (inclusive)
+        if not args.con_regresion or ts is None:
+            hist = None
+        else:
+            hist_ts = [t for t in all_timestamps if t <= ts]
+            print(f"\nCargando series históricas ({len(hist_ts)} snapshots)...")
+            hist = build_hist_series(hist_ts)
+
+        if args.solo_peru or args.solo_extranjero:
+            proyectar(ts, args.n_donors,
+                      solo_peru=args.solo_peru,
+                      solo_extranjero=args.solo_extranjero,
+                      hist_series=hist,
+                      actas_jee=args.actas_jee)
+        else:
+            proyectar(ts, args.n_donors, hist_series=hist, actas_jee=args.actas_jee)
+            proyectar(ts, args.n_donors, solo_peru=True,       hist_series=hist, actas_jee=args.actas_jee)
+            proyectar(ts, args.n_donors, solo_extranjero=True, hist_series=hist, actas_jee=args.actas_jee)
 
 
 if __name__ == "__main__":
