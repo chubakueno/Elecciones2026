@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Elecciones 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f1117;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container { text-align: center; }
+    h1 { font-size: 1.6rem; color: #fff; margin-bottom: 8px; }
+    .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 48px; }
+    .cards { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    a.card {
+      display: block;
+      background: #1e2130;
+      border: 1px solid #2a2d3e;
+      border-radius: 10px;
+      padding: 32px 40px;
+      text-decoration: none;
+      color: inherit;
+      width: 220px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    a.card:hover { background: #252840; border-color: #7ec8e3; }
+    .card-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .card-title { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .card-desc  { font-size: 0.78rem; color: #777; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Elecciones 2026</h1>
+    <p class="subtitle">Panel de seguimiento electoral</p>
+    <div class="cards">
+      <a class="card" href="dashboard.html">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Proyección</div>
+        <div class="card-desc">Resultados proyectados al 100% por ámbito</div>
+      </a>
+      <a class="card" href="historico_jerarquico.html">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Consistencia jerárquica</div>
+        <div class="card-desc">Comparación distritos vs API por provincia y departamento</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
