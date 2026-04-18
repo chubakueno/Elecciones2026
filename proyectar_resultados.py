@@ -40,6 +40,9 @@ OUTPUT_CSV          = "data/proyeccion_final.csv"
 
 N_DONORS = 2   # valor por defecto; sobreescrito por --n-donors en CLI
 
+# Distritos excluidos explicitamente de la proyeccion (override manual, casos excepcionales)
+UBIGEOS_EXCLUIR: set[str] = {}
+
 
 # ---------------------------------------------------------------------------
 # Carga
@@ -281,8 +284,8 @@ def proyectar(timestamp: str | None, n_donors: int,
             anuladas    = round(jee * frac)
             cont_orig   = inte(r.get("contabilizadas", 0))
             total_orig  = inte(r.get("totalActas", 0))
-            total_adj   = total_orig - anuladas
-            pct_adj     = round(cont_orig / total_adj * 100, 4) if total_adj > 0 else 0
+            total_adj   = max(total_orig - anuladas, 0)
+            pct_adj     = round(cont_orig / total_adj * 100, 4) if total_adj > 0 else 0.0
             adjusted[k] = {**r,
                            "totalActas":          str(total_adj),
                            "actasContabilizadas": str(pct_adj)}
@@ -295,6 +298,8 @@ def proyectar(timestamp: str | None, n_donors: int,
         """Devuelve la razón de imputación, o None si el distrito tiene datos."""
         actas_pct   = flt(totales.get(key, {}).get("actasContabilizadas", 0))
         total_votos = sum(inte(c["totalVotosValidos"]) for c in participantes.get(key, []))
+        if total_votos == 0 and actas_pct >= 100:
+            return None  # 100% contabilizadas y 0 votos: genuinamente 0, no imputar
         if actas_pct == 0:
             return "0% actas contabilizadas"
         if total_votos == 0:
@@ -305,7 +310,7 @@ def proyectar(timestamp: str | None, n_donors: int,
         return imputation_reason(key) is not None
 
     valid_set  = build_valid_set(all_ubigeos, needs_imputation)
-    to_impute  = [k for k in all_ubigeos if needs_imputation(k)]
+    to_impute  = [k for k in all_ubigeos if needs_imputation(k) and k[0] not in UBIGEOS_EXCLUIR]
 
     def ambito_label(key: tuple) -> str:
         return "nacional" if key[1] == "1" else "extranjero"
