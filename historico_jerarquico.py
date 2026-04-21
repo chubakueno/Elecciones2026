@@ -149,14 +149,14 @@ def datos_para_ts(ts: str, campo: str,
     return secciones
 
 
-CAMPOS_DEFAULT = ["totalVotosValidos", "enviadasJee"]
+CAMPOS_DEFAULT = ["totalVotosValidos", "enviadasJee", "pendientesJee"]
 
 CAMPO_LABELS = {
     "totalVotosValidos": "Votos válidos",
     "enviadasJee":       "Actas enviadas JEE",
     "contabilizadas":    "Actas contabilizadas",
     "totalActas":        "Total actas",
-    "pendientesJee":     "Actas pendientes JEE",
+    "pendientesJee":     "Actas pendientes",
     "totalVotosEmitidos": "Votos emitidos",
 }
 
