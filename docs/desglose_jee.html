@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Desglose JEE &mdash; Proyecci&oacute;n</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e2e8f0;padding:24px}
+  h1{font-size:1.4rem;font-weight:600;margin-bottom:4px;color:#f8fafc}
+  h2{font-size:.95rem;font-weight:600;margin:32px 0 10px;color:#94a3b8;
+      border-bottom:1px solid #1e293b;padding-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+  .meta{font-size:.8rem;color:#64748b;margin-bottom:28px}
+  /* dual layout */
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:8px}
+  @media(max-width:900px){.dual{grid-template-columns:1fr}}
+  .scenario-hdr{font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:6px;
+                 display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .hdr-conservador{background:#1e293b;color:#94a3b8}
+  .hdr-imputar{background:#14291f;color:#6ee7b7}
+  .diff-chip{font-family:'Cascadia Code','Consolas',monospace;font-size:.9rem}
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{text-align:right;padding:6px 8px;color:#475569;font-weight:500;
+      border-bottom:1px solid #1e293b;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+  th.lbl{text-align:left}
+  td{padding:5px 8px;border-bottom:1px solid #1e293b}
+  td.lbl{color:#cbd5e1}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:'Cascadia Code','Consolas',monospace}
+  td.s{color:#93c5fd} td.a{color:#fca5a5}
+  td.diff.pos{color:#4ade80} td.diff.neg{color:#f87171} td.diff{color:#64748b}
+  tr.sub td{color:#475569;font-size:.78rem} tr.sub td.lbl{padding-left:18px}
+  tr.subsub td{color:#334155;font-size:.75rem} tr.subsub td.lbl{padding-left:34px}
+  tr.total td{font-weight:700;color:#f8fafc;border-top:2px solid #334155;border-bottom:none}
+  tr.total td.s{color:#60a5fa} tr.total td.a{color:#f87171}
+  .note{display:block;font-size:.68rem;color:#475569;margin-top:1px}
+  .barcell{width:80px;padding:5px 5px;vertical-align:middle}
+  .bar{display:flex;height:5px;border-radius:3px;overflow:hidden;background:#1e293b}
+  .bar-s{background:#3b82f6} .bar-a{background:#ef4444}
+  @media(max-width:600px){.barcell{display:none}}
+  /* annexes */
+  .annex-wrap{overflow-x:auto;margin-top:4px}
+  table.annex td{color:#64748b;font-size:.77rem;padding:4px 8px;white-space:nowrap}
+  table.annex th{font-size:.68rem}
+  .badge{font-size:.68rem;padding:2px 6px;border-radius:999px;font-weight:600;white-space:nowrap}
+  .badge.pdf{background:#14291f;color:#6ee7b7}
+  .badge.nopdf{background:#2a1515;color:#fca5a5}
+  td.ctr{text-align:center}
+</style>
+</head>
+<body>
+<h1>Proyecci&oacute;n Electoral &mdash; Desglose JEE</h1>
+<p class="meta">
+  Snapshot JNE: <b>20260424 1011</b> &nbsp;|&nbsp;
+  Actas obs.: <b>actas_observadas_20260424_0952.csv</b> &nbsp;|&nbsp;
+  Detalle: <b>detalle_actas_20260424_0952.jsonl</b> &nbsp;|&nbsp;
+  Generado: 24/04/2026 10:56
+</p>
+
+<div class="dual">
+  <div>
+    <div class="scenario-hdr hdr-conservador">
+      <span>No procesables = 0 (conservador)</span>
+      <span class="diff-chip">+24,973 S&minus;A</span>
+    </div>
+    <table><thead><tr><th class="lbl">Componente</th><th>S&aacute;nchez</th><th>Aliaga</th><th>S&minus;A</th><th></th></tr></thead><tbody>
+<tr class=""><td class="lbl">1. JNE contabilizadas<span class="note">88,250 actas</span></td><td class="num s">1,925,876</td><td class="num a">1,905,629</td><td class="num diff pos">+20,247</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.26%"></div><div class="bar-a" style="width:49.74%"></div></div></td></tr>
+<tr class="sub"><td class="lbl">  2a. JEE PDF digital<span class="note">660 actas</span></td><td class="num s">3,727</td><td class="num a">27,675</td><td class="num diff neg">&#8722;23,948</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:11.87%"></div><div class="bar-a" style="width:88.13%"></div></div></td></tr>
+<tr class="sub"><td class="lbl">  2b. JEE PDF escaneado<span class="note">3,696 actas</span></td><td class="num s">82,094</td><td class="num a">53,301</td><td class="num diff pos">+28,793</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:60.63%"></div><div class="bar-a" style="width:39.37%"></div></div></td></tr>
+<tr class=""><td class="lbl">2. JEE con PDF<span class="note">4,356 actas — 1503 contabilizadas excluidas</span></td><td class="num s">85,821</td><td class="num a">80,976</td><td class="num diff pos">+4,845</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:51.45%"></div><div class="bar-a" style="width:48.55%"></div></div></td></tr>
+<tr class=""><td class="lbl">3. JEE sin PDF (imputadas)<span class="note">4 actas</span></td><td class="num s">15</td><td class="num a">135</td><td class="num diff neg">&#8722;119</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:10.09%"></div><div class="bar-a" style="width:89.91%"></div></div></td></tr>
+<tr class="sub"><td class="lbl">  No procesables (extrav./siniest./nulidad)<span class="note">118 actas — contabilizadas como 0</span></td><td class="num s">0</td><td class="num a">0</td><td class="num diff ">+0</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.0%"></div><div class="bar-a" style="width:50.0%"></div></div></td></tr>
+<tr class="subsub"><td class="lbl">    Con PDF (votos ignorados)<span class="note">5 actas</span></td><td class="num s">0</td><td class="num a">0</td><td class="num diff ">+0</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.0%"></div><div class="bar-a" style="width:50.0%"></div></div></td></tr>
+<tr class="subsub"><td class="lbl">    Sin PDF (no imputadas)<span class="note">113 actas</span></td><td class="num s">0</td><td class="num a">0</td><td class="num diff ">+0</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.0%"></div><div class="bar-a" style="width:50.0%"></div></div></td></tr>
+<tr class=""><td class="lbl">4. Pendientes puros (imputados)<span class="note">0 actas</span></td><td class="num s">0</td><td class="num a">0</td><td class="num diff ">+0</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.0%"></div><div class="bar-a" style="width:50.0%"></div></div></td></tr>
+<tr class="total"><td class="lbl">TOTAL ESTIMADO</td><td class="num s">2,011,712</td><td class="num a">1,986,740</td><td class="num diff pos">+24,973</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.31%"></div><div class="bar-a" style="width:49.69%"></div></div></td></tr>
+</tbody></table>
+  </div>
+  <div>
+    <div class="scenario-hdr hdr-imputar">
+      <span>No procesables imputadas al distrito</span>
+      <span class="diff-chip">+20,895 S&minus;A</span>
+    </div>
+    <table><thead><tr><th class="lbl">Componente</th><th>S&aacute;nchez</th><th>Aliaga</th><th>S&minus;A</th><th></th></tr></thead><tbody>
+<tr class=""><td class="lbl">1. JNE contabilizadas<span class="note">88,250 actas</span></td><td class="num s">1,925,876</td><td class="num a">1,905,629</td><td class="num diff pos">+20,247</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.26%"></div><div class="bar-a" style="width:49.74%"></div></div></td></tr>
+<tr class="sub"><td class="lbl">  2a. JEE PDF digital<span class="note">663 actas</span></td><td class="num s">3,747</td><td class="num a">27,841</td><td class="num diff neg">&#8722;24,094</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:11.86%"></div><div class="bar-a" style="width:88.14%"></div></div></td></tr>
+<tr class="sub"><td class="lbl">  2b. JEE PDF escaneado<span class="note">3,698 actas</span></td><td class="num s">82,283</td><td class="num a">53,303</td><td class="num diff pos">+28,980</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:60.69%"></div><div class="bar-a" style="width:39.31%"></div></div></td></tr>
+<tr class=""><td class="lbl">2. JEE con PDF<span class="note">4,361 actas — 1503 contabilizadas excluidas</span></td><td class="num s">86,030</td><td class="num a">81,144</td><td class="num diff pos">+4,886</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:51.46%"></div><div class="bar-a" style="width:48.54%"></div></div></td></tr>
+<tr class=""><td class="lbl">3. JEE sin PDF (imputadas)<span class="note">117 actas</span></td><td class="num s">637</td><td class="num a">4,876</td><td class="num diff neg">&#8722;4,238</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:11.56%"></div><div class="bar-a" style="width:88.44%"></div></div></td></tr>
+<tr class=""><td class="lbl">4. Pendientes puros (imputados)<span class="note">0 actas</span></td><td class="num s">0</td><td class="num a">0</td><td class="num diff ">+0</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.0%"></div><div class="bar-a" style="width:50.0%"></div></div></td></tr>
+<tr class="total"><td class="lbl">TOTAL ESTIMADO</td><td class="num s">2,012,543</td><td class="num a">1,991,649</td><td class="num diff pos">+20,895</td><td class="barcell"><div class="bar"><div class="bar-s" style="width:50.26%"></div><div class="bar-a" style="width:49.74%"></div></div></td></tr>
+</tbody></table>
+  </div>
+</div>
+
+<h2>Anexo A &mdash; JEE sin PDF (4 actas &mdash; imputadas al promedio del distrito)</h2>
+<div class="annex-wrap">
+<table class="annex"><thead><tr>
+  <th class="lbl">Mesa</th><th class="lbl">Dpto</th><th class="lbl">Provincia</th>
+  <th class="lbl">Distrito</th><th class="lbl">Local de votaci&oacute;n</th><th class="lbl">Observaci&oacute;n</th>
+</tr></thead><tbody>
+<tr><td>014860</td><td>CUSCO</td><td>CUSCO</td><td>CUSCO</td><td>IE EMBLEMATICA GUE INCA GARCILASO DE LA VEGA</td><td>Acta con error aritmético</td></tr>
+<tr><td>085860</td><td>AMÉRICA</td><td>BRASIL</td><td>MANAOS</td><td>CONSULADO GENERAL DEL PERÚ EN MANAOS</td><td>Acta con error aritmético</td></tr>
+<tr><td>087039</td><td>AMÉRICA</td><td>PANAMÁ</td><td>PANAMÁ</td><td>MEZZANINE EDIFICIO TORRES DE LAS AMERICAS</td><td>Acta con error aritmético</td></tr>
+<tr><td>087687</td><td>EUROPA</td><td>ESPAÑA</td><td>OVIEDO</td><td>PALACIO DE EXPOSICIONES Y  CONGRESOS DE OVIEDO</td><td>Acta con error aritmético</td></tr>
+</tbody></table>
+</div>
+
+<h2>Anexo B &mdash; Actas no procesables (118)</h2>
+<div class="annex-wrap">
+<table class="annex"><thead><tr>
+  <th class="lbl">Mesa</th><th class="lbl">Dpto</th><th class="lbl">Provincia</th>
+  <th class="lbl">Distrito</th><th class="lbl">Local de votaci&oacute;n</th>
+  <th class="lbl">Raz&oacute;n</th><th>PDF</th>
+</tr></thead><tbody>
+<tr><td>018166</td><td>CUSCO</td><td>QUISPICANCHI</td><td>OCONGATE</td><td>IE SAGRADO CORAZON DE JESUS</td><td>Sol. nulidad</td><td class="ctr"><span class="badge pdf">Con PDF</span></td></tr>
+<tr><td>018183</td><td>CUSCO</td><td>QUISPICANCHI</td><td>OCONGATE</td><td>IE 50544 SEÑOR DE LA EXALTACION</td><td>Sol. nulidad</td><td class="ctr"><span class="badge pdf">Con PDF</span></td></tr>
+<tr><td>036226</td><td>LIMA</td><td>LIMA</td><td>LIMA</td><td>IE 1154 NUESTRA SEÑORA DEL CARMEN</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>036444</td><td>LIMA</td><td>LIMA</td><td>LIMA</td><td>UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>036616</td><td>LIMA</td><td>LIMA</td><td>LIMA</td><td>IE NUESTRA SEÑORA DE GUADALUPE</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>036833</td><td>LIMA</td><td>LIMA</td><td>LIMA</td><td>IEP SANTISIMA TRINIDAD</td><td>Sol. nulidad</td><td class="ctr"><span class="badge pdf">Con PDF</span></td></tr>
+<tr><td>037044</td><td>LIMA</td><td>LIMA</td><td>ANCÓN</td><td>IE 2066 ALMIRANTE MIGUEL GRAU</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>037111</td><td>LIMA</td><td>LIMA</td><td>ANCÓN</td><td>IE NUESTRA SEÑORA DE LA PAZ</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>037112</td><td>LIMA</td><td>LIMA</td><td>ANCÓN</td><td>IE NUESTRA SEÑORA DE LA PAZ</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>037161</td><td>LIMA</td><td>LIMA</td><td>ANCÓN</td><td>IE EN CONVENIO 3721 SANTA ROSA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>037542</td><td>LIMA</td><td>LIMA</td><td>ATE</td><td>IE 1251 PERUANO SUIZO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>038137</td><td>LIMA</td><td>LIMA</td><td>ATE</td><td>IEP ALFRED NOBEL</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>040211</td><td>LIMA</td><td>LIMA</td><td>COMAS</td><td>IEP INGENIERIA DEL RETABLO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>040633</td><td>LIMA</td><td>LIMA</td><td>COMAS</td><td>IE 3085 VILCA APAZA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>040798</td><td>LIMA</td><td>LIMA</td><td>COMAS</td><td>IE 8156 PERUANO ALEMAN</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>041298</td><td>LIMA</td><td>LIMA</td><td>COMAS</td><td>IEP RENE CRUCHET</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>041915</td><td>LIMA</td><td>LIMA</td><td>CHORRILLOS</td><td>IE GENERAL EMILIO SOYER CABERO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042204</td><td>LIMA</td><td>LIMA</td><td>CHORRILLOS</td><td>IEP PALAS ATENEA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042205</td><td>LIMA</td><td>LIMA</td><td>CHORRILLOS</td><td>IEP PALAS ATENEA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042241</td><td>LIMA</td><td>LIMA</td><td>CHORRILLOS</td><td>IESTP ANTENOR ORREGO ESPINOZA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042449</td><td>LIMA</td><td>LIMA</td><td>CHORRILLOS</td><td>IEP INNOVA SCHOOLS - CHORRILLOS VILLA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042561</td><td>LIMA</td><td>LIMA</td><td>LA VICTORIA</td><td>IE 093 MANUELA FELICIA GOMEZ</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042603</td><td>LIMA</td><td>LIMA</td><td>LA VICTORIA</td><td>IE 1107 JAVIER PRADO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>042793</td><td>LIMA</td><td>LIMA</td><td>LA VICTORIA</td><td>IE EMBLEMATICA 1120 PEDRO ADOLFO LABARTHE EFFIO</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>043088</td><td>LIMA</td><td>LIMA</td><td>LA VICTORIA</td><td>IE 1111 JOSE ANTONIO ENCINAS</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>043154</td><td>LIMA</td><td>LIMA</td><td>LA VICTORIA</td><td>IEP SEÑOR DE GUALAMITA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>043388</td><td>LIMA</td><td>LIMA</td><td>LA MOLINA</td><td>UNIVERSIDAD NACIONAL AGRARIA LA MOLINA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>043500</td><td>LIMA</td><td>LIMA</td><td>LA MOLINA</td><td>ESCUELA SUPERIOR DE GUERRA AEREA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044779</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IE 1090 CRNL FAP MARCO ANTONIO SCHENONE OLIVA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044811</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IE 072 SAN MARTIN DE PORRES</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044821</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IE EMBLEMATICA MIGUEL GRAU</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044847</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IE EMBLEMATICA MIGUEL GRAU</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044849</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044850</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044851</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044852</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044853</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044863</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044865</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044866</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044869</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044870</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044871</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044872</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044873</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044875</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044876</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044877</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 06</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044914</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IEP PARROQUIAL SAN JUAN MARIA VIANNEY</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044952</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IEI 106 JUAN RAGGIO CHICHIZOLA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>044953</td><td>LIMA</td><td>LIMA</td><td>MAGDALENA DEL MAR</td><td>IEI 106 JUAN RAGGIO CHICHIZOLA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>046490</td><td>LIMA</td><td>LIMA</td><td>PUENTE PIEDRA</td><td>IEP ALFRED NOBEL</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>046522</td><td>LIMA</td><td>LIMA</td><td>PUENTE PIEDRA</td><td>IEP SOPHIANUM ZAPALLAL SAC</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>046900</td><td>LIMA</td><td>LIMA</td><td>PUENTE PIEDRA</td><td>IEP SANTA MONICA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>047585</td><td>LIMA</td><td>LIMA</td><td>RÍMAC</td><td>IEPGPE TTE CRL ALFREDO BONIFAZ FONSECA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>047586</td><td>LIMA</td><td>LIMA</td><td>RÍMAC</td><td>IEPGPE TTE CRL ALFREDO BONIFAZ FONSECA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>047614</td><td>LIMA</td><td>LIMA</td><td>RÍMAC</td><td>IEP CRISTO SALVADOR DEL RIMAC</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>048465</td><td>LIMA</td><td>LIMA</td><td>SAN MARTÍN DE PORRES</td><td>IE 3039 JAVIER HERAUD</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>048747</td><td>LIMA</td><td>LIMA</td><td>SAN MARTÍN DE PORRES</td><td>IE 3033 ANDRES AVELINO CACERES</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>048790</td><td>LIMA</td><td>LIMA</td><td>SAN MARTÍN DE PORRES</td><td>IEP GENES DE SAN MARTIN DE PORRES</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>049708</td><td>LIMA</td><td>LIMA</td><td>SAN MARTÍN DE PORRES</td><td>CETPRO PROMAE CONDEVILLA </td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>050075</td><td>LIMA</td><td>LIMA</td><td>SAN MIGUEL</td><td>IE 1087 GENERAL ROQUE SAENZ PEÑA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>050076</td><td>LIMA</td><td>LIMA</td><td>SAN MIGUEL</td><td>IE 1087 GENERAL ROQUE SAENZ PEÑA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>052396</td><td>LIMA</td><td>LIMA</td><td>VILLA MARÍA DEL TRIUNFO</td><td>IE 7054 VILLA MARIA DEL TRIUNFO</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>053421</td><td>LIMA</td><td>LIMA</td><td>JESÚS MARÍA</td><td>IE TERESA GONZALES DE FANNING - PRIMARIA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>053459</td><td>LIMA</td><td>LIMA</td><td>JESÚS MARÍA</td><td>UNIVERSIDAD NACIONAL FEDERICO VILLARREAL SEDE LOCAL 04</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>053873</td><td>LIMA</td><td>LIMA</td><td>INDEPENDENCIA</td><td>IE 3094-1 J WILLIAM FULBRIGHT</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>053880</td><td>LIMA</td><td>LIMA</td><td>INDEPENDENCIA</td><td>IE 3094-1 J WILLIAM FULBRIGHT</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>054368</td><td>LIMA</td><td>LIMA</td><td>EL AGUSTINO</td><td>IE 1044 MARIA REICHE NEWMANN</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>054896</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IE 6037 INCA PACHACUTEC - SECUNDARIA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>055047</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IE 7059 JOSE ANTONIO ENCINAS FRANCO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>055354</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IE JAVIER HERAUD</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>055399</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IE EMBLEMATICA SAN JUAN</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>055706</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IEP LUZ Y ESPERANZA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>055778</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE MIRAFLORES</td><td>IEP PARROQUIAL SAN MARTINCITO DE PORRES</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>057275</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IE EMBLEMATICA ANTENOR ORREGO ESPINOZA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>057276</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IE 171-02 LAS TERRAZAS</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>057289</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IE 164 EL AMAUTA - PRIMARIA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>057420</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IE 115-5 REPUBLICA HELENICA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>057719</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IEP FLORA TRISTAN</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>058415</td><td>LIMA</td><td>LIMA</td><td>SAN JUAN DE LURIGANCHO</td><td>IEP JOSEPH NOVAK SCHOOL</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>059101</td><td>LIMA</td><td>LIMA</td><td>SAN BORJA</td><td>IE 7089 ROMEO LUNA VICTORIA</td><td>Sol. nulidad</td><td class="ctr"><span class="badge pdf">Con PDF</span></td></tr>
+<tr><td>059523</td><td>LIMA</td><td>LIMA</td><td>VILLA EL SALVADOR</td><td>IE 6065 PERU INGLATERRA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>059622</td><td>LIMA</td><td>LIMA</td><td>VILLA EL SALVADOR</td><td>IE 6071 REPUBLICA FEDERAL DE ALEMANIA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>061722</td><td>LIMA</td><td>LIMA</td><td>SANTA ANITA</td><td>IE 1225 MARIANO MELGAR</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>061928</td><td>LIMA</td><td>LIMA</td><td>SANTA ANITA</td><td>UNIVERSIDAD SAN MARTIN DE PORRES</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>062029</td><td>LIMA</td><td>LIMA</td><td>SANTA ANITA</td><td>IEP JUAN ESPINOZA MEDRANO</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>062128</td><td>LIMA</td><td>LIMA</td><td>SANTA ANITA</td><td>IEI 186 VIÑA SAN FRANCISCO</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>062129</td><td>LIMA</td><td>LIMA</td><td>SANTA ANITA</td><td>IEI 186 VIÑA SAN FRANCISCO</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>067295</td><td>LORETO</td><td>DATEM DEL MARAÑÓN</td><td>MANSERICHE</td><td>IE 62141 SARAMIRIZA</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>081242</td><td>CALLAO</td><td>CALLAO</td><td>CALLAO</td><td>IE 5031 CESAR VALLEJO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>082648</td><td>CALLAO</td><td>CALLAO</td><td>BELLAVISTA</td><td>IEP VIRGEN DEL ROSARIO</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>083159</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IE 5127 MARTIR JOSE OLAYA</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>083238</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IE NUESTRA SEÑORA DE BELEN</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>083401</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IEI 70 MARIA MONTESSORI</td><td>Siniestrada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>083409</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IE 5051 VIRGEN DE FATIMA- SECUNDARIA</td><td>Sol. nulidad</td><td class="ctr"><span class="badge pdf">Con PDF</span></td></tr>
+<tr><td>083692</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IE 5147</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>083693</td><td>CALLAO</td><td>CALLAO</td><td>VENTANILLA</td><td>IE 5147</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086028</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086039</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086042</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086055</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086057</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086082</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086103</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086111</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086117</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086126</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086196</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086225</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086226</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086228</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086235</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086236</td><td>AMÉRICA</td><td>CHILE</td><td>SANTIAGO</td><td>ESPACIO RIESCO CENTRO DE CONVENCIONES Y DE EVENTOS</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086607</td><td>AMÉRICA</td><td>ESTADOS UNIDOS DE ÁMERICA</td><td>NUEVA YORK</td><td>QUEENS COLLEGE</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086796</td><td>AMÉRICA</td><td>ESTADOS UNIDOS DE ÁMERICA</td><td>NUEVA JERSEY</td><td>NEW JERSEY INSTITUTE OF TECHNOLOGY (NJIT)</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086798</td><td>AMÉRICA</td><td>ESTADOS UNIDOS DE ÁMERICA</td><td>NUEVA JERSEY</td><td>NEW JERSEY INSTITUTE OF TECHNOLOGY (NJIT)</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+<tr><td>086808</td><td>AMÉRICA</td><td>ESTADOS UNIDOS DE ÁMERICA</td><td>NUEVA JERSEY</td><td>NEW JERSEY INSTITUTE OF TECHNOLOGY (NJIT)</td><td>Extraviada</td><td class="ctr"><span class="badge nopdf">Sin PDF</span></td></tr>
+</tbody></table>
+</div>
+</body>
+</html>
